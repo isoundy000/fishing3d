@@ -41,11 +41,12 @@ public class Fish : MonoBehaviour {
 		rXDelta = 0;
 		rYDelta = 0;
 		rotatedVec = Vector3.forward;
+
 	}
 
 	// Update is called once per frame
 	void Update () {
-		float framedt = SECOND_ONE_FRAME * mSpeedScaleFactor;
+		float framedt = Time.deltaTime * mSpeedScaleFactor;
 		mLastFrameLife = mCurrentLife;
 		mCurrentLife += SECOND_ONE_FRAME * mSpeedScaleFactor;
 		mStepTime = 0;
@@ -111,62 +112,6 @@ public class Fish : MonoBehaviour {
 			}
 			updateFishPositionAndRotation(mCurrentStep,framedt-SECOND_ONE_FRAME*cnt1);
 		}
-
-
-
-
-		//this.transform.Rotate(Vector3.right * Time.deltaTime * mSpeedScaleFactor  *  mControlPoints[mCurrentStep].rChangeX / mControlPoints[mCurrentStep].time);
-		//this.transform.Rotate(Vector3.up * Time.deltaTime * mSpeedScaleFactor * mControlPoints[mCurrentStep].rChangeY / mControlPoints[mCurrentStep].time,Space.World);
-		//this.transform.Translate(Vector3.forward * Time.deltaTime * mSpeedScaleFactor * mBaseSpeed  * mControlPoints[mCurrentStep].speedFactor);
-
-//		rXDelta = Time.deltaTime * mSpeedScaleFactor * mControlPoints[mCurrentStep].rChangeX / mControlPoints[mCurrentStep].time;
-//		rYDelta = Time.deltaTime * mSpeedScaleFactor * mControlPoints[mCurrentStep].rChangeY / mControlPoints[mCurrentStep].time;
-//		mRotationX += rXDelta;
-//		mRotationY += rYDelta;
-
-//		rotatedVec = Quaternion.Euler(new Vector3(mRotationX,mRotationY,0)) * Vector3.forward;
-		//rotatedVec = this.rotate(Vector3.forward,mRotationX,mRotationY);
-		//print (rotatedVec.sqrMagnitude.ToString());
-//		Vector3 dL = Time.deltaTime * mSpeedScaleFactor * mBaseSpeed * rotatedVec * mControlPoints[mCurrentStep].speedFactor;
-
-//		mPosX += (dL.magnitude * Mathf.Cos(Mathf.Deg2Rad * mRotationX) * Mathf.Sin(Mathf.Deg2Rad * mRotationY));
-//		mPosZ += (dL.magnitude * Mathf.Cos(Mathf.Deg2Rad * mRotationX) * Mathf.Cos(Mathf.Deg2Rad * mRotationY));
-
-//		mPosY -= (dL.magnitude * Mathf.Sin(Mathf.Deg2Rad * mRotationX));
-		//print (dL.sqrMagnitude.ToString() + "   " + mPosY.ToString());
-
-//		this.transform.localPosition = new Vector3(mPosX,mPosY,mPosZ);
-		//this.transform.Translate(Vector3.forward * Time.deltaTime * mSpeedScaleFactor * mBaseSpeed  * mControlPoints[mCurrentStep].speedFactor);
-
-//		this.transform.eulerAngles = new Vector3(mRotationX,mRotationY,0);
-		//print ("fish" + this.transform.rotation.ToString());
-//		if(frameCnt == 3)
-//		{
-			//lineRender.SetPosition(posIndex,this.transform.position);
-			//posIndex ++;
-			//frameCnt = 0;
-			//print (posIndex);
-//		}
-		//frameCnt ++;
-		//if(frameCnt % 60 == 0)
-		//{
-		//	print ("fish1life: " + mCurrentLife + " pos: " + this.transform.localPosition + " angle: " + this.transform.eulerAngles);
-		//}
-	}
-
-	Vector3 rotate( Vector3 point, float angleX, float angleY)
-	{
-		Vector3 resultX = new Vector3();
-		resultX.x = point.x;
-		resultX.y = point.x * 0 + point.y * Mathf.Cos(angleX*Mathf.Deg2Rad) + point.z * (-Mathf.Sin(angleX*Mathf.Deg2Rad));
-		resultX.z = point.x * 0 + point.y * Mathf.Sin(angleX*Mathf.Deg2Rad) + point.z * Mathf.Cos(angleX*Mathf.Deg2Rad);
-
-		Vector3 result = new Vector3();
-		result.x = resultX.x * Mathf.Cos(angleX*Mathf.Deg2Rad) + resultX.y * 0 + resultX.z * Mathf.Sin(angleX*Mathf.Deg2Rad);
-		result.y = resultX.x * 0 + resultX.y * 1 + resultX.z * 0;
-		result.z = resultX.x * (-Mathf.Sin(angleX*Mathf.Deg2Rad)) + resultX.y * 0 + resultX.z * Mathf.Cos(angleX*Mathf.Deg2Rad);
-
-		return result;
 	}
 
 	void updateFishPositionAndRotation(int step,float dt)
@@ -179,12 +124,12 @@ public class Fish : MonoBehaviour {
 			mRotationY += rYDelta;
 		}
 		step = Mathf.Min(step,mFishPath.controlPoints.Length-1);
-		rotatedVec = this.rotate(Vector3.forward,mRotationX,mRotationY);
+		rotatedVec = MathUtil.GetInstance().Rotate(Vector3.forward,mRotationX,mRotationY);
 		Vector3 dL = dt * mBaseSpeed * rotatedVec * mFishPath.controlPoints[step].mSpeedScale;
-		
-		mPosX += (dL.magnitude * Mathf.Cos(Mathf.Deg2Rad * mRotationX) * Mathf.Sin(Mathf.Deg2Rad * mRotationY));
-		mPosZ += (dL.magnitude * Mathf.Cos(Mathf.Deg2Rad * mRotationX) * Mathf.Cos(Mathf.Deg2Rad * mRotationY));
-		mPosY -= (dL.magnitude * Mathf.Sin(Mathf.Deg2Rad * mRotationX));
+
+		mPosX += dL.x;//(dL.magnitude * Mathf.Cos(Mathf.Deg2Rad * mRotationX) * Mathf.Sin(Mathf.Deg2Rad * mRotationY));
+		mPosZ += dL.z;//(dL.magnitude * Mathf.Cos(Mathf.Deg2Rad * mRotationX) * Mathf.Cos(Mathf.Deg2Rad * mRotationY));
+		mPosY += dL.y;//(dL.magnitude * Mathf.Sin(Mathf.Deg2Rad * mRotationX));
 
 		this.transform.localPosition = new Vector3(mPosX,mPosY,mPosZ);
 		this.transform.eulerAngles = new Vector3(mRotationX,mRotationY,0);

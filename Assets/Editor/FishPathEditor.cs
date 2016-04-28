@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEditor;
+using System.IO;
 
 [CustomEditor(typeof(FishPath))]
 public class FishPathEditor : Editor {
@@ -46,10 +47,11 @@ public class FishPathEditor : Editor {
 			GUILayout.Space(5);
 			if(GUILayout.Button("Save"))
 			{
-                string savepath = EditorUtility.SaveFilePanel("Save",Application.dataPath + "/Resources/Pathes/","","path");
+                string savepath = EditorUtility.SaveFilePanel("Save",Application.dataPath + "/Resources/Pathes/","","bytes");
                 if (savepath.Length > 0)
                 {
                     PathConfigManager.GetInstance().Save(savepath, fishPath);
+                    AssetDatabase.Refresh();
                 }
 			}
 			

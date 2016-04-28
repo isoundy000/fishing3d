@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using LitJson;
 
 //这个类主要是为了序列化json数据时用的
@@ -38,11 +39,13 @@ public class PathConfigManager
             cp.rx = point.mRotationChange.x;
             cp.ry = point.mRotationChange.y;
             tempList.Add(cp);
-            string json_array = JsonMapper.ToJson(cp);
-            Debug.Log(json_array);
         }
-        //string json_array = JsonMapper.ToJson(tempList.ToArray());
-        //Debug.Log(json_array);
+        string json = JsonMapper.ToJson(tempList.ToArray());
+        FileStream fs = new FileStream(filepath, FileMode.CreateNew);
+        StreamWriter sw = new StreamWriter(fs);
+        sw.Write(json);
+        sw.Flush();
+        fs.Close();
 		return true;
 	}
 }

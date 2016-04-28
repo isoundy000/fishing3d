@@ -5,7 +5,8 @@ using System.Collections.Generic;
 public class FishPath : MonoBehaviour {
 
 	//基准速度
-	public float mBaseSpeed = 100;
+	[SerializeField]
+	private float mBaseSpeed = 100;
 
 	//速度缩放因子
 	private float mSpeedScaleFactor = 1;
@@ -18,6 +19,15 @@ public class FishPath : MonoBehaviour {
 
 	[SerializeField]
 	private FishPathControlPoint[] mControlPoints = new FishPathControlPoint[0];
+
+	[SerializeField]
+	private bool mRenderPath = false;
+
+	public bool renderPath
+	{
+		get{return mRenderPath;}
+		set{mRenderPath = value;}
+	}
 
 	//通过控制点插值来的点，路径上的点
 	public class FinePoint
@@ -60,6 +70,12 @@ public class FishPath : MonoBehaviour {
 		get { return mControlPoints; }
 	}
 
+	public float baseSpeed
+	{
+		set{mBaseSpeed = value;}
+		get{return mBaseSpeed;}
+	}
+
 	// Use this for initialization
 	void Start ()
 	{
@@ -83,22 +99,25 @@ public class FishPath : MonoBehaviour {
 
 	void OnDrawGizmos()
 	{
-		if(mBornPosition != transform.position || mFinePointsList.Count == 0 || mBornRotation != transform.eulerAngles)
+		if(mRenderPath)
 		{
-			if(Application.isPlaying == false)
+			if(mBornPosition != transform.position || mFinePointsList.Count == 0 || mBornRotation != transform.eulerAngles)
 			{
-				mBornPosition = transform.position;
-			   	mBornRotation = transform.eulerAngles;
+				if(Application.isPlaying == false)
+				{
+					mBornPosition = transform.position;
+				   	mBornRotation = transform.eulerAngles;
+				}
+				this.CaculateFinePoints();
 			}
-			this.CaculateFinePoints();
-		}
-		for(int i = 0; i < mFinePointsList.Count-1; i ++)
-		{
-			if(controlPoints[mFinePointsList[i].controlIndex].highLight)
-				Gizmos.color = controlPoints[mFinePointsList[i].controlIndex].color;
-			else
-				Gizmos.color = this.lineColour;
-			Gizmos.DrawLine(mFinePointsList[i].position,mFinePointsList[i + 1].position);
+			for(int i = 0; i < mFinePointsList.Count-1; i ++)
+			{
+				if(controlPoints[mFinePointsList[i].controlIndex].highLight)
+					Gizmos.color = controlPoints[mFinePointsList[i].controlIndex].color;
+				else
+					Gizmos.color = this.lineColour;
+				Gizmos.DrawLine(mFinePointsList[i].position,mFinePointsList[i + 1].position);
+			}
 		}
 	}
 

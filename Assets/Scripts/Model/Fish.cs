@@ -1,11 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor;
 
 public class Fish : MonoBehaviour {
 
-	public float mBaseSpeed;
 	public FishPath mFishPath;
 	public float mCurrentLife;
 	public float mLastFrameLife;
@@ -24,31 +22,25 @@ public class Fish : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		mCurrentLife = 0;
-		//mBaseSpeed = 0;
 		mStepTime = 0;
 		mPosX = transform.position.x;
 		mPosY = transform.position.y;
 		mPosZ = transform.position.z;
 		mRotationX = transform.eulerAngles.x;
 		mRotationY = transform.eulerAngles.y;
-		//this.transform.Rotate(Vector3.right * 60);
-		//this.transform.Translate(Vector3.forward*100);
-		//this.transform.Rotate(Vector3.up * 30,Space.World);
-		//mSpeedScaleFactor = mBaseSpeed / 10.0f;
 		frameCnt = 0;
 		posIndex = 0;
-		//lineRender.SetVertexCount(100000);
 		rXDelta = 0;
 		rYDelta = 0;
 		rotatedVec = Vector3.forward;
-
 	}
 
 	// Update is called once per frame
-	void Update () {
+	void Update () 
+	{
 		float framedt = Time.deltaTime * mSpeedScaleFactor;
 		mLastFrameLife = mCurrentLife;
-		mCurrentLife += SECOND_ONE_FRAME * mSpeedScaleFactor;
+		mCurrentLife += framedt;
 		mStepTime = 0;
 		for(int i = 0; i < mFishPath.controlPoints.Length; i ++)
 		{
@@ -125,11 +117,11 @@ public class Fish : MonoBehaviour {
 		}
 		step = Mathf.Min(step,mFishPath.controlPoints.Length-1);
 		rotatedVec = MathUtil.GetInstance().Rotate(Vector3.forward,mRotationX,mRotationY);
-		Vector3 dL = dt * mBaseSpeed * rotatedVec * mFishPath.controlPoints[step].mSpeedScale;
+		Vector3 dL = dt * mFishPath.baseSpeed * rotatedVec * mFishPath.controlPoints[step].mSpeedScale;
 
-		mPosX += dL.x;//(dL.magnitude * Mathf.Cos(Mathf.Deg2Rad * mRotationX) * Mathf.Sin(Mathf.Deg2Rad * mRotationY));
-		mPosZ += dL.z;//(dL.magnitude * Mathf.Cos(Mathf.Deg2Rad * mRotationX) * Mathf.Cos(Mathf.Deg2Rad * mRotationY));
-		mPosY += dL.y;//(dL.magnitude * Mathf.Sin(Mathf.Deg2Rad * mRotationX));
+		mPosX += dL.x;
+		mPosZ += dL.z;
+		mPosY += dL.y;
 
 		this.transform.localPosition = new Vector3(mPosX,mPosY,mPosZ);
 		this.transform.eulerAngles = new Vector3(mRotationX,mRotationY,0);

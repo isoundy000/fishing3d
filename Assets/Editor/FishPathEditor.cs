@@ -19,7 +19,11 @@ public class FishPathEditor : Editor {
 		GUILayout.Space(5);
 
 		EditorGUILayout.BeginHorizontal();
-		fishPath.mBaseSpeed = EditorGUILayout.FloatField("Base Speed",fishPath.mBaseSpeed);
+		fishPath.baseSpeed = EditorGUILayout.FloatField("Base Speed",fishPath.baseSpeed);
+		EditorGUILayout.EndHorizontal();
+
+		EditorGUILayout.BeginHorizontal();
+		fishPath.renderPath = EditorGUILayout.Toggle("Render Path",fishPath.renderPath);
 		EditorGUILayout.EndHorizontal();
 
 //		EditorGUILayout.BeginHorizontal();
@@ -37,6 +41,16 @@ public class FishPathEditor : Editor {
 					fishPath.ResetPath();
 					return;
 				}
+			}
+
+			GUILayout.Space(5);
+			if(GUILayout.Button("Save"))
+			{
+                string savepath = EditorUtility.SaveFilePanel("Save",Application.dataPath + "/Resources/Pathes/","","path");
+                if (savepath.Length > 0)
+                {
+                    PathConfigManager.GetInstance().Save(savepath, fishPath);
+                }
 			}
 			
 			GUILayout.Space(10);

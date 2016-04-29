@@ -2,20 +2,19 @@
 using System.Collections;
 using System.Collections.Generic;
 
+//通过控制点插值来的点，路径上的点
+public class FinePoint
+{
+    public Vector3 position = Vector3.zero;
+    public Vector2 rotation = Vector2.zero;
+    public int controlIndex = 0;
+}
+
 public class FishPath : MonoBehaviour {
 
 	//基准速度
 	[SerializeField]
 	private float mBaseSpeed = 100;
-
-	//速度缩放因子
-	private float mSpeedScaleFactor = 1;
-
-	public float speedScaleFactor
-	{
-		get{return mSpeedScaleFactor;}
-		set{mSpeedScaleFactor = value;}
-	}
 
 	[SerializeField]
 	private FishPathControlPoint[] mControlPoints = new FishPathControlPoint[0];
@@ -23,19 +22,21 @@ public class FishPath : MonoBehaviour {
 	[SerializeField]
 	private bool mRenderPath = false;
 
+    [SerializeField]
+    private string mPathFileName = "Untitled";
+
+    public string FileName
+    {
+        get { return mPathFileName; }
+        set { mPathFileName = value; }
+    }
+
 	public bool renderPath
 	{
 		get{return mRenderPath;}
 		set{mRenderPath = value;}
 	}
 
-	//通过控制点插值来的点，路径上的点
-	public class FinePoint
-	{
-		public Vector3 position = Vector3.zero;
-		public Vector2 rotation = Vector2.zero;
-		public int controlIndex = 0;
-	}
 	private List<FinePoint> mFinePointsList = new List<FinePoint>();
 
 	//路径的颜色
@@ -44,13 +45,13 @@ public class FishPath : MonoBehaviour {
 	private float mCurrentLife;
 	private float mLastFrameLife;
 	private float mStepTime;
-	private int mCurrentStep;
-	private int mLastFrameStep;
+	private int mCurrentStep = 0;
+	private int mLastFrameStep = 0;
 	private float SECOND_ONE_FRAME = 0.02f;
 
 	private Vector3 rotatedVec=Vector3.forward;
-	private Vector3 mBornPosition;
-	private Vector3 mBornRotation;
+	private Vector3 mStartPosition;
+	private Vector3 mStartRotation;
 	private FinePoint mCurrentFinePoint = new FinePoint();
 
 	public int numberOfControlPoints
@@ -84,8 +85,8 @@ public class FishPath : MonoBehaviour {
 
 	void OnEnable()
 	{
-		mBornPosition = transform.position;
-		mBornRotation = transform.eulerAngles;
+		mStartPosition = transform.position;
+		mStartRotation = transform.eulerAngles;
 		mCurrentFinePoint.rotation = transform.eulerAngles;
 		rotatedVec = Vector3.forward;
 		mCurrentLife = 0;
@@ -101,22 +102,30 @@ public class FishPath : MonoBehaviour {
 	{
 		if(mRenderPath)
 		{
-			if(mBornPosition != transform.position || mFinePointsList.Count == 0 || mBornRotation != transform.eulerAngles)
+			if(mStartPosition != transform.position || mFinePointsList.Count == 0 || mStartRotation != transform.eulerAngles)
 			{
 				if(Application.isPlaying == false)
 				{
-					mBornPosition = transform.position;
-				   	mBornRotation = transform.eulerAngles;
+					mStartPosition = transform.position;
+				   	mStartRotation = transform.eulerAngles;
 				}
 				this.CaculateFinePoints();
 			}
 			for(int i = 0; i < mFinePointsList.Count-1; i ++)
 			{
-				if(controlPoints[mFinePointsList[i].controlIndex].highLight)
-					Gizmos.color = controlPoints[mFinePointsList[i].controlIndex].color;
-				else
-					Gizmos.color = this.lineColour;
-				Gizmos.DrawLine(mFinePointsList[i].position,mFinePointsList[i + 1].position);
+                try
+                {
+                    if (controlPoints[mFinePointsList[i].controlIndex].highLight)
+                        Gizmos.color = controlPoints[mFinePointsList[i].controlIndex].color;
+                    else
+                        Gizmos.color = this.lineColour;
+                    Gizmos.DrawLine(mFinePointsList[i].position, mFinePointsList[i + 1].position);
+                }
+                catch
+                {
+                    //Debug.Log("wzw");
+                }
+				
 			}
 		}
 	}
@@ -134,6 +143,14 @@ public class FishPath : MonoBehaviour {
 	{
 		AddPoint(mControlPoints.Length);
 	}
+
+    public void AddPoint(FishPathControlPoint fpcp)
+    {
+        List<FishPathControlPoint> tempList = new List<FishPathControlPoint>(mControlPoints);
+        tempList.Add(fpcp);
+        mControlPoints = tempList.ToArray();
+        this.CaculateFinePoints();
+    }
 
 	public void DeletePoint(int index)
 	{
@@ -161,20 +178,24 @@ public class FishPath : MonoBehaviour {
 
 	public void CaculateFinePoints()
 	{
+        mFinePointsList.Clear();
 		float time = 0;
-		mCurrentFinePoint.position = mBornPosition;
-		mCurrentFinePoint.rotation = mBornRotation;
+		mCurrentFinePoint.position = mStartPosition;
+		mCurrentFinePoint.rotation = mStartRotation;
+        mCurrentFinePoint.controlIndex = 0;
+        mFinePointsList.Add(mCurrentFinePoint);
 		rotatedVec = Vector3.forward;
 		mCurrentLife = 0;
 		mLastFrameLife = 0;
+        mLastFrameStep = mCurrentStep = 0;
 		float totaltime = GetTotalTime();
-		mFinePointsList.Clear();
+		
 
 		while(time < totaltime)
 		{
 			time += SECOND_ONE_FRAME;
 			mLastFrameLife = mCurrentLife;
-			mCurrentLife += SECOND_ONE_FRAME * mSpeedScaleFactor;
+			mCurrentLife += SECOND_ONE_FRAME;
 			mStepTime = 0;
 			for(int i = 0; i < mControlPoints.Length; i ++)
 			{
@@ -211,10 +232,10 @@ public class FishPath : MonoBehaviour {
 					int cnt1 = Mathf.FloorToInt(dt1 / SECOND_ONE_FRAME);
 					for(int i = 0; i < cnt1; i ++)
 					{
-						mCurrentFinePoint = caculateOneFinePoint(mCurrentFinePoint.position,mCurrentFinePoint.rotation,tmpStep-1,SECOND_ONE_FRAME);
+						mCurrentFinePoint = CaculateOneFinePoint(mCurrentFinePoint.position,mCurrentFinePoint.rotation,tmpStep-1,SECOND_ONE_FRAME);
 						mFinePointsList.Add(mCurrentFinePoint);
 					}
-					mCurrentFinePoint = caculateOneFinePoint(mCurrentFinePoint.position,mCurrentFinePoint.rotation,tmpStep-1,dt1-SECOND_ONE_FRAME*cnt1);
+					mCurrentFinePoint = CaculateOneFinePoint(mCurrentFinePoint.position,mCurrentFinePoint.rotation,tmpStep-1,dt1-SECOND_ONE_FRAME*cnt1);
 					mFinePointsList.Add(mCurrentFinePoint);
 
 				}
@@ -227,22 +248,22 @@ public class FishPath : MonoBehaviour {
 				int cnt2 = Mathf.FloorToInt(dt2 / SECOND_ONE_FRAME);
 				for(int i = 0; i < cnt2; i ++)
 				{
-					mCurrentFinePoint = caculateOneFinePoint(mCurrentFinePoint.position,mCurrentFinePoint.rotation,mCurrentStep,SECOND_ONE_FRAME);
+					mCurrentFinePoint = CaculateOneFinePoint(mCurrentFinePoint.position,mCurrentFinePoint.rotation,mCurrentStep,SECOND_ONE_FRAME);
 					mFinePointsList.Add(mCurrentFinePoint);
 				}
-				mCurrentFinePoint = caculateOneFinePoint(mCurrentFinePoint.position,mCurrentFinePoint.rotation,mCurrentStep,dt2 - SECOND_ONE_FRAME*cnt2);
+				mCurrentFinePoint = CaculateOneFinePoint(mCurrentFinePoint.position,mCurrentFinePoint.rotation,mCurrentStep,dt2 - SECOND_ONE_FRAME*cnt2);
 				mFinePointsList.Add(mCurrentFinePoint);
 				mLastFrameStep = mCurrentStep;
 			}
 			else
 			{
-				mCurrentFinePoint = caculateOneFinePoint(mCurrentFinePoint.position,mCurrentFinePoint.rotation,mCurrentStep,SECOND_ONE_FRAME);
+				mCurrentFinePoint = CaculateOneFinePoint(mCurrentFinePoint.position,mCurrentFinePoint.rotation,mCurrentStep,SECOND_ONE_FRAME);
 				mFinePointsList.Add(mCurrentFinePoint);
 			}
 		}
 	}
 	
-	public FinePoint caculateOneFinePoint(Vector3 startPosition,Vector2 startRotation,int step,float dt)
+	public FinePoint CaculateOneFinePoint(Vector3 startPosition,Vector2 startRotation,int step,float dt)
 	{
 		FinePoint point = new FinePoint();
 		if(step < 0 || dt < 0) return point;

@@ -27,9 +27,28 @@ public class FishPathEditor : Editor {
 		fishPath.renderPath = EditorGUILayout.Toggle("Render Path",fishPath.renderPath);
 		EditorGUILayout.EndHorizontal();
 
-//		EditorGUILayout.BeginHorizontal();
-//		fishPath.speedScaleFactor = EditorGUILayout.FloatField("Speed Scale Factor",fishPath.speedScaleFactor);
-//		EditorGUILayout.EndHorizontal();
+        GUILayout.Space(5);
+        if (GUILayout.Button("Load"))
+        {
+            string filepath = EditorUtility.OpenFilePanel("Load", Application.dataPath + "/Resources/Pathes/", "bytes");
+            if (filepath.Length > 0)
+            {
+                PathConfigManager.GetInstance().Load(filepath,ref fishPath);
+                fishPath.FileName = Path.GetFileName(filepath);
+            }
+        }
+
+        GUILayout.Space(5);
+        if (GUILayout.Button("Save"))
+        {
+            string savepath = EditorUtility.SaveFilePanel("Save", Application.dataPath + "/Resources/Pathes/", fishPath.FileName, "bytes");
+            if (savepath.Length > 0)
+            {
+                PathConfigManager.GetInstance().Save(savepath, fishPath);
+                AssetDatabase.Refresh();
+                fishPath.FileName = Path.GetFileName(savepath);
+            }
+        }
 
 		int numberOfControlPoints = fishPath.numberOfControlPoints;
 		
@@ -42,17 +61,6 @@ public class FishPathEditor : Editor {
 					fishPath.ResetPath();
 					return;
 				}
-			}
-
-			GUILayout.Space(5);
-			if(GUILayout.Button("Save"))
-			{
-                string savepath = EditorUtility.SaveFilePanel("Save",Application.dataPath + "/Resources/Pathes/","","bytes");
-                if (savepath.Length > 0)
-                {
-                    PathConfigManager.GetInstance().Save(savepath, fishPath);
-                    AssetDatabase.Refresh();
-                }
 			}
 			
 			GUILayout.Space(10);
@@ -95,6 +103,7 @@ public class FishPathEditor : Editor {
 		}
 		else
 		{
+            GUILayout.Space(5);
 			if(GUILayout.Button("Add New Point"))
 			{
 				//Undo.RegisterSceneUndo("Create a new Camera Path point");

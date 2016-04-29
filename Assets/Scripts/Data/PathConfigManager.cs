@@ -5,12 +5,21 @@ using System.IO;
 using LitJson;
 
 //这个类主要是为了序列化json数据时用的
-public class ControlPoint
+public class JsonControlPoint
 {
     public double time;
     public double speedScale;
     public double rx;
     public double ry;
+}
+
+public class JsonPath
+{
+    public int r;
+    public int g;
+    public int b;
+    public int baseSpeed;
+    public List<JsonControlPoint> pointList;
 }
 
 public class PathConfigManager 
@@ -29,23 +38,48 @@ public class PathConfigManager
 
 	public bool Save(string filepath,FishPath path)
 	{
-        int length = path.controlPoints.Length;
-        List<ControlPoint> tempList = new List<ControlPoint>();
+        JsonPath jsonPath = new JsonPath();
+        jsonPath.pointList = new List<JsonControlPoint>();
+        jsonPath.r = (int)path.lineColour.r;
+        jsonPath.g = (int)path.lineColour.g;
+        jsonPath.b = (int)path.lineColour.b;
+        jsonPath.baseSpeed = (int)path.baseSpeed;
         foreach (FishPathControlPoint point in path.controlPoints)
         {
-            ControlPoint cp = new ControlPoint();
+            JsonControlPoint cp = new JsonControlPoint();
             cp.time = point.mTime;
             cp.speedScale = point.mSpeedScale;
             cp.rx = point.mRotationChange.x;
             cp.ry = point.mRotationChange.y;
-            tempList.Add(cp);
+            jsonPath.pointList.Add(cp);
         }
-        string json = JsonMapper.ToJson(tempList.ToArray());
-        FileStream fs = new FileStream(filepath, FileMode.CreateNew);
+        string json = JsonMapper.ToJson(jsonPath);
+        FileStream fs = new FileStream(filepath, FileMode.Create);
         StreamWriter sw = new StreamWriter(fs);
         sw.Write(json);
         sw.Flush();
         fs.Close();
 		return true;
 	}
+
+    public bool Load(string filepath,ref FishPath fishPath)
+    {
+        FileStream fs = new FileStream(filepath,FileMode.Open);
+        StreamReader sr = new StreamReader(fs);
+        string jsonStr = sr.ReadToEnd();
+        JsonPath jsonPath = new JsonPath();
+        jsonPath = JsonMapper.ToObject<JsonPath>(jsonStr);
+        fishPath.ResetPath();
+        fishPath.lineColour = new Color(jsonPath.r, jsonPath.g, jsonPath.b);
+        fishPath.baseSpeed = (float)jsonPath.baseSpeed;
+        foreach (JsonControlPoint point in jsonPath.pointList)
+        {
+            FishPathControlPoint fpcp = new FishPathControlPoint();
+            fpcp.mSpeedScale = (float)point.speedScale;
+            fpcp.mRotationChange = new Vector2((float)point.rx,(float)point.ry);
+            fpcp.mTime = (float)point.time;
+            fishPath.AddPoint(fpcp);
+        }
+        return true;
+    }
 }

@@ -10,10 +10,21 @@ public class Fish : MonoBehaviour {
 	public float mStepTime = 0;
 	public int mCurrentStep;
 	public int mLastFrameStep;
-	public float mSpeedScaleFactor;
+	private float mSpeedScaleFactor;
+    private float mSpeed;
     private FinePoint oneFinePoint;
 
 	float SECOND_ONE_FRAME = 0.02f;
+
+    public float Speed
+    {
+        get { return mSpeed; }
+        set 
+        { 
+            mSpeed = value;
+            mSpeedScaleFactor = mSpeed / mFishPath.baseSpeed;
+        }
+    }
 
 	// Use this for initialization
 	void Start ()

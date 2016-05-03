@@ -27,6 +27,8 @@ public class PathConfigManager
 
 	private PathConfigManager() { }
 	private static PathConfigManager mInstance;
+
+    private List<FishPath> mFishPathes = new List<FishPath>();
 	public static PathConfigManager GetInstance()
 	{
 		if (mInstance == null)
@@ -81,5 +83,9 @@ public class PathConfigManager
             fishPath.AddPoint(fpcp);
         }
         return true;
+    }
+
+    public void LoadAllPathes()
+    {
     }
 }

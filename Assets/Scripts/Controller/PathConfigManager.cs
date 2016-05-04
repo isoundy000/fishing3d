@@ -97,6 +97,7 @@ public class PathConfigManager
         for (int i = 0; i < 5; i++)
         {
             TextAsset ta = Resources.Load<TextAsset>("Pathes/" + i.ToString());
+            //Debug.Log(ta == null);
             if (ta != null)
             {
                 string jsonStr = ta.text;

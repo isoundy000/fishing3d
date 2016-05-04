@@ -47,8 +47,8 @@ public class EventManager
         //string filepath = Application.dataPath + "/Resources/event.bytes";
         //JsonUtil.Save(jsonStr, filepath);
 
-        LoadEventConfig();
-        CaculateBeginAndEndTime();
+        //LoadEventConfig();
+        //CaculateBeginAndEndTime();
     }
 
     public void Update(float dt)

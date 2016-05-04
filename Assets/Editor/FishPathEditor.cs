@@ -140,8 +140,8 @@ public class FishPathEditor : Editor {
 		
 		if(GUI.changed)
 		{
-            //if(fish.FishPathData)
-			//   fish.FishPathData.CaculateFinePoints();
+            if (fish.FishPathData)
+                fish.FishPathData.CaculateFinePoints();
             //EditorUtility.SetDirty(fish);
             //EditorApplication.SaveScene();
             EditorApplication.MarkSceneDirty();

@@ -28,7 +28,7 @@ public class PathConfigManager
 	private PathConfigManager() { }
 	private static PathConfigManager mInstance;
 
-    private List<FishPath> mFishPathes = new List<FishPath>();
+    private Dictionary<int, FishPath> mFishPathMap = new Dictionary<int, FishPath>();
 	public static PathConfigManager GetInstance()
 	{
 		if (mInstance == null)
@@ -37,6 +37,11 @@ public class PathConfigManager
 		}
 		return mInstance;
 	}
+
+    public void Initialize()
+    {
+        LoadAllPathes();
+    }
 
 	public bool Save(string filepath,FishPath path)
 	{
@@ -64,8 +69,9 @@ public class PathConfigManager
 		return true;
 	}
 
-    public bool Load(string filepath,ref FishPath fishPath)
+    public FishPath Load(string filepath)
     {
+        FishPath fishPath = new FishPath();
         FileStream fs = new FileStream(filepath,FileMode.Open);
         StreamReader sr = new StreamReader(fs);
         string jsonStr = sr.ReadToEnd();
@@ -82,10 +88,43 @@ public class PathConfigManager
             fpcp.mTime = (float)point.time;
             fishPath.AddPoint(fpcp);
         }
-        return true;
+        return fishPath;
     }
 
-    public void LoadAllPathes()
+    private void LoadAllPathes()
     {
+        for (int i = 0; i < 4; i++)
+        {
+            TextAsset ta = Resources.Load<TextAsset>("Pathes/" + i.ToString());
+            if (ta != null)
+            {
+                string jsonStr = ta.text;
+                if (jsonStr != null && jsonStr.Length > 0)
+                {
+                    JsonPath jsonPath = new JsonPath();
+                    jsonPath = JsonMapper.ToObject<JsonPath>(jsonStr);
+                    if (jsonPath == null) continue;
+                    FishPath fishPath = new FishPath();
+                    fishPath.lineColour = new Color(jsonPath.r, jsonPath.g, jsonPath.b);
+                    fishPath.baseSpeed = (float)jsonPath.baseSpeed;
+                    foreach (JsonControlPoint point in jsonPath.pointList)
+                    {
+                        FishPathControlPoint fpcp = new FishPathControlPoint();
+                        fpcp.mSpeedScale = (float)point.speedScale;
+                        fpcp.mRotationChange = new Vector2((float)point.rx, (float)point.ry);
+                        fpcp.mTime = (float)point.time;
+                        fishPath.AddPoint(fpcp);
+                    }
+                    mFishPathMap.Add(i, fishPath);
+                }
+            }
+        }
+    }
+
+    public FishPath GetPath(int id)
+    {
+        FishPath path = null;
+        mFishPathMap.TryGetValue(id, out path);
+        return path;
     }
 }

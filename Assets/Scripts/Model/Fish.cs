@@ -5,16 +5,24 @@ using System.Collections.Generic;
 public class Fish : MonoBehaviour {
 
 	private FishPath mFishPath;
-	public float mCurrentLife = 0;
-	public float mLastFrameLife;
-	public float mStepTime = 0;
-	public int mCurrentStep;
-	public int mLastFrameStep;
-	private float mSpeedScaleFactor;
-    private float mSpeed;
+	
+    private float mCurrentLife = 0;
+
+    private float mLastFrameLife;
+    
+    private float mStepTime = 0;
+    
+    private int mCurrentStep;
+    
+    private int mLastFrameStep;
+	
+    private float mSpeedScaleFactor;
+    
+    private float mSpeed = 100;
+    
     private FinePoint oneFinePoint;
 
-	float SECOND_ONE_FRAME = 0.02f;
+	private float SECOND_ONE_FRAME = 0.02f;
 
     public float Speed
     {
@@ -22,15 +30,58 @@ public class Fish : MonoBehaviour {
         set 
         { 
             mSpeed = value;
-            mSpeedScaleFactor = mSpeed / mFishPath.baseSpeed;
+            if(mFishPath != null)
+                mSpeedScaleFactor = mSpeed / mFishPath.baseSpeed;
+        }
+    }
+
+    public FishPath FishPathData
+    {
+        get { return mFishPath; }
+        set 
+        { 
+            mFishPath = value;
+            if(mFishPath != null)
+                mSpeedScaleFactor = mSpeed / mFishPath.baseSpeed;
         }
     }
 
 	// Use this for initialization
 	void Start ()
     {
-        mFishPath = this.GetComponent<FishPath>();
 	}
+
+    void OnDrawGizmos()
+    {
+        if (mFishPath && mFishPath.renderPath)
+        {
+            if (mFishPath.StartPosition != transform.position || mFishPath.FinePointList.Count == 0 || mFishPath.StartRotation != transform.eulerAngles)
+            {
+                if (Application.isPlaying == false)
+                {
+                    mFishPath.StartPosition = transform.position;
+                    mFishPath.StartRotation = transform.eulerAngles;
+                }
+                mFishPath.CaculateFinePoints();
+            }
+            for (int i = 0; i < mFishPath.FinePointList.Count - 1; i++)
+            {
+                try
+                {
+                    if (mFishPath.controlPoints[mFishPath.FinePointList[i].controlIndex].highLight)
+                        Gizmos.color = mFishPath.controlPoints[mFishPath.FinePointList[i].controlIndex].color;
+                    else
+                        Gizmos.color = mFishPath.lineColour;
+                    Gizmos.DrawLine(mFishPath.FinePointList[i].position, mFishPath.FinePointList[i + 1].position);
+                }
+                catch
+                {
+                    //Debug.Log("wzw");
+                }
+
+            }
+        }
+    }
 
 	// Update is called once per frame
 	void Update () 

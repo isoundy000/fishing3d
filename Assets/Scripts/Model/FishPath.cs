@@ -10,8 +10,8 @@ public class FinePoint
     public int controlIndex = 0;
 }
 
-public class FishPath : MonoBehaviour {
-
+public class FishPath : ScriptableObject
+{
 	//基准速度
 	[SerializeField]
 	private float mBaseSpeed = 100;
@@ -54,6 +54,23 @@ public class FishPath : MonoBehaviour {
 	private Vector3 mStartRotation;
 	private FinePoint mCurrentFinePoint = new FinePoint();
 
+    public Vector3 StartPosition
+    {
+        get { return mStartPosition; }
+        set { mStartPosition = value; }
+    }
+
+    public Vector3 StartRotation
+    {
+        get { return mStartRotation; }
+        set { mStartRotation = value; }
+    }
+
+    public List<FinePoint> FinePointList
+    {
+        get { return mFinePointsList; }
+    }
+
 	public int numberOfControlPoints
 	{
 		get
@@ -82,52 +99,10 @@ public class FishPath : MonoBehaviour {
 	{
 
 	}
-
-	void OnEnable()
-	{
-		mStartPosition = transform.position;
-		mStartRotation = transform.eulerAngles;
-		mCurrentFinePoint.rotation = transform.eulerAngles;
-		rotatedVec = Vector3.forward;
-		mCurrentLife = 0;
-		mLastFrameLife = 0;
-	}
 	
 	// Update is called once per frame
 	void Update () {
 	
-	}
-
-	void OnDrawGizmos()
-	{
-		if(mRenderPath)
-		{
-			if(mStartPosition != transform.position || mFinePointsList.Count == 0 || mStartRotation != transform.eulerAngles)
-			{
-				if(Application.isPlaying == false)
-				{
-					mStartPosition = transform.position;
-				   	mStartRotation = transform.eulerAngles;
-				}
-				this.CaculateFinePoints();
-			}
-			for(int i = 0; i < mFinePointsList.Count-1; i ++)
-			{
-                try
-                {
-                    if (controlPoints[mFinePointsList[i].controlIndex].highLight)
-                        Gizmos.color = controlPoints[mFinePointsList[i].controlIndex].color;
-                    else
-                        Gizmos.color = this.lineColour;
-                    Gizmos.DrawLine(mFinePointsList[i].position, mFinePointsList[i + 1].position);
-                }
-                catch
-                {
-                    //Debug.Log("wzw");
-                }
-				
-			}
-		}
 	}
 
 	public void AddPoint(int index)
@@ -178,6 +153,7 @@ public class FishPath : MonoBehaviour {
 
 	public void CaculateFinePoints()
 	{
+        if (Application.isEditor == false) return;
         mFinePointsList.Clear();
 		float time = 0;
 		mCurrentFinePoint.position = mStartPosition;

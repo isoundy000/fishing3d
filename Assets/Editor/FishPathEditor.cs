@@ -3,7 +3,7 @@ using System.Collections;
 using UnityEditor;
 using System.IO;
 
-[CustomEditor(typeof(FishPath))]
+[CustomEditor(typeof(Fish))]
 public class FishPathEditor : Editor {
 
 	void OnSceneGUI()
@@ -13,19 +13,26 @@ public class FishPathEditor : Editor {
 
 	public override void OnInspectorGUI()
 	{
-		FishPath fishPath = (FishPath)target;
+		Fish fish = (Fish)target;
 
-		GUILayout.Space(10);
-		fishPath.lineColour = EditorGUILayout.ColorField("Line Colour",fishPath.lineColour);
-		GUILayout.Space(5);
+        if (fish.FishPathData == null)
+        {
+            fish.FishPathData = new FishPath();
+        }
 
 		EditorGUILayout.BeginHorizontal();
-		fishPath.baseSpeed = EditorGUILayout.FloatField("Base Speed",fishPath.baseSpeed);
+		fish.Speed = EditorGUILayout.FloatField("Speed",fish.Speed);
 		EditorGUILayout.EndHorizontal();
 
 		EditorGUILayout.BeginHorizontal();
-		fishPath.renderPath = EditorGUILayout.Toggle("Render Path",fishPath.renderPath);
+		fish.FishPathData.renderPath = EditorGUILayout.Toggle("Render Path",fish.FishPathData.renderPath);
 		EditorGUILayout.EndHorizontal();
+        if (fish.FishPathData.renderPath)
+        {
+            GUILayout.Space(10);
+            fish.FishPathData.lineColour = EditorGUILayout.ColorField("Line Colour", fish.FishPathData.lineColour);
+            GUILayout.Space(5);
+        }
 
         GUILayout.Space(5);
         if (GUILayout.Button("Load"))
@@ -33,24 +40,24 @@ public class FishPathEditor : Editor {
             string filepath = EditorUtility.OpenFilePanel("Load", Application.dataPath + "/Resources/Pathes/", "bytes");
             if (filepath.Length > 0)
             {
-                PathConfigManager.GetInstance().Load(filepath,ref fishPath);
-                fishPath.FileName = Path.GetFileName(filepath);
+                fish.FishPathData = PathConfigManager.GetInstance().Load(filepath);
+                fish.FishPathData.FileName = Path.GetFileName(filepath);
             }
         }
 
         GUILayout.Space(5);
         if (GUILayout.Button("Save"))
         {
-            string savepath = EditorUtility.SaveFilePanel("Save", Application.dataPath + "/Resources/Pathes/", fishPath.FileName, "bytes");
+            string savepath = EditorUtility.SaveFilePanel("Save", Application.dataPath + "/Resources/Pathes/", fish.FishPathData.FileName, "bytes");
             if (savepath.Length > 0)
             {
-                PathConfigManager.GetInstance().Save(savepath, fishPath);
+                PathConfigManager.GetInstance().Save(savepath, fish.FishPathData);
                 AssetDatabase.Refresh();
-                fishPath.FileName = Path.GetFileName(savepath);
+                fish.FishPathData.FileName = Path.GetFileName(savepath);
             }
         }
 
-		int numberOfControlPoints = fishPath.numberOfControlPoints;
+		int numberOfControlPoints = fish.FishPathData.numberOfControlPoints;
 		
 		if(numberOfControlPoints>0)
 		{
@@ -58,7 +65,7 @@ public class FishPathEditor : Editor {
 			GUILayout.Space(5);
 			if(GUILayout.Button("Reset Path")){
 				if(EditorUtility.DisplayDialog("Resetting path?", "Are you sure you want to delete all control points?", "Delete", "Cancel")){
-					fishPath.ResetPath();
+					fish.FishPathData.ResetPath();
 					return;
 				}
 			}
@@ -70,7 +77,7 @@ public class FishPathEditor : Editor {
 //			//scrollPosition = EditorGUILayout.BeginScrollView(scrollPosition);
 			for(int i=0; i<numberOfControlPoints; i++)
 			{
-				FishPathControlPoint point = fishPath.controlPoints[i];
+				FishPathControlPoint point = fish.FishPathData.controlPoints[i];
 				point.highLight = GUILayout.Toggle(point.highLight,"HighLight");
 				point.color = EditorGUILayout.ColorField("Line Colour",point.color);
 
@@ -81,16 +88,16 @@ public class FishPathEditor : Editor {
 				EditorGUILayout.BeginHorizontal();
 				if(GUILayout.Button("Delete"))
 				{
-					fishPath.DeletePoint(i);
-					numberOfControlPoints = fishPath.numberOfControlPoints;
-					EditorUtility.SetDirty(fishPath);
+					fish.FishPathData.DeletePoint(i);
+					numberOfControlPoints = fish.FishPathData.numberOfControlPoints;
+					EditorUtility.SetDirty(fish.FishPathData);
 					return;	
 				}
 
 				if(GUILayout.Button("Add New Point After"))
 				{
-					fishPath.AddPoint(i+1);
-					EditorUtility.SetDirty(fishPath);
+					fish.FishPathData.AddPoint(i+1);
+					EditorUtility.SetDirty(fish.FishPathData);
 				}
 
 				EditorGUILayout.EndHorizontal();
@@ -107,15 +114,15 @@ public class FishPathEditor : Editor {
 			if(GUILayout.Button("Add New Point"))
 			{
 				//Undo.RegisterSceneUndo("Create a new Camera Path point");
-				fishPath.AddPoint();
-				EditorUtility.SetDirty(fishPath);
+				fish.FishPathData.AddPoint();
+				EditorUtility.SetDirty(fish.FishPathData);
 			}
 		}
 		
 		if(GUI.changed)
 		{
-			fishPath.CaculateFinePoints();
-			EditorUtility.SetDirty(fishPath);
+			fish.FishPathData.CaculateFinePoints();
+			EditorUtility.SetDirty(fish.FishPathData);
 		}
 	}
 }

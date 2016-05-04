@@ -24,5 +24,6 @@ public class Game : MonoBehaviour
         TimeManager. GetInstance().Initialize();
         EventManager.GetInstance().Initialize();
         FishManager. GetInstance().Initialize();
+        PathConfigManager.GetInstance().Initialize();
     }
 }

@@ -71,7 +71,7 @@ public class PathConfigManager
 
     public FishPath Load(string filepath)
     {
-        FishPath fishPath = new FishPath();
+        FishPath fishPath = ScriptableObject.CreateInstance<FishPath>();
         FileStream fs = new FileStream(filepath,FileMode.Open);
         StreamReader sr = new StreamReader(fs);
         string jsonStr = sr.ReadToEnd();
@@ -82,18 +82,19 @@ public class PathConfigManager
         fishPath.baseSpeed = (float)jsonPath.baseSpeed;
         foreach (JsonControlPoint point in jsonPath.pointList)
         {
-            FishPathControlPoint fpcp = new FishPathControlPoint();
+            FishPathControlPoint fpcp = ScriptableObject.CreateInstance<FishPathControlPoint>();
             fpcp.mSpeedScale = (float)point.speedScale;
             fpcp.mRotationChange = new Vector2((float)point.rx,(float)point.ry);
             fpcp.mTime = (float)point.time;
             fishPath.AddPoint(fpcp);
         }
+        fishPath.isNewPath = false;
         return fishPath;
     }
 
     private void LoadAllPathes()
     {
-        for (int i = 0; i < 4; i++)
+        for (int i = 0; i < 5; i++)
         {
             TextAsset ta = Resources.Load<TextAsset>("Pathes/" + i.ToString());
             if (ta != null)
@@ -104,12 +105,12 @@ public class PathConfigManager
                     JsonPath jsonPath = new JsonPath();
                     jsonPath = JsonMapper.ToObject<JsonPath>(jsonStr);
                     if (jsonPath == null) continue;
-                    FishPath fishPath = new FishPath();
+                    FishPath fishPath = ScriptableObject.CreateInstance<FishPath>();
                     fishPath.lineColour = new Color(jsonPath.r, jsonPath.g, jsonPath.b);
                     fishPath.baseSpeed = (float)jsonPath.baseSpeed;
                     foreach (JsonControlPoint point in jsonPath.pointList)
                     {
-                        FishPathControlPoint fpcp = new FishPathControlPoint();
+                        FishPathControlPoint fpcp = ScriptableObject.CreateInstance<FishPathControlPoint>();
                         fpcp.mSpeedScale = (float)point.speedScale;
                         fpcp.mRotationChange = new Vector2((float)point.rx, (float)point.ry);
                         fpcp.mTime = (float)point.time;

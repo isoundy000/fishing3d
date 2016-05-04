@@ -4,25 +4,27 @@ using System.Collections.Generic;
 
 public class Fish : MonoBehaviour {
 
-	private FishPath mFishPath;
-	
     private float mCurrentLife = 0;
 
     private float mLastFrameLife;
     
     private float mStepTime = 0;
     
-    private int mCurrentStep;
+    private int mCurrentStep = 0;
     
-    private int mLastFrameStep;
+    private int mLastFrameStep = 0;
 	
     private float mSpeedScaleFactor;
-    
-    private float mSpeed = 100;
+
+    [SerializeField]
+    private float mSpeed = 20;
     
     private FinePoint oneFinePoint;
 
 	private float SECOND_ONE_FRAME = 0.02f;
+
+    [SerializeField]
+    private FishPath mFishPath;
 
     public float Speed
     {
@@ -30,8 +32,15 @@ public class Fish : MonoBehaviour {
         set 
         { 
             mSpeed = value;
-            if(mFishPath != null)
-                mSpeedScaleFactor = mSpeed / mFishPath.baseSpeed;
+            //if (mFishPath != null)
+            //{
+            //    if (Application.isPlaying == false)
+            //    {
+            //        if (mFishPath.isNewPath == true)
+            //            mFishPath.baseSpeed = mSpeed;
+            //    }
+            //    mSpeedScaleFactor = mSpeed / mFishPath.baseSpeed;
+            //}
         }
     }
 
@@ -41,8 +50,15 @@ public class Fish : MonoBehaviour {
         set 
         { 
             mFishPath = value;
-            if(mFishPath != null)
+            if (mFishPath != null)
+            {
+                if (Application.isPlaying == false)
+                {
+                    if (mFishPath.isNewPath == true)
+                        mFishPath.baseSpeed = mSpeed;
+                }
                 mSpeedScaleFactor = mSpeed / mFishPath.baseSpeed;
+            }
         }
     }
 
@@ -92,7 +108,12 @@ public class Fish : MonoBehaviour {
 		mLastFrameLife = mCurrentLife;
 		mCurrentLife += framedt;
 		mStepTime = 0;
-		for(int i = 0; i < mFishPath.controlPoints.Length; i ++)
+        if (mCurrentLife > 6)
+        {
+            Destroy(this.gameObject);
+            return;
+        }
+        for (int i = 0; i < mFishPath.controlPoints.Length; i++)
 		{
 			mStepTime += mFishPath.controlPoints[i].mTime;
 			if(mCurrentLife <= mStepTime)

@@ -25,7 +25,7 @@ public class FishManager
     public void Update(float dt)
     {
         timer += dt;
-        if (timer > 1)
+        if (timer > 0.5f)
         {
             timer = 0;
             CreateFish();
@@ -43,8 +43,8 @@ public class FishManager
         fish.transform.localPosition = new Vector3(hBound * flag, Random.Range(yBottom + 20, yUp - 20), 96);
         fish.transform.eulerAngles = new Vector3(0, -90*flag, 0);
         Fish fishcom = fish.AddComponent<Fish>();
-        fishcom.Speed = 50;
-        fishcom.FishPathData = PathConfigManager.GetInstance().GetPath(Random.Range(0,4));
-        fishcom.FishPathData.renderPath = true;
+        fishcom.Speed = 50.0f * Random.Range(1,3);
+        fishcom.FishPathData = PathConfigManager.GetInstance().GetPath(Random.Range(0,5));
+        fishcom.FishPathData.renderPath = false;
     }
 }

@@ -14,16 +14,19 @@ public class FishPath : ScriptableObject
 {
 	//基准速度
 	[SerializeField]
-	private float mBaseSpeed = 100;
+	public float mBaseSpeed = 0;
 
 	[SerializeField]
-	private FishPathControlPoint[] mControlPoints = new FishPathControlPoint[0];
+    public FishPathControlPoint[] mControlPoints = new FishPathControlPoint[0];
 
 	[SerializeField]
-	private bool mRenderPath = false;
+    public bool mRenderPath = false;
 
     [SerializeField]
-    private string mPathFileName = "Untitled";
+    public string mPathFileName = "Untitled";
+
+    [SerializeField]
+    public bool mIsNewPath = true;
 
     public string FileName
     {
@@ -36,6 +39,12 @@ public class FishPath : ScriptableObject
 		get{return mRenderPath;}
 		set{mRenderPath = value;}
 	}
+
+    public bool isNewPath
+    {
+        get { return mIsNewPath; }
+        set { mIsNewPath = value; }
+    }
 
 	private List<FinePoint> mFinePointsList = new List<FinePoint>();
 
@@ -94,21 +103,14 @@ public class FishPath : ScriptableObject
 		get{return mBaseSpeed;}
 	}
 
-	// Use this for initialization
-	void Start ()
-	{
-
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
+    public FishPath()
+    { 
+    }
 
 	public void AddPoint(int index)
 	{
 		List<FishPathControlPoint> tempList = new List<FishPathControlPoint>(mControlPoints);
-		FishPathControlPoint newpoint = new FishPathControlPoint();
+        FishPathControlPoint newpoint = ScriptableObject.CreateInstance<FishPathControlPoint>();
 		tempList.Insert(index,newpoint);
 		mControlPoints = tempList.ToArray();
 		this.CaculateFinePoints();

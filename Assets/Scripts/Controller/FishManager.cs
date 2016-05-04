@@ -34,14 +34,14 @@ public class FishManager
 
     public void CreateFish()
     {
-        float xLeft = -120;
-        float xRight = 120;
+        float hBound = 120;
         float yBottom = -70;
         float yUp = 70;
-
+        int[] temp = new int[2] { -1, 1 };
+        int flag = temp[Random.Range(0, 2)];
         GameObject fish = GameObject.Instantiate(Resources.Load("FishPrefabs/Fish_00") as GameObject);
-        fish.transform.localPosition = new Vector3(xLeft, Random.Range(yBottom + 20, yUp - 20), 96);
-        fish.transform.eulerAngles = new Vector3(0, 90, 0);
+        fish.transform.localPosition = new Vector3(hBound * flag, Random.Range(yBottom + 20, yUp - 20), 96);
+        fish.transform.eulerAngles = new Vector3(0, -90*flag, 0);
         Fish fishcom = fish.AddComponent<Fish>();
         fishcom.Speed = 50;
         fishcom.FishPathData = PathConfigManager.GetInstance().GetPath(Random.Range(0,4));

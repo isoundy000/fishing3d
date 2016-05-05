@@ -17,6 +17,8 @@ public class Game : MonoBehaviour
         TimeManager. GetInstance().Update(dt);
         EventManager.GetInstance().Update(dt);
         FishManager. GetInstance().Update(dt);
+        UIManager.GetInstance().Update(dt);
+        UICommandSystem.GetInstance().Update(dt);
     }
 
     void Initialize()
@@ -25,5 +27,8 @@ public class Game : MonoBehaviour
         EventManager.GetInstance().Initialize();
         FishManager. GetInstance().Initialize();
         PathConfigManager.GetInstance().Initialize();
+        GameTableManager.GetInstance().Initialize();
+        UIManager.GetInstance().Initialize();
+        UICommandSystem.GetInstance().Initialize();
     }
 }

@@ -47,7 +47,7 @@ public class GameTableManager
             return false;
         }
 
-        TextAsset o = Resources.Load("Tables/" + tablename) as TextAsset;
+        TextAsset o = ResourcesManager.GetInstance().LoadLocalAsset("Tables/" + tablename) as TextAsset;
 
         if (o == null)
         {

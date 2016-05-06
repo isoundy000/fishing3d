@@ -5,6 +5,6 @@ public class UICmdDefine
 {
     public static string[,] commands = new string[,]
     {
-        {"test","Test"}
+        {"test","IslandSelect"}
     };
 }

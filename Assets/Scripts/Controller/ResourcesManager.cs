@@ -1,15 +1,29 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System;
 
-public class ResourcesManager : MonoBehaviour {
+public class ResourcesManager
+{
+    private static ResourcesManager mInstance = null;
 
-	// Use this for initialization
-	void Start () {
-	
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
+    private ResourcesManager()
+    { }
+
+    public static ResourcesManager GetInstance()
+    {
+        if (mInstance == null)
+            mInstance = new ResourcesManager();
+
+        return mInstance;
+    }
+
+    public void Initialize()
+    {
+        
+    }
+
+    public UnityEngine.Object LoadLocalAsset(string name)
+    {
+        return Resources.Load(name);
+    }
 }

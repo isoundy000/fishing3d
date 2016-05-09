@@ -9,12 +9,14 @@ public class View_IslandSelect : ViewBase {
 	}
 	
 	// Update is called once per frame
-	void Update () {
-	
+	void Update () 
+    {
+        
 	}
 
     public void OnClickedIsland()
     {
-        print(UIButton.current.name);
+        FishData.GetInstance().GameBegin = true;
+        gameObject.SetActive(false);
     }
 }

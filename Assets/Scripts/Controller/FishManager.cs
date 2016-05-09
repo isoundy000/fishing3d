@@ -24,12 +24,20 @@ public class FishManager
 
     public void Update(float dt)
     {
-        timer += dt;
-        if (timer > 0.1f)
+        if (Input.touchCount > 0)
         {
-            timer = 0;
-            CreateFish();
+            Debug.Log(Input.GetTouch(0).phase);
         }
+        if (FishData.GetInstance().GameBegin)
+        {
+            timer += dt;
+            if (timer > 0.5f)
+            {
+                timer = 0;
+                CreateFish();
+            } 
+        }
+        
     }
 
     public void CreateFish()

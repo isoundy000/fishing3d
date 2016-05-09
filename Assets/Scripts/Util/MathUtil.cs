@@ -35,4 +35,33 @@ public class MathUtil
 
         return result;
     }
+
+    /// <summary>
+    /// 屏幕坐标-->ui坐标
+    /// </summary>
+    /// <param name="screenPos"></param>
+    /// <returns></returns>
+    Vector3 ScreenPos_to_NGUIPos(Vector3 screenPos)
+    {
+        Vector3 uiPos = UICamera.currentCamera.ScreenToWorldPoint(screenPos);
+        uiPos = UICamera.currentCamera.transform.InverseTransformPoint(uiPos);
+        return uiPos;
+    }
+
+    /// <summary>
+    /// 屏幕坐标-->ngui坐标
+    /// </summary>
+    /// <param name="screenPos"></param>
+    /// <returns></returns>
+    Vector3 ScreenPos_to_NGUIPos(Vector2 screenPos)
+    {
+        return ScreenPos_to_NGUIPos(new Vector3(screenPos.x, screenPos.y, 0f));
+    }
+
+    public static float Angle(Vector2 screenPos, Vector3 cannonPos)
+    {
+        Vector3 touchPos = GetInstance().ScreenPos_to_NGUIPos(new Vector3(screenPos.x, screenPos.y, 0f));
+        Vector3 from = touchPos - cannonPos;
+        return Vector3.Angle(from, Vector3.right);
+    }
 }

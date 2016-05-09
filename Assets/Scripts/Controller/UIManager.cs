@@ -13,6 +13,13 @@ public class UIManager
 {
     private static UIManager mInstance = null;
 
+    private Transform mWeaponRoot = null;
+    public Transform WeaponRoot
+    {
+        get { return mWeaponRoot; }
+        set { mWeaponRoot = value; }
+    }
+
     private Dictionary<string, UIAsset> mUIMap = new Dictionary<string, UIAsset>();
     private UIManager()
     { }
@@ -35,6 +42,8 @@ public class UIManager
             asset.uiRecord = record as Record_UI;
             mUIMap.Add(asset.uiRecord.name, asset);
         }
+
+        mWeaponRoot = GameObject.FindWithTag("WeaponRoot").transform;
     }
 
     public void Update(float dt)

@@ -16,7 +16,8 @@ public class View_IslandSelect : ViewBase {
 
     public void OnClickedIsland()
     {
-        FishData.GetInstance().GameBegin = true;
+        FishManager.GetInstance().Initialize();
+        FishData.GetInstance().GameState = GameState.MainLoop;
         gameObject.SetActive(false);
     }
 }

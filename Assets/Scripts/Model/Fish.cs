@@ -62,6 +62,13 @@ public class Fish : MonoBehaviour {
         }
     }
 
+    private float mUnActiveTime = 0;
+    public float UnActiveTime
+    {
+        get { return mUnActiveTime; }
+        set { mUnActiveTime = value; }
+    }
+
 	// Use this for initialization
 	void Start ()
     {
@@ -103,7 +110,12 @@ public class Fish : MonoBehaviour {
 	void Update () 
 	{
         if (mFishPath == null) return;
-
+        if (mUnActiveTime > 0)
+        {
+            transform.Translate(Vector3.forward * Time.deltaTime * mSpeed);
+            mUnActiveTime -= Time.deltaTime;
+            return;
+        }
 		float framedt = Time.deltaTime * mSpeedScaleFactor;
 		mLastFrameLife = mCurrentLife;
 		mCurrentLife += framedt;

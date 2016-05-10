@@ -1,6 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+public enum GameState
+{
+    Login = 0,
+    MainLoop
+}
+
 public class Game : MonoBehaviour
 {
 

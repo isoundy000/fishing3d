@@ -8,12 +8,12 @@ public class FishData
     private FishData()
     { }
 
-    private bool mGameBegin = false;
+    private GameState mGameState = GameState.Login;
 
-    public bool GameBegin
+    public GameState GameState
     {
-        get { return mGameBegin; }
-        set { mGameBegin = value; }
+        get { return mGameState; }
+        set { mGameState = value; }
     }
 
     public static FishData GetInstance()

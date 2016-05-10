@@ -30,6 +30,8 @@ public class EventManager
 
     private FishEvent mEvent = null;
 
+    private float timer = 2;
+
     public static EventManager GetInstance()
     {
         if (mInstance == null)
@@ -53,6 +55,16 @@ public class EventManager
 
     public void Update(float dt)
     {
+        if (FishData.GetInstance().GameState == GameState.MainLoop)
+        {
+            timer += dt;
+            if (timer > 3f)
+            {
+                timer = 0;
+                TestTeam();
+            }
+        }
+        return;
         mEvent = GetEvent(dt);
         if(mEvent == null) return;
         switch (mEvent.et)
@@ -99,5 +111,26 @@ public class EventManager
                 return eventdata;
         }
         return null;
+    }
+
+    public void TestTeam()
+    {
+        float hBound = 120;
+        float yBottom = -70;
+        float yUp = 70;
+        int[] temp = new int[2] { -1, 1 };
+        int flag = temp[Random.Range(0, 2)];
+        float speed = Random.Range(40, 70);
+        int pathid = Random.Range(0, 5);
+        Vector3 headPosition = new Vector3(hBound * flag, Random.Range(yBottom + 20, yUp - 20), Random.Range(96, 96 + 20));
+        //Vector3 bornEulerAngles = new Vector3(Random.Range(-20, 20), Random.Range(80, 100) * flag, 0);
+        Vector3 bornEulerAngles = new Vector3(0, -90 * flag, 0);
+        int randomCnt = Random.Range(5,11);
+        for (int i = 0; i < randomCnt; i++)
+        {
+            Vector3 offset = new Vector3(i * 15 * flag, 0, 0);
+            //offset = Quaternion.Euler(bornEulerAngles) * offset;
+            FishManager.GetInstance().CreateFish(0, headPosition + offset, bornEulerAngles, pathid, speed, i * 15.0f / speed);
+        }
     }
 }

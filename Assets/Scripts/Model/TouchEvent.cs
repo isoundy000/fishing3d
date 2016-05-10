@@ -26,14 +26,16 @@ public class TouchEvent : MonoBehaviour {
     public void OnReleased()
     {
         isTouched = false;
-        
-        float angle = MathUtil.Angle(Input.mousePosition, new Vector3(0, -315));
+
+        Vector3 touchPos = MathUtil.ScreenPos_to_NGUIPos(Input.mousePosition);
+        Vector3 from = touchPos - new Vector3(0, -315);
+        float angle = Vector3.Angle(from, Vector3.right);
         cannon.transform.eulerAngles = new Vector3(0, 0, angle);
         cannon.FireAction();
         Bullet bullet = (Instantiate(Resources.Load("BulletPrefabs/Bullet")) as GameObject).GetComponent<Bullet>();
         bullet.Angle = cannon.transform.eulerAngles.z;
         bullet.transform.parent = UIManager.GetInstance().WeaponRoot;
-        bullet.transform.localPosition = cannon.transform.localPosition;
+        bullet.transform.localPosition = cannon.transform.localPosition + from.normalized * 50;
         bullet.transform.localScale = Vector3.one;
     }
 

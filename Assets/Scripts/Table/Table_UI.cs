@@ -46,4 +46,15 @@ public class Table_UI : GameTable
                 break;
         }
     }
+
+    public Record GetRecord(string name)
+    {
+        foreach (Record record in recordsList)
+        {
+            if ((record as Record_UI).name == name)
+                return record;
+        }
+
+        return null;
+    }
 }

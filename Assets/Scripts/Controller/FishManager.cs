@@ -47,7 +47,9 @@ public class FishManager
         float yUp = 70;
         int[] temp = new int[2] { -1, 1 };
         int flag = temp[Random.Range(0, 2)];
-        GameObject fish = GameObject.Instantiate(Resources.Load("FishPrefabs/Fish_00") as GameObject);
+        Table_Fish fishtable = GameTableManager.GetInstance().GetTable("table_fish") as Table_Fish;
+        Record_Fish record = fishtable.GetRecord(Random.Range(0, 2)) as Record_Fish;
+        GameObject fish = GameObject.Instantiate(ResourcesManager.GetInstance().LoadLocalAsset("FishPrefabs/" + record.prefabName) as GameObject);
         fish.transform.localPosition = new Vector3(hBound * flag, Random.Range(yBottom + 20, yUp - 20), Random.Range(96,96+20));
         fish.transform.eulerAngles = new Vector3(0, -90*flag, 0);
         Fish fishcom = fish.AddComponent<Fish>();

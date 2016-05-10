@@ -37,6 +37,7 @@ public class GameTableManager
     {
         mTableMap.Clear();
         LoadTable("table_ui", typeof(Table_UI));
+        LoadTable("table_fish", typeof(Table_Fish));
     }
 
     private bool LoadTable(string tablename, Type type)

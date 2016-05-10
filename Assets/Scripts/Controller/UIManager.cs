@@ -20,6 +20,13 @@ public class UIManager
         set { mWeaponRoot = value; }
     }
 
+    private Transform mUIRoot = null;
+    public Transform UIRoot
+    {
+        get { return mUIRoot; }
+        set { mUIRoot = value; }
+    }
+
     private Dictionary<string, UIAsset> mUIMap = new Dictionary<string, UIAsset>();
     private UIManager()
     { }
@@ -44,6 +51,7 @@ public class UIManager
         }
 
         mWeaponRoot = GameObject.FindWithTag("WeaponRoot").transform;
+        mUIRoot = GameObject.FindWithTag("UIRoot").transform;
     }
 
     public void Update(float dt)
@@ -52,7 +60,13 @@ public class UIManager
 
     public void Show(string viewName)
     { 
-
+        Table_UI uitable = GameTableManager.GetInstance().GetTable("table_ui") as Table_UI;
+        Record_UI record = uitable.GetRecord(viewName) as Record_UI;
+        Object viewdata = ResourcesManager.GetInstance().LoadLocalAsset("UIPrefabs/" + record.prefabName);
+        GameObject viewObj = GameObject.Instantiate(viewdata) as GameObject;
+        viewObj.transform.parent = mUIRoot;
+        viewObj.transform.localScale = Vector3.one;
+        viewObj.transform.localPosition = Vector3.zero;
     }
 
     public void Hide(string viewName)

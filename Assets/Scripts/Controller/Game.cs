@@ -30,5 +30,7 @@ public class Game : MonoBehaviour
         GameTableManager.GetInstance().Initialize();
         UIManager.GetInstance().Initialize();
         UICommandSystem.GetInstance().Initialize();
+
+        UIManager.GetInstance().Show("IslandSelect");
     }
 }

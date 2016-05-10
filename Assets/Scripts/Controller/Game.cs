@@ -21,17 +21,19 @@ public class Game : MonoBehaviour
     {
         float dt = Time.deltaTime;
         TimeManager. GetInstance().Update(dt);
-        EventManager.GetInstance().Update(dt);
-        FishManager. GetInstance().Update(dt);
         UIManager.GetInstance().Update(dt);
         UICommandSystem.GetInstance().Update(dt);
+        if (FishData.GetInstance().GameState == GameState.MainLoop)
+        {
+            EventManager.GetInstance().Update(dt);
+            FishManager.GetInstance().Update(dt);
+        }
     }
 
     void Initialize()
     {
         TimeManager. GetInstance().Initialize();
         EventManager.GetInstance().Initialize();
-        FishManager. GetInstance().Initialize();
         PathConfigManager.GetInstance().Initialize();
         GameTableManager.GetInstance().Initialize();
         UIManager.GetInstance().Initialize();

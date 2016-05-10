@@ -30,7 +30,9 @@ public class EventManager
 
     private FishEvent mEvent = null;
 
-    private float timer = 2;
+    private float mTimerTeam = 0;
+
+    private float mTimerSingleFish = 0;
 
     public static EventManager GetInstance()
     {
@@ -57,11 +59,17 @@ public class EventManager
     {
         if (FishData.GetInstance().GameState == GameState.MainLoop)
         {
-            timer += dt;
-            if (timer > 3f)
+            mTimerTeam += dt;
+            mTimerSingleFish += dt;
+            if (mTimerTeam > 5f)
             {
-                timer = 0;
+                mTimerTeam = 0;
                 TestTeam();
+            }
+            if (mTimerSingleFish > 0.5f)
+            {
+                mTimerSingleFish = 0;
+                TestOneFish();
             }
         }
         return;
@@ -132,5 +140,23 @@ public class EventManager
             //offset = Quaternion.Euler(bornEulerAngles) * offset;
             FishManager.GetInstance().CreateFish(0, headPosition + offset, bornEulerAngles, pathid, speed, i * 15.0f / speed);
         }
+    }
+
+    public void TestOneFish()
+    {
+        float hBound = 120;
+        float yBottom = -70;
+        float yUp = 70;
+        int[] temp = new int[2] { -1, 1 };
+        int flag = temp[Random.Range(0, 2)];
+        float speed = Random.Range(40, 70);
+        int pathid = Random.Range(0, 5);
+        int[] temp1 = new int[10] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 };
+        int fishid = temp1[Random.Range(0, 10)];
+        if (fishid == 1)
+            speed = 30;
+        Vector3 headPosition = new Vector3(hBound * flag, Random.Range(yBottom + 20, yUp - 20), Random.Range(96, 96 + 20));
+        Vector3 bornEulerAngles = new Vector3(Random.Range(-20, 20), -Random.Range(80, 100) * flag, 0);
+        FishManager.GetInstance().CreateFish(fishid, headPosition, bornEulerAngles, pathid, speed, 0);
     }
 }

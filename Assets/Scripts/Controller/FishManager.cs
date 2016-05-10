@@ -11,6 +11,8 @@ public class FishManager
 
     private Table_Fish mFishTable;
 
+    private Transform mFishRoot;
+
     public static FishManager GetInstance()
     {
         if (mInstance == null)
@@ -22,6 +24,14 @@ public class FishManager
     public void Initialize()
     {
         mFishTable = GameTableManager.GetInstance().GetTable("table_fish") as Table_Fish;
+        GameObject fish = new GameObject();
+        fish.transform.localPosition = Vector3.zero;
+        fish.transform.localScale = Vector3.one;
+        fish.transform.localEulerAngles = Vector3.zero;
+        fish.name = "FishRoot";
+        fish.tag = "FishRoot";
+        mFishRoot = fish.transform;
+        fish.layer = 8;
     }
 
     public void Update(float dt)
@@ -42,6 +52,8 @@ public class FishManager
 
         Record_Fish record = mFishTable.GetRecord(Random.Range(0, 2)) as Record_Fish;
         GameObject fish = GameObject.Instantiate(ResourcesManager.GetInstance().LoadLocalAsset("FishPrefabs/" + record.prefabName) as GameObject);
+        fish.transform.parent = mFishRoot;
+        fish.layer = 8;
         fish.transform.localPosition = new Vector3(hBound * flag, Random.Range(yBottom + 20, yUp - 20), Random.Range(96,96+20));
         fish.transform.eulerAngles = new Vector3(0, -90*flag, 0);
         Fish fishcom = fish.AddComponent<Fish>();
@@ -54,6 +66,8 @@ public class FishManager
     {
         Record_Fish record = mFishTable.GetRecord(fishid) as Record_Fish;
         GameObject fish = GameObject.Instantiate(ResourcesManager.GetInstance().LoadLocalAsset("FishPrefabs/" + record.prefabName) as GameObject);
+        fish.transform.parent = mFishRoot;
+        fish.layer = 8;
         fish.transform.localPosition = position;
         fish.transform.eulerAngles = eulerangle;
         Fish fishcom = fish.AddComponent<Fish>();

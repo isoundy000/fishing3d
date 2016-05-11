@@ -72,6 +72,12 @@ public class Fish : MonoBehaviour {
 	// Use this for initialization
 	void Start ()
     {
+        Animation anim = GetComponent<Animation>();
+        foreach (AnimationState state in anim)
+        {
+            state.speed = mSpeed / 50.0f;
+            state.time = Random.Range(0, 2f);
+        }
 	}
 
     void OnDrawGizmos()

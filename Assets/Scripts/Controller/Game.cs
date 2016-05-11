@@ -35,9 +35,11 @@ public class Game : MonoBehaviour
         TimeManager. GetInstance().Initialize();
         EventManager.GetInstance().Initialize();
         PathConfigManager.GetInstance().Initialize();
+        SeasonConfigManager.GetInstance().Initialize();
         GameTableManager.GetInstance().Initialize();
         UIManager.GetInstance().Initialize();
         UICommandSystem.GetInstance().Initialize();
+
 
         UIManager.GetInstance().Show("IslandSelect");
     }

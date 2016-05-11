@@ -1,2 +1,3 @@
 id	View名称	Prefab
 1	IslandSelect	View_IslandSelect
+2	Debug	View_Debug

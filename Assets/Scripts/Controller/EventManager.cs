@@ -66,7 +66,7 @@ public class EventManager
                 mTimerTeam = 0;
                 TestTeam();
             }
-            if (mTimerSingleFish > 0.5f)
+            if (mTimerSingleFish > 0.3f)
             {
                 mTimerSingleFish = 0;
                 TestOneFish();

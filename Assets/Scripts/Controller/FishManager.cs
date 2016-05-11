@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class FishManager
 {
@@ -12,6 +13,8 @@ public class FishManager
     private Table_Fish mFishTable;
 
     private Transform mFishRoot;
+
+    private Dictionary<int, List<GameObject>> mUnActiveFishMap = new Dictionary<int, List<GameObject>>();
 
     public static FishManager GetInstance()
     {
@@ -32,13 +35,17 @@ public class FishManager
         fish.tag = "FishRoot";
         mFishRoot = fish.transform;
         fish.layer = 8;
+
+        InitializeFishCache();
     }
 
     public void Update(float dt)
     {
-        if (Input.touchCount > 0)
+        View_Debug viewDebug = UIManager.GetInstance().GetView("Debug") as View_Debug;
+        if (viewDebug != null && mUnActiveFishMap.Count > 0)
         {
-            Debug.Log(Input.GetTouch(0).phase);
+            viewDebug.lable1.text = mUnActiveFishMap[0].Count.ToString();
+            viewDebug.lable2.text = mUnActiveFishMap[1].Count.ToString();
         }
     }
 
@@ -65,14 +72,88 @@ public class FishManager
     public void CreateFish(int fishid, Vector3 position, Vector3 eulerangle, int pathid, float speed, float unactiveTime)
     {
         Record_Fish record = mFishTable.GetRecord(fishid) as Record_Fish;
-        GameObject fish = GameObject.Instantiate(ResourcesManager.GetInstance().LoadLocalAsset("FishPrefabs/" + record.prefabName) as GameObject);
+        GameObject fish = GetUnActiveFishFromCache(fishid);
+        if (fish == null)
+        {
+            return;
+        }
         fish.transform.parent = mFishRoot;
         fish.layer = 8;
         fish.transform.localPosition = position;
         fish.transform.eulerAngles = eulerangle;
+        fish.SetActive(true);
         Fish fishcom = fish.AddComponent<Fish>();
+        fishcom.FishKindId = fishid;
         fishcom.Speed = speed;
         fishcom.FishPathData = PathConfigManager.GetInstance().GetPath(pathid);
         fishcom.UnActiveTime = unactiveTime;
+    }
+
+    public GameObject GetUnActiveFishFromCache(int fishid)
+    {
+        List<GameObject> fishList = null;
+        mUnActiveFishMap.TryGetValue(fishid, out fishList);
+        if (fishList == null)
+        {
+            fishList = new List<GameObject>();
+            mUnActiveFishMap[fishid] = fishList;
+        }
+        if (fishList.Count == 0)
+        {
+            Record_Fish record = mFishTable.GetRecord(fishid) as Record_Fish;
+            if (record == null)
+                return null;
+            GameObject fish = GameObject.Instantiate(ResourcesManager.GetInstance().LoadLocalAsset("FishPrefabs/" + record.prefabName) as GameObject);
+            //fishList.Add(fish);
+            //SetUnActive(fish);
+            return fish;
+        }
+        else
+        {
+            GameObject fish = fishList[fishList.Count - 1];
+            fishList.RemoveAt(fishList.Count - 1);
+            return fish;
+        }
+    }
+
+    private void InitializeFishCache()
+    {
+        int idcnt = mFishTable.recordsList.Count;
+        for (int i = 0; i < idcnt; i++)
+        {
+            Record_Fish record = mFishTable.recordsList[i] as Record_Fish;
+            List<GameObject> fishList = new List<GameObject>();
+            mUnActiveFishMap[record.id] = fishList;
+            GameObject original = ResourcesManager.GetInstance().LoadLocalAsset("FishPrefabs/" + record.prefabName) as GameObject;
+            if (original != null)
+            {
+                for (int j = 0; j < 50; j++)
+                {
+                    GameObject fish = GameObject.Instantiate(original);
+                    fishList.Add(fish);
+                    SetUnActive(fish);
+                }
+            }
+        }
+    }
+
+    public void SetUnActive(GameObject fish)
+    {
+        if (fish != null)
+        {
+            fish.transform.localPosition = new Vector3(0, 0, -1000000);
+            fish.SetActive(false);
+        }
+    }
+
+    public void RecycleFish(Fish fish)
+    {
+        if (fish != null)
+        {
+            fish.transform.localPosition = new Vector3(0, 0, -1000000);
+            mUnActiveFishMap[fish.FishKindId].Add(fish.gameObject);
+            GameObject.Destroy(fish);
+            fish.gameObject.SetActive(false);
+        }
     }
 }

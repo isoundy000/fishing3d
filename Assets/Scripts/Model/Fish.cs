@@ -69,6 +69,13 @@ public class Fish : MonoBehaviour {
         set { mUnActiveTime = value; }
     }
 
+    private int mFishKindId = 0;
+    public int FishKindId
+    {
+        get { return mFishKindId; }
+        set { mFishKindId = value; }
+    }
+
 	// Use this for initialization
 	void Start ()
     {
@@ -126,9 +133,9 @@ public class Fish : MonoBehaviour {
 		mLastFrameLife = mCurrentLife;
 		mCurrentLife += framedt;
 		mStepTime = 0;
-        if (mCurrentLife > 6)
+        if (mCurrentLife > 5)
         {
-            Destroy(this.gameObject);
+            FishManager.GetInstance().RecycleFish(this);
             return;
         }
         for (int i = 0; i < mFishPath.controlPoints.Length; i++)

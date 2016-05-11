@@ -59,14 +59,17 @@ public class UIManager
     }
 
     public void Show(string viewName)
-    { 
-        Table_UI uitable = GameTableManager.GetInstance().GetTable("table_ui") as Table_UI;
-        Record_UI record = uitable.GetRecord(viewName) as Record_UI;
-        Object viewdata = ResourcesManager.GetInstance().LoadLocalAsset("UIPrefabs/" + record.prefabName);
+    {
+        UIAsset asset = GetUIAsset(viewName);
+        if (asset == null)
+            return;
+        Object viewdata = ResourcesManager.GetInstance().LoadLocalAsset("UIPrefabs/" + asset.uiRecord.prefabName);
         GameObject viewObj = GameObject.Instantiate(viewdata) as GameObject;
         viewObj.transform.parent = mUIRoot;
         viewObj.transform.localScale = Vector3.one;
         viewObj.transform.localPosition = Vector3.zero;
+        asset.viewObject = viewObj;
+        asset.view = asset.viewObject.GetComponent<ViewBase>();
     }
 
     public void Hide(string viewName)
@@ -80,4 +83,13 @@ public class UIManager
         mUIMap.TryGetValue(name, out asset);
         return asset;
     }
+
+    public ViewBase GetView(string viewName)
+    {
+        UIAsset asset = GetUIAsset(viewName);
+        if (asset == null)
+            return null;
+        return asset.view;
+    }
+
 }

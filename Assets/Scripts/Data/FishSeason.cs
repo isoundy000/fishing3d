@@ -19,6 +19,7 @@ public class OneWave
     public Vector3 ea;//eulerangle
     public int pathid;
     public WaveFish[] fishes;
+    public Vector3 rootea;
 
     public OneWave()
     {

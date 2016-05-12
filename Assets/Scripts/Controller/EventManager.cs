@@ -169,14 +169,14 @@ public class EventManager
 
     public void TestFishSeason()
     {
-        FishSeason season = SeasonConfigManager.GetInstance().GetSeason(0);
+        FishSeason season = SeasonConfigManager.GetInstance().GetSeason(Random.Range(0,3));
         if (season == null)
             return;
         foreach (OneWave wave in season.waves)
         {
             foreach (WaveFish fish in wave.fishes)
             {
-                FishManager.GetInstance().CreateFish(fish.fkid,wave.o + fish.p, wave.ea, wave.pathid, wave.speed, -fish.p.x / 40.0f);
+                FishManager.GetInstance().CreateFish(fish.fkid,fish.p, wave.ea, wave.pathid, wave.speed, -fish.p.x / 20.0f);
             }
         }
     }

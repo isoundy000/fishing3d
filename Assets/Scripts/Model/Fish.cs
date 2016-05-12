@@ -14,7 +14,7 @@ public class Fish : MonoBehaviour {
     
     private int mLastFrameStep = 0;
 	
-    private float mSpeedScaleFactor;
+    private float mSpeedScaleFactor = 1;
 
     [SerializeField]
     private float mSpeed = 20;
@@ -32,15 +32,15 @@ public class Fish : MonoBehaviour {
         set 
         { 
             mSpeed = value;
-            //if (mFishPath != null)
-            //{
-            //    if (Application.isPlaying == false)
-            //    {
-            //        if (mFishPath.isNewPath == true)
-            //            mFishPath.baseSpeed = mSpeed;
-            //    }
-            //    mSpeedScaleFactor = mSpeed / mFishPath.baseSpeed;
-            //}
+            if (mFishPath != null)
+            {
+                if (Application.isPlaying == false)
+                {
+                    if (mFishPath.isNewPath == true)
+                        mFishPath.baseSpeed = mSpeed;
+                }
+                mSpeedScaleFactor = mSpeed / mFishPath.baseSpeed;
+            }
         }
     }
 
@@ -133,11 +133,7 @@ public class Fish : MonoBehaviour {
 		mLastFrameLife = mCurrentLife;
 		mCurrentLife += framedt;
 		mStepTime = 0;
-        if (mCurrentLife > 5)
-        {
-            FishManager.GetInstance().RecycleFish(this);
-            return;
-        }
+        
         for (int i = 0; i < mFishPath.controlPoints.Length; i++)
 		{
 			mStepTime += mFishPath.controlPoints[i].mTime;
@@ -149,6 +145,10 @@ public class Fish : MonoBehaviour {
 			else
 			{
 				mCurrentStep = mFishPath.controlPoints.Length;
+                if (i == mFishPath.controlPoints.Length - 1)
+                {
+                    FishManager.GetInstance().RecycleFish(this);
+                }
 			}
 		}
 

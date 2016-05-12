@@ -94,7 +94,7 @@ public class PathConfigManager
 
     private void LoadAllPathes()
     {
-        for (int i = 0; i < 5; i++)
+        for (int i = 0; i < 6; i++)
         {
             TextAsset ta = Resources.Load<TextAsset>("Pathes/" + i.ToString());
             //Debug.Log(ta == null);

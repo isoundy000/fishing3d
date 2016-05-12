@@ -20,11 +20,11 @@ public class Game : MonoBehaviour
     void Update()
     {
         float dt = Time.deltaTime;
-        TimeManager. GetInstance().Update(dt);
         UIManager.GetInstance().Update(dt);
         UICommandSystem.GetInstance().Update(dt);
         if (FishData.GetInstance().GameState == GameState.MainLoop)
         {
+            TimeManager.GetInstance().Update(dt);
             EventManager.GetInstance().Update(dt);
             FishManager.GetInstance().Update(dt);
         }

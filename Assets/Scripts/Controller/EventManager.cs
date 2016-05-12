@@ -33,6 +33,7 @@ public class EventManager
     private float mTimerTeam = 0;
 
     private float mTimerSingleFish = 0;
+    bool testseason = true;
 
     public static EventManager GetInstance()
     {
@@ -51,50 +52,56 @@ public class EventManager
         //string filepath = Application.dataPath + "/Resources/event.bytes";
         //JsonUtil.Save(jsonStr, filepath);
 
-        //LoadEventConfig();
-        //CaculateBeginAndEndTime();
+        LoadEventConfig();
+        CaculateBeginAndEndTime();
     }
 
     public void Update(float dt)
     {
         if (FishData.GetInstance().GameState == GameState.MainLoop)
         {
-            mTimerTeam += dt;
-            mTimerSingleFish += dt;
-            if (mTimerTeam > 5f)
+            mEvent = GetEvent(TimeManager.GetInstance().Gametime);
+            if (mEvent == null) return;
+            switch (mEvent.et)
             {
-                mTimerTeam = 0;
-                TestTeam();
+                case 0:
+                    testseason = true;
+                    mTimerTeam += dt;
+                    mTimerSingleFish += dt;
+                    if (mTimerTeam > 5f)
+                    {
+                        mTimerTeam = 0;
+                        TestTeam();
+                    }
+                    if (mTimerSingleFish > 0.3f)
+                    {
+                        mTimerSingleFish = 0;
+                        TestOneFish();
+                    }
+                    break;
+                case 1:
+                    if (testseason)
+                    {
+                        TestFishSeason();
+                        testseason = false;
+                    }
+                    
+                    break;
+                case 2:
+                    break;
+                default:
+                    break;
             }
-            if (mTimerSingleFish > 0.3f)
-            {
-                mTimerSingleFish = 0;
-                TestOneFish();
-            }
-        }
-        return;
-        mEvent = GetEvent(dt);
-        if(mEvent == null) return;
-        switch (mEvent.et)
-        {
-            case 0:
-                break;
-            case 1:
-                break;
-            case 2:
-                break;
-            default:
-                break;
         }
     }
 
     public void LoadEventConfig()
     {
-        string filepath = Application.dataPath + "/Resources/event.bytes";
-        FileStream fs = new FileStream(filepath,FileMode.Open);
-        StreamReader sr = new StreamReader(fs);
-        string jsonStr = sr.ReadToEnd();
-        mEventList = JsonMapper.ToObject<List<FishEvent>>(jsonStr);
+        TextAsset textAsset = ResourcesManager.GetInstance().LoadLocalAsset("event") as TextAsset;
+        if (textAsset != null)
+        {
+            mEventList = JsonMapper.ToObject<List<FishEvent>>(textAsset.text);
+        }
     }
 
     public void CaculateBeginAndEndTime()
@@ -158,5 +165,19 @@ public class EventManager
         Vector3 headPosition = new Vector3(hBound * flag, Random.Range(yBottom + 20, yUp - 20), Random.Range(96, 96 + 20));
         Vector3 bornEulerAngles = new Vector3(Random.Range(-20, 20), -Random.Range(80, 100) * flag, 0);
         FishManager.GetInstance().CreateFish(fishid, headPosition, bornEulerAngles, pathid, speed, 0);
+    }
+
+    public void TestFishSeason()
+    {
+        FishSeason season = SeasonConfigManager.GetInstance().GetSeason(0);
+        if (season == null)
+            return;
+        foreach (OneWave wave in season.waves)
+        {
+            foreach (WaveFish fish in wave.fishes)
+            {
+                FishManager.GetInstance().CreateFish(fish.fkid,wave.o + fish.p, wave.ea, wave.pathid, wave.speed, -fish.p.x / 40.0f);
+            }
+        }
     }
 }

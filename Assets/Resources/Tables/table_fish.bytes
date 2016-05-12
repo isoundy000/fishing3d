@@ -1,3 +1,3 @@
-id	Name	Prefab	路径id
-0	小丑鱼	Fish_0	0,1
-1	魔鬼鱼	Fish_1	2,3
+id	Name	Prefab	路径id	生成概率
+0	小丑鱼	Fish_0	0,1	10
+1	魔鬼鱼	Fish_1	2,3	1

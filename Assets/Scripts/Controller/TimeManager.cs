@@ -32,5 +32,9 @@ public class TimeManager
     public void Update(float dt)
     {
         mGameTime += dt;
+        if (mGameTime > 20)
+        {
+            mGameTime = 0;
+        }
     }
 }

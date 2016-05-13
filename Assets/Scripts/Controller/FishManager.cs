@@ -87,6 +87,7 @@ public class FishManager
         fishcom.Speed = speed;
         fishcom.FishPathData = PathConfigManager.GetInstance().GetPath(pathid);
         fishcom.UnActiveTime = unactiveTime;
+        fishcom.FishRecord = record;
     }
 
     public GameObject GetUnActiveFishFromCache(int fishid)

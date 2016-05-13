@@ -76,14 +76,30 @@ public class Fish : MonoBehaviour {
         set { mFishKindId = value; }
     }
 
+    private Record_Fish mFishRecord;
+    public Record_Fish FishRecord
+    {
+        get { return mFishRecord; }
+        set { mFishRecord = value; }
+    }
+
 	// Use this for initialization
 	void Start ()
     {
         Animation anim = GetComponent<Animation>();
         foreach (AnimationState state in anim)
         {
-            state.speed = mSpeed / 50.0f;
+            if(FishKindId != 2)
+                state.speed = mSpeed / 50.0f;
             state.time = Random.Range(0, 2f);
+            if (state.name.Contains( "catch"))
+            {
+                AnimationEvent animevent = new AnimationEvent();
+                animevent.functionName = "DeadCallback";
+                animevent.intParameter = mFishRecord.id;
+                animevent.time = state.length;
+                state.clip.AddEvent(animevent);
+            }
         }
 	}
 
@@ -207,5 +223,10 @@ public class Fish : MonoBehaviour {
         oneFinePoint = mFishPath.CaculateOneFinePoint(transform.localPosition, transform.eulerAngles, step, dt);
         transform.localPosition = oneFinePoint.position;
         transform.eulerAngles = oneFinePoint.rotation;
+    }
+
+    public void DeadCallback(int fishkindid)
+    {
+        this.GetComponent<Animation>().Play(mFishRecord.moveAnimationName);
     }
 }

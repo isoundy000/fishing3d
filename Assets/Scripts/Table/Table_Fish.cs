@@ -9,6 +9,8 @@ public class Record_Fish : Record
     public string prefabName;
     public int[] pathids;
     public int probablity;
+    public string moveAnimationName;
+    public string deadAnimationName;
 }
 
 public class Table_Fish : GameTable
@@ -19,7 +21,9 @@ public class Table_Fish : GameTable
         Name,
         PrefabName,
         PathIds,
-        Probability
+        Probability,
+        MoveAnimationName,
+        DeadAnimationName
     }
 
     public override void Destroy()
@@ -60,6 +64,12 @@ public class Table_Fish : GameTable
                 break;
             case FishRecordField.Probability:
                 record.probablity = int.Parse(values);
+                break;
+            case FishRecordField.MoveAnimationName:
+                record.moveAnimationName = values;
+                break;
+            case FishRecordField.DeadAnimationName:
+                record.deadAnimationName = values;
                 break;
         }
     }

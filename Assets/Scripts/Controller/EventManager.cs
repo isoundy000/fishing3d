@@ -158,10 +158,15 @@ public class EventManager
         int flag = temp[Random.Range(0, 2)];
         float speed = Random.Range(40, 70);
         int pathid = Random.Range(0, 5);
-        int[] temp1 = new int[10] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 };
+        int[] temp1 = new int[10] { 0, 0, 0, 0, 0, 2, 0, 0, 0, 1 };
         int fishid = temp1[Random.Range(0, 10)];
-        if (fishid == 1)
+        if (fishid == 1 )
             speed = 30;
+        if (fishid == 2)
+        {
+            speed = 20;
+            pathid = 0;
+        }
         Vector3 headPosition = new Vector3(hBound * flag, Random.Range(yBottom + 20, yUp - 20), Random.Range(96, 96 + 20));
         Vector3 bornEulerAngles = new Vector3(Random.Range(-20, 20), -Random.Range(80, 100) * flag, 0);
         FishManager.GetInstance().CreateFish(fishid, headPosition, bornEulerAngles, pathid, speed, 0);

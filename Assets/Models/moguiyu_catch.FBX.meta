@@ -1,6 +1,6 @@
 fileFormatVersion: 2
-guid: 6061111d0e8300b44986198db966c83e
-timeCreated: 1462843765
+guid: 876ecf7ef7aff0643b9723a365d236a9
+timeCreated: 1463115849
 licenseType: Free
 ModelImporter:
   serializedVersion: 19
@@ -34,8 +34,8 @@ ModelImporter:
     100052: Bone19
     100054: Dummy01
     100056: Dummy02
-    100058: //RootNode
-    100060: moguiyu
+    100058: moguiyu
+    100060: //RootNode
     100062: Object05
     100064: Object05 1
     100066: Omni01
@@ -86,8 +86,8 @@ ModelImporter:
     400052: Bone19
     400054: Dummy01
     400056: Dummy02
-    400058: //RootNode
-    400060: moguiyu
+    400058: moguiyu
+    400060: //RootNode
     400062: Object05
     400064: Object05 1
     400066: Omni01
@@ -110,7 +110,7 @@ ModelImporter:
     400100: "VR_\u5149\u6E9011"
     400102: "VR_\u73AF\u5883\u514901"
     4300000: moguiyu
-    7400000: moguiyu_move
+    7400000: moguiyu_catch
     9500000: //RootNode
     11100000: //RootNode
     13700000: moguiyu
@@ -136,11 +136,11 @@ ModelImporter:
     extraExposedTransformPaths: []
     clipAnimations:
     - serializedVersion: 16
-      name: moguiyu_move
+      name: moguiyu_catch
       takeName: Take 001
       firstFrame: 0
       lastFrame: 30
-      wrapMode: 2
+      wrapMode: 0
       orientationOffsetY: 0
       level: 0
       cycleOffset: 0

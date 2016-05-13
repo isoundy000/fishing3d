@@ -105,6 +105,7 @@ ModelImporter:
     4300002: "\u9CA8\u9C7C_\u773C\u76AE"
     7400000: shayu_catch
     9500000: //RootNode
+    11100000: //RootNode
     13700000: "\u9CA8\u9C7C"
   materials:
     importMaterials: 1
@@ -286,7 +287,7 @@ ModelImporter:
     rootMotionBoneName: 
     hasTranslationDoF: 0
   lastHumanDescriptionAvatarSource: {instanceID: 0}
-  animationType: 2
+  animationType: 1
   humanoidOversampling: 1
   additionalBone: 0
   userData: 

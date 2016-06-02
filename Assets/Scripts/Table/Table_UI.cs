@@ -6,6 +6,7 @@ public class Record_UI : Record
 {
     public string name;
     public string prefabName;
+    public string scriptName;
 }
 
 public class Table_UI : GameTable
@@ -14,7 +15,8 @@ public class Table_UI : GameTable
     {
         Id = 0,
         Name,
-        PrefabName
+        PrefabName,
+        ScriptName,
     }
 
     public override void Destroy()
@@ -43,6 +45,9 @@ public class Table_UI : GameTable
                 break;
             case UIRecordField.PrefabName:
                 record.prefabName = values;
+                break;
+            case UIRecordField.ScriptName:
+                record.scriptName = values;
                 break;
         }
     }

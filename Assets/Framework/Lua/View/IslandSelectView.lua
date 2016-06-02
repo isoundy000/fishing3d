@@ -13,9 +13,10 @@ function IslandSelectView:initView()
 		local island1Btn = self.transform:FindChild("Button" .. i):GetComponent("JJButton")
 		island1Btn:AddClickCallback(self,self.onClickIslandBtn)
 	end
-
+	self.label_ = self.transform:FindChild("Text"):GetComponent("JJLabel")
 end
 
 function IslandSelectView:onClickIslandBtn(obj)
 	print(obj.name)
+	self.label_.Text = obj.name
 end

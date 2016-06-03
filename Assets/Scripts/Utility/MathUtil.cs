@@ -43,9 +43,10 @@ public class MathUtil
     /// <returns></returns>
     public static Vector3 ScreenPos_to_NGUIPos(Vector3 screenPos)
     {
-        Vector3 uiPos = UICamera.currentCamera.ScreenToWorldPoint(screenPos);
-        uiPos = UICamera.currentCamera.transform.InverseTransformPoint(uiPos);
-        return uiPos;
+        //Vector3 uiPos = UICamera.currentCamera.ScreenToWorldPoint(screenPos);
+        //uiPos = UICamera.currentCamera.transform.InverseTransformPoint(uiPos);
+        //return uiPos;
+        return Vector3.one;
     }
 
     /// <summary>

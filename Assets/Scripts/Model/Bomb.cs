@@ -4,7 +4,7 @@ using System.Collections;
 public class Bomb : MonoBehaviour
 {
     public Transform uiRoot;
-    private UISpriteAnimation mBombSprite;
+    //private UISpriteAnimation mBombSprite;
 
     // Use this for initialization
     void Start()
@@ -20,13 +20,13 @@ public class Bomb : MonoBehaviour
 
     public void BombAction()
     {
-        if (mBombSprite == null)
-        {
-            mBombSprite = transform.FindChild("Animation").GetComponent<UISpriteAnimation>();
-            mBombSprite.loop = false;
-            mBombSprite.Callback = new UISpriteAnimation.AnimationCallback(BombCallback);
-        }
-        mBombSprite.Play();
+        //if (mBombSprite == null)
+        //{
+        //    mBombSprite = transform.FindChild("Animation").GetComponent<UISpriteAnimation>();
+        //    mBombSprite.loop = false;
+        //    mBombSprite.Callback = new UISpriteAnimation.AnimationCallback(BombCallback);
+        //}
+        //mBombSprite.Play();
     }
 
     public void BombCallback()

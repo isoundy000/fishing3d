@@ -3,13 +3,13 @@ using System.Collections;
 
 public class Cannon : MonoBehaviour {
 
-    private UISpriteAnimation mCannonSprite;
+    //private UISpriteAnimation mCannonSprite;
 
 	// Use this for initialization
 	void Start ()
     {
-        mCannonSprite = transform.FindChild("Animation").GetComponent<UISpriteAnimation>();
-        mCannonSprite.loop = false;
+        //mCannonSprite = transform.FindChild("Animation").GetComponent<UISpriteAnimation>();
+        //mCannonSprite.loop = false;
 	}
 	
 	// Update is called once per frame
@@ -19,6 +19,6 @@ public class Cannon : MonoBehaviour {
 
     public void FireAction()
     {
-        mCannonSprite.Play();
+        //mCannonSprite.Play();
     }
 }

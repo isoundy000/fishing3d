@@ -184,8 +184,8 @@ public class Packager {
         if (!Directory.Exists(luaPath)) {
             Directory.CreateDirectory(luaPath);
         }
-        string[] luaPaths = { AppDataPath + "/LuaFramework/lua/",
-                              AppDataPath + "/LuaFramework/Tolua/Lua/" };
+        string[] luaPaths = { AppDataPath + "/Framework/lua/",
+                              AppDataPath + "/Framework/Tolua/Lua/" };
 
         for (int i = 0; i < luaPaths.Length; i++) {
             paths.Clear(); files.Clear();

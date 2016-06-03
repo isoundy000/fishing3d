@@ -18,5 +18,5 @@ end
 
 function IslandSelectView:onClickIslandBtn(obj)
 	print(obj.name)
-	self.label_.Text = obj.name
+	self.label_.Text = obj.name .. "wzw"
 end

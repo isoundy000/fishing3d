@@ -75,8 +75,7 @@ public class Packager {
             HandleExampleBundle();
         }
         string resPath = "Assets/" + AppConst.AssetDir;
-        BuildAssetBundleOptions options = BuildAssetBundleOptions.DeterministicAssetBundle | 
-                                          BuildAssetBundleOptions.UncompressedAssetBundle;
+        BuildAssetBundleOptions options = BuildAssetBundleOptions.DeterministicAssetBundle;
         BuildPipeline.BuildAssetBundles(resPath, maps.ToArray(), options, target);
         BuildFileIndex();
 
@@ -168,8 +167,7 @@ public class Packager {
         //AddBuildMap("message" + AppConst.ExtName, "*.prefab", "Assets/LuaFramework/Examples/Builds/Message");
         AddBuildMap("ui" + AppConst.ExtName, "*.prefab", "Assets/Framework/UIPrefabs");
 
-        //AddBuildMap("prompt_asset" + AppConst.ExtName, "*.png", "Assets/LuaFramework/Examples/Textures/Prompt");
-        //AddBuildMap("shared_asset" + AppConst.ExtName, "*.png", "Assets/LuaFramework/Examples/Textures/Shared");
+        AddBuildMap("shared_asset" + AppConst.ExtName, "*.png", "Assets/Textures/");
     }
 
     /// <summary>
@@ -183,8 +181,8 @@ public class Packager {
         if (!Directory.Exists(luaPath)) {
             Directory.CreateDirectory(luaPath); 
         }
-        string[] luaPaths = { AppDataPath + "/LuaFramework/lua/", 
-                              AppDataPath + "/LuaFramework/Tolua/Lua/" };
+        string[] luaPaths = { AppDataPath + "/Framework/lua/", 
+                              AppDataPath + "/Framework/Tolua/Lua/" };
 
         for (int i = 0; i < luaPaths.Length; i++) {
             paths.Clear(); files.Clear();

@@ -4,7 +4,6 @@ function IslandSelectView:ctor(gameObject)
 	print("IslandSelectView created!")
 	self.gameObject = gameObject
 	self.transform = gameObject.transform
-
 	self:initView()
 end
 

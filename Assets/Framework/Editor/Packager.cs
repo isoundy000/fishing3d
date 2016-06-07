@@ -74,8 +74,10 @@ public class Packager {
         if (AppConst.ExampleMode) {
             HandleExampleBundle();
         }
+        HandleGameBundle();
         string resPath = "Assets/" + AppConst.AssetDir;
-        BuildAssetBundleOptions options = BuildAssetBundleOptions.DeterministicAssetBundle;
+        BuildAssetBundleOptions options = BuildAssetBundleOptions.DeterministicAssetBundle |
+                                          BuildAssetBundleOptions.UncompressedAssetBundle;
         BuildPipeline.BuildAssetBundles(resPath, maps.ToArray(), options, target);
         BuildFileIndex();
 
@@ -121,7 +123,7 @@ public class Packager {
                     string dir = Path.GetDirectoryName(dest);
                     Directory.CreateDirectory(dir);
                     EncodeLuaFile(files[j], dest);
-                }    
+                }
             } else {
                 ToLuaMenu.CopyLuaBytesFiles(srcDirs[i], streamDir);
             }
@@ -167,7 +169,8 @@ public class Packager {
         //AddBuildMap("message" + AppConst.ExtName, "*.prefab", "Assets/LuaFramework/Examples/Builds/Message");
         AddBuildMap("ui" + AppConst.ExtName, "*.prefab", "Assets/Framework/UIPrefabs");
 
-        AddBuildMap("shared_asset" + AppConst.ExtName, "*.png", "Assets/Textures/");
+        //AddBuildMap("prompt_asset" + AppConst.ExtName, "*.png", "Assets/LuaFramework/Examples/Textures/Prompt");
+        //AddBuildMap("shared_asset" + AppConst.ExtName, "*.png", "Assets/LuaFramework/Examples/Textures/Shared");
     }
 
     /// <summary>
@@ -179,9 +182,9 @@ public class Packager {
 
         //----------复制Lua文件----------------
         if (!Directory.Exists(luaPath)) {
-            Directory.CreateDirectory(luaPath); 
+            Directory.CreateDirectory(luaPath);
         }
-        string[] luaPaths = { AppDataPath + "/Framework/lua/", 
+        string[] luaPaths = { AppDataPath + "/Framework/lua/",
                               AppDataPath + "/Framework/Tolua/Lua/" };
 
         for (int i = 0; i < luaPaths.Length; i++) {
@@ -205,7 +208,7 @@ public class Packager {
                     File.Copy(f, newpath, true);
                 }
                 UpdateProgress(n++, files.Count, newpath);
-            } 
+            }
         }
         EditorUtility.ClearProgressBar();
         AssetDatabase.Refresh();
@@ -329,5 +332,12 @@ public class Packager {
             pro.WaitForExit();
         }
         AssetDatabase.Refresh();
+    }
+
+    static void HandleGameBundle() {
+        string resPath = AppDataPath + "/" + AppConst.AssetDir + "/";
+        if (!Directory.Exists(resPath)) Directory.CreateDirectory(resPath);
+
+        AddBuildMap("ui" + AppConst.ExtName, "*.prefab", "Assets/Framework/UIPrefabs");
     }
 }

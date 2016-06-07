@@ -4,9 +4,11 @@ using UnityEngine.UI;
 
 public class JJLabel : MonoBehaviour {
 
+    Text textComponent;
 	// Use this for initialization
-	void Start () {
-	    
+	void Start ()
+    {
+        textComponent = this.GetComponent<Text>();
 	}
 	
 	// Update is called once per frame
@@ -18,14 +20,36 @@ public class JJLabel : MonoBehaviour {
     {
         get 
         {
-            Text text = this.GetComponent<Text>();
-            return text.text;
+            return textComponent.text;
         }
         set
         {
-            Text text = this.GetComponent<Text>();
-            text.text = value;
-            print(text.font.name);
+            textComponent.text = value;
+        }
+    }
+
+    public int FontSize
+    {
+        set { textComponent.fontSize = value; }
+    }
+
+    public int FontStyle
+    {
+        set 
+        {
+            textComponent.fontStyle = (UnityEngine.FontStyle)value;
+        }
+    }
+
+    public Color FontColor
+    {
+        get
+        {
+            return textComponent.color;
+        }
+        set 
+        {
+            textComponent.color = value;
         }
     }
 }

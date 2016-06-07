@@ -10,6 +10,9 @@ public class JJLabelWrap
 		L.RegFunction("__eq", op_Equality);
 		L.RegFunction("__tostring", Lua_ToString);
 		L.RegVar("Text", get_Text, set_Text);
+		L.RegVar("FontSize", null, set_FontSize);
+		L.RegVar("FontStyle", null, set_FontStyle);
+		L.RegVar("FontColor", get_FontColor, set_FontColor);
 		L.EndClass();
 	}
 
@@ -68,6 +71,25 @@ public class JJLabelWrap
 	}
 
 	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+	static int get_FontColor(IntPtr L)
+	{
+		object o = null;
+
+		try
+		{
+			o = ToLua.ToObject(L, 1);
+			JJLabel obj = (JJLabel)o;
+			UnityEngine.Color ret = obj.FontColor;
+			ToLua.Push(L, ret);
+			return 1;
+		}
+		catch(Exception e)
+		{
+			return LuaDLL.toluaL_exception(L, e, o == null ? "attempt to index FontColor on a nil value" : e.Message);
+		}
+	}
+
+	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
 	static int set_Text(IntPtr L)
 	{
 		object o = null;
@@ -83,6 +105,63 @@ public class JJLabelWrap
 		catch(Exception e)
 		{
 			return LuaDLL.toluaL_exception(L, e, o == null ? "attempt to index Text on a nil value" : e.Message);
+		}
+	}
+
+	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+	static int set_FontSize(IntPtr L)
+	{
+		object o = null;
+
+		try
+		{
+			o = ToLua.ToObject(L, 1);
+			JJLabel obj = (JJLabel)o;
+			int arg0 = (int)LuaDLL.luaL_checknumber(L, 2);
+			obj.FontSize = arg0;
+			return 0;
+		}
+		catch(Exception e)
+		{
+			return LuaDLL.toluaL_exception(L, e, o == null ? "attempt to index FontSize on a nil value" : e.Message);
+		}
+	}
+
+	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+	static int set_FontStyle(IntPtr L)
+	{
+		object o = null;
+
+		try
+		{
+			o = ToLua.ToObject(L, 1);
+			JJLabel obj = (JJLabel)o;
+			int arg0 = (int)LuaDLL.luaL_checknumber(L, 2);
+			obj.FontStyle = arg0;
+			return 0;
+		}
+		catch(Exception e)
+		{
+			return LuaDLL.toluaL_exception(L, e, o == null ? "attempt to index FontStyle on a nil value" : e.Message);
+		}
+	}
+
+	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+	static int set_FontColor(IntPtr L)
+	{
+		object o = null;
+
+		try
+		{
+			o = ToLua.ToObject(L, 1);
+			JJLabel obj = (JJLabel)o;
+			UnityEngine.Color arg0 = ToLua.ToColor(L, 2);
+			obj.FontColor = arg0;
+			return 0;
+		}
+		catch(Exception e)
+		{
+			return LuaDLL.toluaL_exception(L, e, o == null ? "attempt to index FontColor on a nil value" : e.Message);
 		}
 	}
 }

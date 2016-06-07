@@ -136,7 +136,8 @@ public static class CustomSettings
         _GT(typeof(ResourceManager)),	
 	    _GT(typeof(PrimitiveType)),
         _GT(typeof(JJButton)),
-        _GT(typeof(JJLabel))
+        _GT(typeof(JJLabel)),
+        _GT(typeof(LeanTween))
     };
 
     public static List<Type> dynamicList = new List<Type>()

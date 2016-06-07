@@ -31,18 +31,17 @@ local transform;
 local gameObject;
 local WWW = UnityEngine.WWW;
 
-function Game.InitViewPanels()
-	
+local GameTableManager = require("Tables.FishingGametableManager")
+
+function Game:initConfigs()
+    GameTableManager:loadTables()
 end
 
 --初始化完成，发送链接服务器信息--
-function Game.OnInitOK()
+function Game:OnInitOK()
     AppConst.SocketPort = 2012;
     AppConst.SocketAddress = "127.0.0.1";
     networkMgr:SendConnect();
-
-    --注册LuaView--
-    this.InitViewPanels();
 
     this.test_class_func();
     this.test_pblua_func();
@@ -52,12 +51,18 @@ function Game.OnInitOK()
     this.test_sproto_func();
     coroutine.start(this.test_coroutine);
 
-    --CtrlManager.Init();
-    --local ctrl = CtrlManager.GetCtrl(CtrlNames.Prompt);
-    --if ctrl ~= nil and AppConst.ExampleMode then
-    --    ctrl:Awake();
-    --end
-    panelMgr:CreatePanel('IslandSelect', this.OnCreate);
+    self:initConfigs()
+
+    local uitable = GameTableManager:getTable("table_ui")
+    print("uitable",uitable)
+    if uitable then
+        local record = uitable:getRecordByName("IslandSelect")
+        print("record",record)
+        if record then
+            panelMgr:CreatePanel(record.prefabName, record.scriptName, this.OnCreate);
+        end
+    end
+    
        
     logWarn('LuaFramework InitOK--->>>');
 end

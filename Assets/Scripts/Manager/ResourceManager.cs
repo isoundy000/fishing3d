@@ -227,6 +227,23 @@ namespace LuaFramework {
                 Debug.Log(abName + " has been unloaded successfully");
             }
         }
+
+        public string LoadTable(string tableName)
+        {
+            switch (Application.platform)
+            {
+                case RuntimePlatform.WindowsEditor:
+                    TextAsset ta = Resources.Load<TextAsset>("Tables/" + tableName);
+                    if (ta != null)
+                        return ta.text;
+                    else
+                        return string.Empty;
+                    break;
+                case RuntimePlatform.Android:
+                    break;
+            }
+            return string.Empty;
+        }
     }
 }
 #else

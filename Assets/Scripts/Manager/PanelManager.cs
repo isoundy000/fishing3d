@@ -24,12 +24,11 @@ namespace LuaFramework {
         /// 创建面板，请求资源管理器
         /// </summary>
         /// <param name="type"></param>
-        public void CreatePanel(string name, LuaFunction func = null) {
-            string assetName = "View_" + name;
-            //string abName = name.ToLower() + AppConst.ExtName;
+        public void CreatePanel(string prefabName, string scriptName, LuaFunction func = null)
+        {
             string abName = "ui" + AppConst.ExtName;
-
-            ResManager.LoadPrefab(abName, assetName, delegate(UnityEngine.Object[] objs) {
+            ResManager.LoadPrefab(abName, prefabName, delegate(UnityEngine.Object[] objs)
+            {
                 if (objs.Length == 0) return;
                 // Get the asset.
                 GameObject prefab = objs[0] as GameObject;
@@ -38,13 +37,13 @@ namespace LuaFramework {
                     return;
                 }
                 GameObject go = Instantiate(prefab) as GameObject;
-                go.name = assetName;
+                go.name = prefabName;
                 go.layer = LayerMask.NameToLayer("UI");
                 go.transform.SetParent(Parent);
                 go.transform.localScale = Vector3.one;
                 go.transform.localPosition = Vector3.zero;
                 ScriptProxy scriptPorxy = go.AddComponent<ScriptProxy>();
-                scriptPorxy.className = "IslandSelectView";
+                scriptPorxy.className = scriptName;
                 scriptPorxy.InitScript();
 
                 if (func != null) func.Call(go);

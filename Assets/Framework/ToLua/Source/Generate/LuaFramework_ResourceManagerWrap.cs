@@ -10,6 +10,7 @@ public class LuaFramework_ResourceManagerWrap
 		L.RegFunction("Initialize", Initialize);
 		L.RegFunction("LoadPrefab", LoadPrefab);
 		L.RegFunction("UnloadAssetBundle", UnloadAssetBundle);
+		L.RegFunction("LoadTable", LoadTable);
 		L.RegFunction("__eq", op_Equality);
 		L.RegFunction("__tostring", Lua_ToString);
 		L.EndClass();
@@ -124,6 +125,24 @@ public class LuaFramework_ResourceManagerWrap
 			string arg0 = ToLua.CheckString(L, 2);
 			obj.UnloadAssetBundle(arg0);
 			return 0;
+		}
+		catch(Exception e)
+		{
+			return LuaDLL.toluaL_exception(L, e);
+		}
+	}
+
+	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+	static int LoadTable(IntPtr L)
+	{
+		try
+		{
+			ToLua.CheckArgsCount(L, 2);
+			LuaFramework.ResourceManager obj = (LuaFramework.ResourceManager)ToLua.CheckObject(L, 1, typeof(LuaFramework.ResourceManager));
+			string arg0 = ToLua.CheckString(L, 2);
+			string o = obj.LoadTable(arg0);
+			LuaDLL.lua_pushstring(L, o);
+			return 1;
 		}
 		catch(Exception e)
 		{

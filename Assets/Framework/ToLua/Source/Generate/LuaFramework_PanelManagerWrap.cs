@@ -18,11 +18,12 @@ public class LuaFramework_PanelManagerWrap
 	{
 		try
 		{
-			ToLua.CheckArgsCount(L, 3);
+			ToLua.CheckArgsCount(L, 4);
 			LuaFramework.PanelManager obj = (LuaFramework.PanelManager)ToLua.CheckObject(L, 1, typeof(LuaFramework.PanelManager));
 			string arg0 = ToLua.CheckString(L, 2);
-			LuaFunction arg1 = ToLua.CheckLuaFunction(L, 3);
-			obj.CreatePanel(arg0, arg1);
+			string arg1 = ToLua.CheckString(L, 3);
+			LuaFunction arg2 = ToLua.CheckLuaFunction(L, 4);
+			obj.CreatePanel(arg0, arg1, arg2);
 			return 0;
 		}
 		catch(Exception e)

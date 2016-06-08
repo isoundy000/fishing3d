@@ -727,6 +727,12 @@ public class LTDescrImpl : LTDescr {
 		return this;
 	}
 
+    public LTDescr setOnCompleteCallback(Action<object> onComplete, object param)
+    {
+        this.setOnComplete(onComplete, param);
+        return this;
+    }
+
 	/**
 	* Have a method called when the tween finishes
 	* @method setOnComplete (object)

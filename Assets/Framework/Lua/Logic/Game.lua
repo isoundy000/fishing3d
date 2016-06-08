@@ -21,7 +21,8 @@ require "Common/common"
 require "Common/BaseState"
 local LuaTest = require "Logic/LuaTest"
 local Cube = require "Logic/Cube"
-local PanelTest = require "View/IslandSelectView"
+require "View/IslandSelectView"
+
 --管理器--
 local Game = {};
 local this = Game;
@@ -32,6 +33,7 @@ local gameObject;
 local WWW = UnityEngine.WWW;
 
 local GameTableManager = require("Tables.FishingGametableManager")
+local GameUIManager = require("Logic.GameUIManager")
 
 function Game:initConfigs()
     GameTableManager:loadTables()
@@ -52,16 +54,7 @@ function Game:OnInitOK()
     coroutine.start(this.test_coroutine);
 
     self:initConfigs()
-
-    local uitable = GameTableManager:getTable("table_ui")
-    print("uitable",uitable)
-    if uitable then
-        local record = uitable:getRecordByName("IslandSelect")
-        print("record",record)
-        if record then
-            panelMgr:CreatePanel(record.prefabName, record.scriptName, this.OnCreate);
-        end
-    end
+    GameUIManager:showView("IslandSelect")
     
        
     logWarn('LuaFramework InitOK--->>>');

@@ -1,3 +1,4 @@
 id	View名称	Prefab	ScriptName
 1	IslandSelect	View_IslandSelect	IslandSelectView
 2	Debug	View_Debug	
+3	ScrollViewTest	View_ScrollViewTest	ScrollViewTest

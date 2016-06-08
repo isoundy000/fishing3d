@@ -20,8 +20,8 @@ public class JJButtonWrap
 		{
 			ToLua.CheckArgsCount(L, 3);
 			JJButton obj = (JJButton)ToLua.CheckObject(L, 1, typeof(JJButton));
-			LuaTable arg0 = ToLua.CheckLuaTable(L, 2);
-			LuaFunction arg1 = ToLua.CheckLuaFunction(L, 3);
+			LuaFunction arg0 = ToLua.CheckLuaFunction(L, 2);
+			object arg1 = ToLua.ToVarObject(L, 3);
 			obj.AddClickCallback(arg0, arg1);
 			return 0;
 		}

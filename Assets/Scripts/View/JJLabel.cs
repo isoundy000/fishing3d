@@ -4,11 +4,11 @@ using UnityEngine.UI;
 
 public class JJLabel : MonoBehaviour {
 
-    Text textComponent;
+    UILabel textComponent;
 	// Use this for initialization
 	void Start ()
     {
-        textComponent = this.GetComponent<Text>();
+        textComponent = this.GetComponent<UILabel>();
 	}
 	
 	// Update is called once per frame

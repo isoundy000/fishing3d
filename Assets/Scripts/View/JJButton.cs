@@ -16,12 +16,13 @@ public class JJButton : MonoBehaviour {
 	
 	}
 
-    public void AddClickCallback(LuaTable table , LuaFunction luafunc)
+    public void AddClickCallback(LuaFunction luafunc,object param)
     {
-        this.gameObject.GetComponent<Button>().onClick.AddListener(
+        UIButton btn = this.gameObject.GetComponent<UIButton>();
+        EventDelegate.Add(btn.onClick ,
                 delegate()
                 {
-                    luafunc.Call(table,this.gameObject);
+                    luafunc.Call(param);
                 }
         );
     }

@@ -37,23 +37,23 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     filterMode: -1
-    aniso: -1
+    aniso: 16
     mipBias: -1
     wrapMode: 1
-  nPOTScale: 0
+  nPOTScale: 1
   lightmap: 0
   rGBM: 0
   compressionQuality: 50
   allowsAlphaSplitting: 0
-  spriteMode: 2
+  spriteMode: 0
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spritePixelsToUnits: 100
-  alphaIsTransparency: 1
-  textureType: 8
+  alphaIsTransparency: 0
+  textureType: 0
   buildTargetSettings: []
   spriteSheet:
     sprites:
@@ -68,14 +68,15 @@ TextureImporter:
       pivot: {x: 0.5, y: 0.5263158}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline:
-      - - {x: -14.5, y: -24}
-        - {x: 34.5, y: -24}
-        - {x: 46.5, y: -18}
-        - {x: 46.5, y: 15}
-        - {x: 43.5, y: 21}
-        - {x: -0.5, y: 21}
-        - {x: -44.5, y: 14}
+      - - {x: -14.5, y: 21}
+        - {x: -36.5, y: 17}
+        - {x: -44.5, y: 10}
         - {x: -44.5, y: -5}
+        - {x: -8.5, y: -24}
+        - {x: 33.5, y: -24}
+        - {x: 46.5, y: -9}
+        - {x: 46.5, y: 11}
+        - {x: 39.5, y: 21}
     - name: citun_move_01
       rect:
         serializedVersion: 2
@@ -87,13 +88,15 @@ TextureImporter:
       pivot: {x: 0.5053192, y: 0.4528302}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline:
-      - - {x: -9.500004, y: -24}
-        - {x: 31.499996, y: -24}
-        - {x: 46.499996, y: -14}
-        - {x: 46.499996, y: 23}
-        - {x: -18.500004, y: 23}
-        - {x: -43.500004, y: 18}
-        - {x: -43.500004, y: -3}
+      - - {x: -0.5000038, y: 23}
+        - {x: -42.500004, y: 8}
+        - {x: -43.500004, y: 7}
+        - {x: -43.500004, y: -2}
+        - {x: -0.5000038, y: -24}
+        - {x: 42.499996, y: -24}
+        - {x: 46.499996, y: -13}
+        - {x: 46.499996, y: 20}
+        - {x: 29.499996, y: 23}
     - name: citun_move_02
       rect:
         serializedVersion: 2
@@ -106,13 +109,14 @@ TextureImporter:
       border: {x: 0, y: 0, z: 0, w: 0}
       outline:
       - - {x: -1.5, y: 24}
-        - {x: -43.5, y: 13}
-        - {x: -43.5, y: -4}
-        - {x: -6.5, y: -23}
-        - {x: 33.5, y: -23}
-        - {x: 47.5, y: -10}
-        - {x: 47.5, y: 11}
-        - {x: 41.5, y: 24}
+        - {x: -43.5, y: 15}
+        - {x: -43.5, y: -6}
+        - {x: -4.5, y: -23}
+        - {x: 30.5, y: -23}
+        - {x: 32.5, y: -22}
+        - {x: 47.5, y: -6}
+        - {x: 47.5, y: 12}
+        - {x: 40.5, y: 24}
     - name: citun_move_03
       rect:
         serializedVersion: 2
@@ -124,14 +128,14 @@ TextureImporter:
       pivot: {x: 0.47802198, y: 0.47692308}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline:
-      - - {x: 4.5, y: 23}
-        - {x: -43.5, y: 7}
-        - {x: -43.5, y: -12}
-        - {x: -12.5, y: -22}
-        - {x: 43.5, y: -22}
-        - {x: 47.5, y: -16}
-        - {x: 47.5, y: 9}
-        - {x: 40.5, y: 23}
+      - - {x: -43.5, y: -9}
+        - {x: -39.5, y: -18}
+        - {x: -9.5, y: -22}
+        - {x: 39.5, y: -22}
+        - {x: 47.5, y: -6}
+        - {x: 47.5, y: 23}
+        - {x: -29.5, y: 23}
+        - {x: -43.5, y: 21}
     - name: citun_move_04
       rect:
         serializedVersion: 2
@@ -143,15 +147,15 @@ TextureImporter:
       pivot: {x: 0.48333332, y: 0.43636364}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline:
-      - - {x: -43.5, y: -17}
-        - {x: -25.5, y: -23}
-        - {x: 29.5, y: -23}
-        - {x: 46.5, y: -13}
-        - {x: 46.5, y: 10}
-        - {x: 38.5, y: 20}
-        - {x: 31.5, y: 23}
-        - {x: -8.5, y: 23}
-        - {x: -43.5, y: 1}
+      - - {x: 11.5, y: 23}
+        - {x: -42.5, y: 0}
+        - {x: -43.5, y: -1}
+        - {x: -43.5, y: -9}
+        - {x: -16.5, y: -23}
+        - {x: 35.5, y: -23}
+        - {x: 46.5, y: -18}
+        - {x: 46.5, y: 6}
+        - {x: 32.5, y: 23}
     - name: citun_move_05
       rect:
         serializedVersion: 2
@@ -163,14 +167,17 @@ TextureImporter:
       pivot: {x: 0.5, y: 0.52}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline:
-      - - {x: -43.5, y: -13}
-        - {x: -18.5, y: -23}
+      - - {x: 6.5, y: 21}
+        - {x: -26.5, y: 13}
+        - {x: -43.5, y: -2}
+        - {x: -43.5, y: -8}
+        - {x: -42.5, y: -10}
+        - {x: -3.5, y: -21}
+        - {x: 5.5, y: -23}
         - {x: 33.5, y: -23}
-        - {x: 46.5, y: -17}
-        - {x: 46.5, y: 18}
-        - {x: 45.5, y: 21}
-        - {x: 3.5, y: 21}
-        - {x: -43.5, y: 8}
+        - {x: 46.5, y: -9}
+        - {x: 46.5, y: 9}
+        - {x: 38.5, y: 21}
     - name: citun_move_06
       rect:
         serializedVersion: 2
@@ -182,15 +189,14 @@ TextureImporter:
       pivot: {x: 0.5, y: 0.53571427}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline:
-      - - {x: 26.5, y: 21}
-        - {x: 5.5, y: 21}
-        - {x: -43.5, y: 3}
-        - {x: -43.5, y: -8}
-        - {x: -3.5, y: -24}
-        - {x: 35.5, y: -24}
-        - {x: 46.5, y: -8}
-        - {x: 46.5, y: 8}
-        - {x: 35.5, y: 18}
+      - - {x: -4.5, y: 21}
+        - {x: -43.5, y: 11}
+        - {x: -43.5, y: -13}
+        - {x: 1.5, y: -24}
+        - {x: 38.5, y: -24}
+        - {x: 46.5, y: -11}
+        - {x: 46.5, y: 13}
+        - {x: 41.5, y: 21}
     outline: []
   spritePackingTag: 
   userData: 

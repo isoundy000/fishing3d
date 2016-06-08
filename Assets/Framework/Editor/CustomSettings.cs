@@ -137,7 +137,12 @@ public static class CustomSettings
 	    _GT(typeof(PrimitiveType)),
         _GT(typeof(JJButton)),
         _GT(typeof(JJLabel)),
-        _GT(typeof(LeanTween))
+        _GT(typeof(LeanTween)),
+        _GT(typeof(LTDescrImpl)),
+        _GT(typeof(LeanTweenType)),
+        _GT(typeof(UIButton)),
+        _GT(typeof(EventDelegate)),
+        _GT(typeof(UIGrid)),
     };
 
     public static List<Type> dynamicList = new List<Type>()

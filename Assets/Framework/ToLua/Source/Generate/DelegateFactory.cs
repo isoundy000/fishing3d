@@ -35,6 +35,10 @@ public static class DelegateFactory
 		dict.Add(typeof(System.Action<UnityEngine.Vector3>), System_Action_UnityEngine_Vector3);
 		dict.Add(typeof(System.Action<float,object>), System_Action_float_object);
 		dict.Add(typeof(System.Action<LTEvent>), System_Action_LTEvent);
+		dict.Add(typeof(System.Action<UnityEngine.Vector3,object>), System_Action_UnityEngine_Vector3_object);
+		dict.Add(typeof(EventDelegate.Callback), EventDelegate_Callback);
+		dict.Add(typeof(UIGrid.OnReposition), UIGrid_OnReposition);
+		dict.Add(typeof(System.Comparison<UnityEngine.Transform>), System_Comparison_UnityEngine_Transform);
 	}
 
     [NoToLuaAttribute]
@@ -518,6 +522,104 @@ public static class DelegateFactory
 		}
 
 		System.Action<LTEvent> d = (new System_Action_LTEvent_Event(func)).Call;
+		return d;
+	}
+
+	class System_Action_UnityEngine_Vector3_object_Event : LuaDelegate
+	{
+		public System_Action_UnityEngine_Vector3_object_Event(LuaFunction func) : base(func) { }
+
+		public void Call(UnityEngine.Vector3 param0,object param1)
+		{
+			func.BeginPCall();
+			func.Push(param0);
+			func.Push(param1);
+			func.PCall();
+			func.EndPCall();
+		}
+	}
+
+	public static Delegate System_Action_UnityEngine_Vector3_object(LuaFunction func)
+	{
+		if (func == null)
+		{
+			System.Action<UnityEngine.Vector3,object> fn = delegate { };
+			return fn;
+		}
+
+		System.Action<UnityEngine.Vector3,object> d = (new System_Action_UnityEngine_Vector3_object_Event(func)).Call;
+		return d;
+	}
+
+	class EventDelegate_Callback_Event : LuaDelegate
+	{
+		public EventDelegate_Callback_Event(LuaFunction func) : base(func) { }
+
+		public void Call()
+		{
+			func.Call();
+		}
+	}
+
+	public static Delegate EventDelegate_Callback(LuaFunction func)
+	{
+		if (func == null)
+		{
+			EventDelegate.Callback fn = delegate { };
+			return fn;
+		}
+
+		EventDelegate.Callback d = (new EventDelegate_Callback_Event(func)).Call;
+		return d;
+	}
+
+	class UIGrid_OnReposition_Event : LuaDelegate
+	{
+		public UIGrid_OnReposition_Event(LuaFunction func) : base(func) { }
+
+		public void Call()
+		{
+			func.Call();
+		}
+	}
+
+	public static Delegate UIGrid_OnReposition(LuaFunction func)
+	{
+		if (func == null)
+		{
+			UIGrid.OnReposition fn = delegate { };
+			return fn;
+		}
+
+		UIGrid.OnReposition d = (new UIGrid_OnReposition_Event(func)).Call;
+		return d;
+	}
+
+	class System_Comparison_UnityEngine_Transform_Event : LuaDelegate
+	{
+		public System_Comparison_UnityEngine_Transform_Event(LuaFunction func) : base(func) { }
+
+		public int Call(UnityEngine.Transform param0,UnityEngine.Transform param1)
+		{
+			func.BeginPCall();
+			func.Push(param0);
+			func.Push(param1);
+			func.PCall();
+			int ret = (int)func.CheckNumber();
+			func.EndPCall();
+			return ret;
+		}
+	}
+
+	public static Delegate System_Comparison_UnityEngine_Transform(LuaFunction func)
+	{
+		if (func == null)
+		{
+			System.Comparison<UnityEngine.Transform> fn = delegate { return 0; };
+			return fn;
+		}
+
+		System.Comparison<UnityEngine.Transform> d = (new System_Comparison_UnityEngine_Transform_Event(func)).Call;
 		return d;
 	}
 

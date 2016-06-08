@@ -13,9 +13,16 @@ public static class LuaBinder
 		JJButtonWrap.Register(L);
 		JJLabelWrap.Register(L);
 		LeanTweenWrap.Register(L);
+		LTDescrImplWrap.Register(L);
+		LeanTweenTypeWrap.Register(L);
+		UIButtonWrap.Register(L);
+		EventDelegateWrap.Register(L);
+		UIGridWrap.Register(L);
 		ViewWrap.Register(L);
 		BaseWrap.Register(L);
 		ManagerWrap.Register(L);
+		UIButtonColorWrap.Register(L);
+		UIWidgetContainerWrap.Register(L);
 		L.BeginModule("UnityEngine");
 		UnityEngine_ComponentWrap.Register(L);
 		UnityEngine_BehaviourWrap.Register(L);
@@ -116,6 +123,8 @@ public static class LuaBinder
 		L.RegFunction("Action_UnityEngine_Vector3", System_Action_UnityEngine_Vector3);
 		L.RegFunction("Action_float_object", System_Action_float_object);
 		L.RegFunction("Action_LTEvent", System_Action_LTEvent);
+		L.RegFunction("Action_UnityEngine_Vector3_object", System_Action_UnityEngine_Vector3_object);
+		L.RegFunction("Comparison_UnityEngine_Transform", System_Comparison_UnityEngine_Transform);
 		L.EndModule();
 		L.EndModule();
 		Debugger.Log("Register lua type cost time: {0}", Time.realtimeSinceStartup - t);
@@ -304,6 +313,38 @@ public static class LuaBinder
 		{
 			LuaFunction func = ToLua.CheckLuaFunction(L, 1);
 			Delegate arg1 = DelegateFactory.CreateDelegate(typeof(System.Action<LTEvent>), func);
+			ToLua.Push(L, arg1);
+			return 1;
+		}
+		catch(Exception e)
+		{
+			return LuaDLL.toluaL_exception(L, e);
+		}
+	}
+
+	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+	static int System_Action_UnityEngine_Vector3_object(IntPtr L)
+	{
+		try
+		{
+			LuaFunction func = ToLua.CheckLuaFunction(L, 1);
+			Delegate arg1 = DelegateFactory.CreateDelegate(typeof(System.Action<UnityEngine.Vector3,object>), func);
+			ToLua.Push(L, arg1);
+			return 1;
+		}
+		catch(Exception e)
+		{
+			return LuaDLL.toluaL_exception(L, e);
+		}
+	}
+
+	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+	static int System_Comparison_UnityEngine_Transform(IntPtr L)
+	{
+		try
+		{
+			LuaFunction func = ToLua.CheckLuaFunction(L, 1);
+			Delegate arg1 = DelegateFactory.CreateDelegate(typeof(System.Comparison<UnityEngine.Transform>), func);
 			ToLua.Push(L, arg1);
 			return 1;
 		}

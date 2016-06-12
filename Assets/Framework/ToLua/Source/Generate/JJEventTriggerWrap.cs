@@ -2,28 +2,46 @@
 using System;
 using LuaInterface;
 
-public class LuaFramework_PanelManagerWrap
+public class JJEventTriggerWrap
 {
 	public static void Register(LuaState L)
 	{
-		L.BeginClass(typeof(LuaFramework.PanelManager), typeof(Manager));
-		L.RegFunction("CreatePanel", CreatePanel);
+		L.BeginClass(typeof(JJEventTrigger), typeof(UnityEngine.MonoBehaviour));
+		L.RegFunction("AddPressCallback", AddPressCallback);
+		L.RegFunction("AddReleaseCallback", AddReleaseCallback);
 		L.RegFunction("__eq", op_Equality);
 		L.RegFunction("__tostring", Lua_ToString);
 		L.EndClass();
 	}
 
 	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
-	static int CreatePanel(IntPtr L)
+	static int AddPressCallback(IntPtr L)
 	{
 		try
 		{
-			ToLua.CheckArgsCount(L, 4);
-			LuaFramework.PanelManager obj = (LuaFramework.PanelManager)ToLua.CheckObject(L, 1, typeof(LuaFramework.PanelManager));
-			string arg0 = ToLua.CheckString(L, 2);
-			string arg1 = ToLua.CheckString(L, 3);
-			LuaFunction arg2 = ToLua.CheckLuaFunction(L, 4);
-			obj.CreatePanel(arg0, arg1, arg2);
+			ToLua.CheckArgsCount(L, 3);
+			JJEventTrigger obj = (JJEventTrigger)ToLua.CheckObject(L, 1, typeof(JJEventTrigger));
+			LuaFunction arg0 = ToLua.CheckLuaFunction(L, 2);
+			object arg1 = ToLua.ToVarObject(L, 3);
+			obj.AddPressCallback(arg0, arg1);
+			return 0;
+		}
+		catch(Exception e)
+		{
+			return LuaDLL.toluaL_exception(L, e);
+		}
+	}
+
+	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+	static int AddReleaseCallback(IntPtr L)
+	{
+		try
+		{
+			ToLua.CheckArgsCount(L, 3);
+			JJEventTrigger obj = (JJEventTrigger)ToLua.CheckObject(L, 1, typeof(JJEventTrigger));
+			LuaFunction arg0 = ToLua.CheckLuaFunction(L, 2);
+			object arg1 = ToLua.ToVarObject(L, 3);
+			obj.AddReleaseCallback(arg0, arg1);
 			return 0;
 		}
 		catch(Exception e)

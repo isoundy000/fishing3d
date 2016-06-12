@@ -18,6 +18,7 @@ public static class LuaBinder
 		UIButtonWrap.Register(L);
 		EventDelegateWrap.Register(L);
 		UIGridWrap.Register(L);
+		JJEventTriggerWrap.Register(L);
 		ViewWrap.Register(L);
 		BaseWrap.Register(L);
 		ManagerWrap.Register(L);
@@ -104,7 +105,6 @@ public static class LuaBinder
 		LuaFramework_LuaBehaviourWrap.Register(L);
 		LuaFramework_GameManagerWrap.Register(L);
 		LuaFramework_LuaManagerWrap.Register(L);
-		LuaFramework_PanelManagerWrap.Register(L);
 		LuaFramework_SoundManagerWrap.Register(L);
 		LuaFramework_TimerManagerWrap.Register(L);
 		LuaFramework_ThreadManagerWrap.Register(L);

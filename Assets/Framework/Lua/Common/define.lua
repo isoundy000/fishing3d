@@ -24,8 +24,7 @@ AppConst = LuaFramework.AppConst;
 LuaHelper = LuaFramework.LuaHelper;
 ByteBuffer = LuaFramework.ByteBuffer;
 
-resMgr = LuaHelper.GetResManager();
-panelMgr = LuaHelper.GetPanelManager();
+ResourceManager = LuaHelper.GetResManager();
 soundMgr = LuaHelper.GetSoundManager();
 networkMgr = LuaHelper.GetNetManager();
 

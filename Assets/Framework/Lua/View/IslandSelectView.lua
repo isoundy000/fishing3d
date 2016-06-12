@@ -1,13 +1,16 @@
-IslandSelectView = class("IslandSelectView")
+IslandSelectView = class("IslandSelectView",require("View.ViewBase"))
 
-local GameUIManager = require("Logic.GameUIManager")
 require("View.ScrollViewTest")
+require("View.TouchEventLayer")
 
 function IslandSelectView:ctor(gameObject)
-	print("IslandSelectView created!")
+    IslandSelectView.super.ctor(self)
 	self.gameObject = gameObject
 	self.transform = gameObject.transform
-    self.transform.localPosition = Vector3.New(0,20,0)
+    self.transform.parent = self.uiRootObj_.transform
+    self.transform.localPosition = Vector3.New(0,0,0)
+    self.transform.localScale = Vector3.New(1,1,1)
+    self.gameObject.name = "IslandSelectView"
 	self:initView()
 end
 
@@ -20,7 +23,6 @@ function IslandSelectView:initView()
 end
 
 function IslandSelectView:onClickIslandBtn(param)
-    print(param.name)
     local obj = param.gameObject
 	self.label_.Text = obj.name .. "   378"
     local index = tonum( string.sub(obj.name,string.len(obj.name)) )
@@ -28,13 +30,10 @@ function IslandSelectView:onClickIslandBtn(param)
     self.label_.FontSize = 20 + 10 * index
     self.label_.FontColor = Color.New(0,1,0,0.7)
 
-    LeanTween.moveLocal(obj, obj.transform.localPosition + Vector3.New(100,0,0), 1):setOnCompleteCallback(handler(self,self.move1End),obj)
-    
-	
-	LeanTween.scale(obj, obj.transform.localScale*1.2, 1)
-	LeanTween.rotateAround(obj, Vector3.forward, -90, 1):setOnCompleteCallback(handler(self,self.rotate),"hello world!"):setEase(LeanTweenType.easeInOutElastic)
-    local a = LeanTween.value(obj, Color.red, Color.green, 1 ):setOnUpdateColor(handler(self,self.onUpdateColor))
-    
+    --LeanTween.moveLocal(obj, obj.transform.localPosition + Vector3.New(100,0,0), 1):setOnCompleteCallback(handler(self,self.move1End),obj)
+	--LeanTween.scale(obj, obj.transform.localScale*1.2, 1)
+	--LeanTween.rotateAround(obj, Vector3.forward, -90, 1):setOnCompleteCallback(handler(self,self.rotate),"hello world!"):setEase(LeanTweenType.easeInOutElastic)
+    --local a = LeanTween.value(obj, Color.red, Color.green, 1 ):setOnUpdateColor(handler(self,self.onUpdateColor))
     --a:setOnUpdateVector3(handler(self,self.onUpdateColor))
 end
 
@@ -51,5 +50,5 @@ function IslandSelectView:onUpdateColor(val)
 end
 
 function IslandSelectView:showScrollView()
-    GameUIManager:showView("ScrollViewTest")
+    self.uiManager_:showView("ScrollViewTest")
 end

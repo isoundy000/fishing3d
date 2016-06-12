@@ -76,8 +76,7 @@ public class Packager {
         }
         HandleGameBundle();
         string resPath = "Assets/" + AppConst.AssetDir;
-        BuildAssetBundleOptions options = BuildAssetBundleOptions.DeterministicAssetBundle |
-                                          BuildAssetBundleOptions.UncompressedAssetBundle;
+        BuildAssetBundleOptions options = BuildAssetBundleOptions.DeterministicAssetBundle;
         BuildPipeline.BuildAssetBundles(resPath, maps.ToArray(), options, target);
         BuildFileIndex();
 
@@ -167,7 +166,6 @@ public class Packager {
 
         //AddBuildMap("prompt" + AppConst.ExtName, "*.prefab", "Assets/LuaFramework/Examples/Builds/Prompt");
         //AddBuildMap("message" + AppConst.ExtName, "*.prefab", "Assets/LuaFramework/Examples/Builds/Message");
-        AddBuildMap("ui" + AppConst.ExtName, "*.prefab", "Assets/Framework/UIPrefabs");
 
         //AddBuildMap("prompt_asset" + AppConst.ExtName, "*.png", "Assets/LuaFramework/Examples/Textures/Prompt");
         //AddBuildMap("shared_asset" + AppConst.ExtName, "*.png", "Assets/LuaFramework/Examples/Textures/Shared");
@@ -338,6 +336,11 @@ public class Packager {
         string resPath = AppDataPath + "/" + AppConst.AssetDir + "/";
         if (!Directory.Exists(resPath)) Directory.CreateDirectory(resPath);
 
-        AddBuildMap("ui" + AppConst.ExtName, "*.prefab", "Assets/Framework/UIPrefabs");
+        AddBuildMap("ui" + AppConst.ExtName, "*.prefab",    "Assets/Framework/UIPrefabs");
+        AddBuildMap("bullet" + AppConst.ExtName, "*.prefab", "Assets/Framework/BulletPrefabs");
+        AddBuildMap("bomb" + AppConst.ExtName, "*.prefab",   "Assets/Framework/BombPrefabs");
+        AddBuildMap("cannon" + AppConst.ExtName, "*.prefab", "Assets/Framework/CannonPrefabs");
+
+        AddBuildMap("uiAsset" + AppConst.ExtName, "*.png", "Assets/UIAtlas");
     }
 }

@@ -244,6 +244,27 @@ namespace LuaFramework {
             }
             return string.Empty;
         }
+
+        public void CreateObject(string abName, string prefabName, string scriptName, string layer, LuaFunction func = null,LuaFunction objCreatedCallback = null)
+        {
+            abName = abName + AppConst.ExtName;
+
+            ResManager.LoadPrefab(abName, prefabName, delegate(UnityEngine.Object[] objs)
+            {
+                if (objs.Length == 0) return;
+                // Get the asset.
+                GameObject prefab = objs[0] as GameObject;
+                if (prefab == null)
+                    return;
+                GameObject go = Instantiate(prefab) as GameObject;
+                go.layer = LayerMask.NameToLayer(layer);
+                ScriptProxy scriptPorxy = go.AddComponent<ScriptProxy>();
+                scriptPorxy.className = scriptName;
+                scriptPorxy.InitScript();
+                if (objCreatedCallback != null) objCreatedCallback.Call(go);
+                if (func != null) func.Call(go);
+            });
+        }
     }
 }
 #else

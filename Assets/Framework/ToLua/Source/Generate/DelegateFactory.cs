@@ -26,7 +26,6 @@ public static class DelegateFactory
 		dict.Add(typeof(UnityEngine.AudioClip.PCMSetPositionCallback), UnityEngine_AudioClip_PCMSetPositionCallback);
 		dict.Add(typeof(UnityEngine.RectTransform.ReapplyDrivenProperties), UnityEngine_RectTransform_ReapplyDrivenProperties);
 		dict.Add(typeof(System.Action<NotiData>), System_Action_NotiData);
-		dict.Add(typeof(System.Action<UnityEngine.Object[]>), System_Action_UnityEngine_Objects);
 		dict.Add(typeof(System.Action<object>), System_Action_object);
 		dict.Add(typeof(System.Action<float>), System_Action_float);
 		dict.Add(typeof(System.Action<float,float>), System_Action_float_float);
@@ -295,31 +294,6 @@ public static class DelegateFactory
 		}
 
 		System.Action<NotiData> d = (new System_Action_NotiData_Event(func)).Call;
-		return d;
-	}
-
-	class System_Action_UnityEngine_Objects_Event : LuaDelegate
-	{
-		public System_Action_UnityEngine_Objects_Event(LuaFunction func) : base(func) { }
-
-		public void Call(UnityEngine.Object[] param0)
-		{
-			func.BeginPCall();
-			func.Push(param0);
-			func.PCall();
-			func.EndPCall();
-		}
-	}
-
-	public static Delegate System_Action_UnityEngine_Objects(LuaFunction func)
-	{
-		if (func == null)
-		{
-			System.Action<UnityEngine.Object[]> fn = delegate { };
-			return fn;
-		}
-
-		System.Action<UnityEngine.Object[]> d = (new System_Action_UnityEngine_Objects_Event(func)).Call;
 		return d;
 	}
 

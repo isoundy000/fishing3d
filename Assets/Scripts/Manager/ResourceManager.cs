@@ -245,7 +245,7 @@ namespace LuaFramework {
             return string.Empty;
         }
 
-        public void CreateObject(string abName, string prefabName, string scriptName, string layer, LuaFunction func = null,LuaFunction objCreatedCallback = null)
+        public void CreateObject(string abName, string prefabName, string scriptName, string layer, LuaFunction func = null, LuaFunction objCreatedCallback = null)
         {
             abName = abName + AppConst.ExtName;
 
@@ -404,6 +404,50 @@ namespace LuaFramework {
             if (shared != null) shared.Unload(true);
             if (manifest != null) manifest = null;
             Debug.Log("~ResourceManager was destroy!");
+        }
+
+public string LoadTable(string tableName)
+        {
+            switch (Application.platform)
+            {
+                case RuntimePlatform.WindowsEditor:
+                    TextAsset ta = Resources.Load<TextAsset>("Tables/" + tableName);
+                    if (ta != null)
+                        return ta.text;
+                    else
+                        return string.Empty;
+                    break;
+                case RuntimePlatform.Android:
+                    break;
+            }
+            return string.Empty;
+        }
+
+        public void CreateObject(string abName, string assetName, string scriptName, string layer, LuaFunction func , LuaFunction objCreatedCallback)
+        {
+            GameObject prefab = ResManager.LoadAsset<GameObject>(abName, assetName);
+            if (prefab == null)
+                return;
+            GameObject go = Instantiate(prefab) as GameObject;
+            go.layer = LayerMask.NameToLayer(layer);
+            ScriptProxy scriptPorxy = go.AddComponent<ScriptProxy>();
+            scriptPorxy.className = scriptName;
+            scriptPorxy.InitScript();
+            if (objCreatedCallback != null) objCreatedCallback.Call(go);
+            if (func != null) func.Call(go);
+        }
+
+        public LuaTable CreateObject(string abName, string assetName, string scriptName, string layer)
+        {
+            GameObject prefab = ResManager.LoadAsset<GameObject>(abName, assetName);
+            if (prefab == null)
+                return null;
+            GameObject go = Instantiate(prefab) as GameObject;
+            go.layer = LayerMask.NameToLayer(layer);
+            ScriptProxy scriptPorxy = go.AddComponent<ScriptProxy>();
+            scriptPorxy.className = scriptName;
+            scriptPorxy.InitScript();
+            return scriptPorxy.Table;
         }
     }
 }

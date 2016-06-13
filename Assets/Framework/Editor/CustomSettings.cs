@@ -144,9 +144,11 @@ public static class CustomSettings
         _GT(typeof(UIButton)),
         _GT(typeof(EventDelegate)),
         _GT(typeof(UIGrid)),
+        _GT(typeof(UISpriteAnimation)),
 
 
-        _GT(typeof(JJEventTrigger))
+        _GT(typeof(JJEventTrigger)),
+        _GT(typeof(MathUtil))
     };
 
     public static List<Type> dynamicList = new List<Type>()

@@ -32,7 +32,6 @@ end
 
 function Table_UI:getRecordByName(viewName)
     for key,value in pairs(self.records) do
-        print(value.viewName)
         if viewName == value.viewName then
             return value
         end

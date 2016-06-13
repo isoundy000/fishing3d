@@ -3,3 +3,5 @@ id	View名称	Prefab	ScriptName
 2	Debug	View_Debug	
 3	ScrollViewTest	View_ScrollViewTest	ScrollViewTest
 4	TouchEventLayer	View_TouchEventLayer	TouchEventLayer
+5	Cannon	Cannon_01	Cannon
+6	Main	View_Main	MainView

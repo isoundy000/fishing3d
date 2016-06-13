@@ -1,3 +1,5 @@
+
+
 local GameTableManager = require("Tables.FishingGametableManager")
 
 local GameUIManager = class("GameUIManager")
@@ -29,21 +31,19 @@ function GameUIManager:viewObjCreatedCallback(obj)
     self.activeViewMap[obj.name] = obj
 end
 
-function GameUIManager:createCannon(seatid)
-    if seatid == 0 then
-        ResourceManager:CreateObject("cannon","Cannon_01")
-    elseif seatid == 1 then
-    elseif seatid == 2 then
-    elseif seatid == 3 then
-    end
-end
-
 function GameUIManager:hideView(viewname)
     for key,value in pairs(self.activeViewMap) do
         if key == viewname then
             value:Destroy()
             self.activeViewMap[viewname] = nil
         end
+    end
+end
+
+function GameUIManager:hideAll()
+    for key,value in pairs(self.activeViewMap) do
+        value:Destroy()
+        self.activeViewMap[key] = nil
     end
 end
 

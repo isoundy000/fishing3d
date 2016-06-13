@@ -18,7 +18,9 @@ public static class LuaBinder
 		UIButtonWrap.Register(L);
 		EventDelegateWrap.Register(L);
 		UIGridWrap.Register(L);
+		UISpriteAnimationWrap.Register(L);
 		JJEventTriggerWrap.Register(L);
+		MathUtilWrap.Register(L);
 		ViewWrap.Register(L);
 		BaseWrap.Register(L);
 		ManagerWrap.Register(L);
@@ -114,7 +116,6 @@ public static class LuaBinder
 		L.BeginModule("System");
 		L.RegFunction("Action", System_Action);
 		L.RegFunction("Action_NotiData", System_Action_NotiData);
-		L.RegFunction("Action_UnityEngine_Objects", System_Action_UnityEngine_Objects);
 		L.RegFunction("Action_object", System_Action_object);
 		L.RegFunction("Action_float", System_Action_float);
 		L.RegFunction("Action_float_float", System_Action_float_float);
@@ -169,22 +170,6 @@ public static class LuaBinder
 		{
 			LuaFunction func = ToLua.CheckLuaFunction(L, 1);
 			Delegate arg1 = DelegateFactory.CreateDelegate(typeof(System.Action<NotiData>), func);
-			ToLua.Push(L, arg1);
-			return 1;
-		}
-		catch(Exception e)
-		{
-			return LuaDLL.toluaL_exception(L, e);
-		}
-	}
-
-	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
-	static int System_Action_UnityEngine_Objects(IntPtr L)
-	{
-		try
-		{
-			LuaFunction func = ToLua.CheckLuaFunction(L, 1);
-			Delegate arg1 = DelegateFactory.CreateDelegate(typeof(System.Action<UnityEngine.Object[]>), func);
 			ToLua.Push(L, arg1);
 			return 1;
 		}

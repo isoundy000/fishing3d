@@ -434,6 +434,9 @@ namespace LuaInterface
 
         public static LuaFunction ToLuaFunction(IntPtr L, int stackPos)
         {
+            LuaTypes type = LuaDLL.lua_type(L, stackPos);
+            if (type == LuaTypes.LUA_TNIL)
+                return null;
             stackPos = LuaDLL.abs_index(L, stackPos);
             LuaDLL.lua_pushvalue(L, stackPos);
             int reference = LuaDLL.toluaL_ref(L);

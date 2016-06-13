@@ -1,7 +1,6 @@
-IslandSelectView = class("IslandSelectView",require("View.ViewBase"))
-
-require("View.ScrollViewTest")
+require("View.MainView")
 require("View.TouchEventLayer")
+IslandSelectView = class("IslandSelectView",require("View.ViewBase"))
 
 function IslandSelectView:ctor(gameObject)
     IslandSelectView.super.ctor(self)
@@ -17,7 +16,7 @@ end
 function IslandSelectView:initView()
 	for i = 1,3 do
 		local island1Btn = self.transform:FindChild("Island" .. i):GetComponent("JJButton")
-		island1Btn:AddClickCallback(handler(self,self.showScrollView),island1Btn)
+		island1Btn:AddClickCallback(handler(self,self.onClickIslandBtn),island1Btn)
 	end
 	self.label_ = self.transform:FindChild("Label"):GetComponent("JJLabel")
 end
@@ -35,6 +34,10 @@ function IslandSelectView:onClickIslandBtn(param)
 	--LeanTween.rotateAround(obj, Vector3.forward, -90, 1):setOnCompleteCallback(handler(self,self.rotate),"hello world!"):setEase(LeanTweenType.easeInOutElastic)
     --local a = LeanTween.value(obj, Color.red, Color.green, 1 ):setOnUpdateColor(handler(self,self.onUpdateColor))
     --a:setOnUpdateVector3(handler(self,self.onUpdateColor))
+
+    self.uiManager_:hideView("IslandSelectView")
+    self.uiManager_:showView("Main")
+    self.uiManager_:showView("TouchEventLayer")
 end
 
 function IslandSelectView:move1End(param)

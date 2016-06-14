@@ -74,9 +74,9 @@ public class Packager {
         if (AppConst.ExampleMode) {
             HandleExampleBundle();
         }
+        HandleGameBundle();
         string resPath = "Assets/" + AppConst.AssetDir;
-        BuildAssetBundleOptions options = BuildAssetBundleOptions.DeterministicAssetBundle | 
-                                          BuildAssetBundleOptions.UncompressedAssetBundle;
+        BuildAssetBundleOptions options = BuildAssetBundleOptions.DeterministicAssetBundle;
         BuildPipeline.BuildAssetBundles(resPath, maps.ToArray(), options, target);
         BuildFileIndex();
 
@@ -122,7 +122,7 @@ public class Packager {
                     string dir = Path.GetDirectoryName(dest);
                     Directory.CreateDirectory(dir);
                     EncodeLuaFile(files[j], dest);
-                }    
+                }
             } else {
                 ToLuaMenu.CopyLuaBytesFiles(srcDirs[i], streamDir);
             }
@@ -166,7 +166,6 @@ public class Packager {
 
         //AddBuildMap("prompt" + AppConst.ExtName, "*.prefab", "Assets/LuaFramework/Examples/Builds/Prompt");
         //AddBuildMap("message" + AppConst.ExtName, "*.prefab", "Assets/LuaFramework/Examples/Builds/Message");
-        AddBuildMap("ui" + AppConst.ExtName, "*.prefab", "Assets/Framework/UIPrefabs");
 
         //AddBuildMap("prompt_asset" + AppConst.ExtName, "*.png", "Assets/LuaFramework/Examples/Textures/Prompt");
         //AddBuildMap("shared_asset" + AppConst.ExtName, "*.png", "Assets/LuaFramework/Examples/Textures/Shared");
@@ -181,10 +180,10 @@ public class Packager {
 
         //----------复制Lua文件----------------
         if (!Directory.Exists(luaPath)) {
-            Directory.CreateDirectory(luaPath); 
+            Directory.CreateDirectory(luaPath);
         }
-        string[] luaPaths = { AppDataPath + "/LuaFramework/lua/", 
-                              AppDataPath + "/LuaFramework/Tolua/Lua/" };
+        string[] luaPaths = { AppDataPath + "/Framework/lua/",
+                              AppDataPath + "/Framework/Tolua/Lua/" };
 
         for (int i = 0; i < luaPaths.Length; i++) {
             paths.Clear(); files.Clear();
@@ -207,7 +206,7 @@ public class Packager {
                     File.Copy(f, newpath, true);
                 }
                 UpdateProgress(n++, files.Count, newpath);
-            } 
+            }
         }
         EditorUtility.ClearProgressBar();
         AssetDatabase.Refresh();
@@ -331,5 +330,24 @@ public class Packager {
             pro.WaitForExit();
         }
         AssetDatabase.Refresh();
+    }
+
+    static void HandleGameBundle() {
+        string resPath = AppDataPath + "/" + AppConst.AssetDir + "/";
+        if (!Directory.Exists(resPath)) Directory.CreateDirectory(resPath);
+
+        AddBuildMap("ui" + AppConst.ExtName, "*.prefab",    "Assets/Framework/UIPrefabs");
+        AddBuildMap("bullet" + AppConst.ExtName, "*.prefab", "Assets/Framework/BulletPrefabs");
+        AddBuildMap("bomb" + AppConst.ExtName, "*.prefab",   "Assets/Framework/BombPrefabs");
+        AddBuildMap("cannon" + AppConst.ExtName, "*.prefab", "Assets/Framework/CannonPrefabs");
+
+        AddBuildMap("uiAsset" + AppConst.ExtName, "*.png", "Assets/UIAtlas");
+        AddBuildMap("config" + AppConst.ExtName, "*.bytes", "Assets/Framework/Configs");
+        AddBuildMap("config" + AppConst.ExtName, "*.bytes", "Assets/Framework/Configs/Tables");
+
+        for(int i = 0; i < 2; i ++)
+        {
+            AddBuildMap("fish" + i + AppConst.ExtName, "*.prefab", "Assets/Framework/FishPrefabs/fish" + i);
+        }
     }
 }

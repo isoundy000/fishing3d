@@ -6,6 +6,11 @@ public class ScriptProxy : MonoBehaviour {
 	public string className;
 	private LuaTable table;
 	private LuaFunction update;
+
+    public LuaTable Table
+    {
+        get { return table; }
+    }
 	// Use this for initialization
     //it will be called in actorcontroller
     public void InitScript()
@@ -22,7 +27,7 @@ public class ScriptProxy : MonoBehaviour {
             LuaFunction onAwake = table.GetLuaFunction("OnAwake");
             if(onAwake != null)
             {
-                onAwake.Call(table,gameObject);
+                onAwake.Call(gameObject);
                 onAwake.Dispose();
             }
         }
@@ -38,7 +43,7 @@ public class ScriptProxy : MonoBehaviour {
 	{
 		if(update != null)
 		{
-			LuaAssist.CallLuaFunction(update,table);
+			update.Call(table,Time.deltaTime);
 		}
 	}
 

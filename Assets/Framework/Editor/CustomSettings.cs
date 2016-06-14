@@ -128,7 +128,6 @@ public static class CustomSettings
 
         _GT(typeof(GameManager)),
         _GT(typeof(LuaManager)),
-        _GT(typeof(PanelManager)),
         _GT(typeof(SoundManager)),
         _GT(typeof(TimerManager)),
         _GT(typeof(ThreadManager)),
@@ -136,7 +135,21 @@ public static class CustomSettings
         _GT(typeof(ResourceManager)),	
 	    _GT(typeof(PrimitiveType)),
         _GT(typeof(JJButton)),
-        _GT(typeof(JJLabel))
+        _GT(typeof(JJLabel)),
+        _GT(typeof(LeanTween)),
+        _GT(typeof(LTDescrImpl)),
+        _GT(typeof(LeanTweenType)),
+
+        //NGUI
+        _GT(typeof(UIButton)),
+        _GT(typeof(EventDelegate)),
+        _GT(typeof(UIGrid)),
+        _GT(typeof(UISpriteAnimation)),
+        _GT(typeof(UIEventListener)),
+
+
+        _GT(typeof(JJEventTrigger)),
+        _GT(typeof(MathUtil))
     };
 
     public static List<Type> dynamicList = new List<Type>()

@@ -41,12 +41,6 @@ public class FishManager
 
     public void Update(float dt)
     {
-        View_Debug viewDebug = UIManager.GetInstance().GetView("Debug") as View_Debug;
-        if (viewDebug != null && mUnActiveFishMap.Count > 0)
-        {
-            viewDebug.lable1.text = mUnActiveFishMap[0].Count.ToString();
-            viewDebug.lable2.text = mUnActiveFishMap[1].Count.ToString();
-        }
     }
 
     public void CreateFish()

@@ -17,6 +17,33 @@ public static class DelegateFactory
 	public static void Register()
 	{
 		dict.Clear();
+		dict.Add(typeof(System.Action), System_Action);
+		dict.Add(typeof(UnityEngine.Events.UnityAction), UnityEngine_Events_UnityAction);
+		dict.Add(typeof(UnityEngine.Application.LogCallback), UnityEngine_Application_LogCallback);
+		dict.Add(typeof(UnityEngine.Application.AdvertisingIdentifierCallback), UnityEngine_Application_AdvertisingIdentifierCallback);
+		dict.Add(typeof(UnityEngine.Camera.CameraCallback), UnityEngine_Camera_CameraCallback);
+		dict.Add(typeof(UnityEngine.AudioClip.PCMReaderCallback), UnityEngine_AudioClip_PCMReaderCallback);
+		dict.Add(typeof(UnityEngine.AudioClip.PCMSetPositionCallback), UnityEngine_AudioClip_PCMSetPositionCallback);
+		dict.Add(typeof(UnityEngine.RectTransform.ReapplyDrivenProperties), UnityEngine_RectTransform_ReapplyDrivenProperties);
+		dict.Add(typeof(System.Action<NotiData>), System_Action_NotiData);
+		dict.Add(typeof(System.Action<object>), System_Action_object);
+		dict.Add(typeof(System.Action<float>), System_Action_float);
+		dict.Add(typeof(System.Action<float,float>), System_Action_float_float);
+		dict.Add(typeof(System.Action<UnityEngine.Color>), System_Action_UnityEngine_Color);
+		dict.Add(typeof(System.Action<UnityEngine.Vector2>), System_Action_UnityEngine_Vector2);
+		dict.Add(typeof(System.Action<UnityEngine.Vector3>), System_Action_UnityEngine_Vector3);
+		dict.Add(typeof(System.Action<float,object>), System_Action_float_object);
+		dict.Add(typeof(System.Action<LTEvent>), System_Action_LTEvent);
+		dict.Add(typeof(System.Action<UnityEngine.Vector3,object>), System_Action_UnityEngine_Vector3_object);
+		dict.Add(typeof(EventDelegate.Callback), EventDelegate_Callback);
+		dict.Add(typeof(UIGrid.OnReposition), UIGrid_OnReposition);
+		dict.Add(typeof(System.Comparison<UnityEngine.Transform>), System_Comparison_UnityEngine_Transform);
+		dict.Add(typeof(UIEventListener.VoidDelegate), UIEventListener_VoidDelegate);
+		dict.Add(typeof(UIEventListener.BoolDelegate), UIEventListener_BoolDelegate);
+		dict.Add(typeof(UIEventListener.FloatDelegate), UIEventListener_FloatDelegate);
+		dict.Add(typeof(UIEventListener.VectorDelegate), UIEventListener_VectorDelegate);
+		dict.Add(typeof(UIEventListener.ObjectDelegate), UIEventListener_ObjectDelegate);
+		dict.Add(typeof(UIEventListener.KeyCodeDelegate), UIEventListener_KeyCodeDelegate);
 	}
 
     [NoToLuaAttribute]
@@ -52,6 +79,684 @@ public static class DelegateFactory
 
         return obj;
     }
+
+	class System_Action_Event : LuaDelegate
+	{
+		public System_Action_Event(LuaFunction func) : base(func) { }
+
+		public void Call()
+		{
+			func.Call();
+		}
+	}
+
+	public static Delegate System_Action(LuaFunction func)
+	{
+		if (func == null)
+		{
+			System.Action fn = delegate { };
+			return fn;
+		}
+
+		System.Action d = (new System_Action_Event(func)).Call;
+		return d;
+	}
+
+	class UnityEngine_Events_UnityAction_Event : LuaDelegate
+	{
+		public UnityEngine_Events_UnityAction_Event(LuaFunction func) : base(func) { }
+
+		public void Call()
+		{
+			func.Call();
+		}
+	}
+
+	public static Delegate UnityEngine_Events_UnityAction(LuaFunction func)
+	{
+		if (func == null)
+		{
+			UnityEngine.Events.UnityAction fn = delegate { };
+			return fn;
+		}
+
+		UnityEngine.Events.UnityAction d = (new UnityEngine_Events_UnityAction_Event(func)).Call;
+		return d;
+	}
+
+	class UnityEngine_Application_LogCallback_Event : LuaDelegate
+	{
+		public UnityEngine_Application_LogCallback_Event(LuaFunction func) : base(func) { }
+
+		public void Call(string param0,string param1,UnityEngine.LogType param2)
+		{
+			func.BeginPCall();
+			func.Push(param0);
+			func.Push(param1);
+			func.Push(param2);
+			func.PCall();
+			func.EndPCall();
+		}
+	}
+
+	public static Delegate UnityEngine_Application_LogCallback(LuaFunction func)
+	{
+		if (func == null)
+		{
+			UnityEngine.Application.LogCallback fn = delegate { };
+			return fn;
+		}
+
+		UnityEngine.Application.LogCallback d = (new UnityEngine_Application_LogCallback_Event(func)).Call;
+		return d;
+	}
+
+	class UnityEngine_Application_AdvertisingIdentifierCallback_Event : LuaDelegate
+	{
+		public UnityEngine_Application_AdvertisingIdentifierCallback_Event(LuaFunction func) : base(func) { }
+
+		public void Call(string param0,bool param1,string param2)
+		{
+			func.BeginPCall();
+			func.Push(param0);
+			func.Push(param1);
+			func.Push(param2);
+			func.PCall();
+			func.EndPCall();
+		}
+	}
+
+	public static Delegate UnityEngine_Application_AdvertisingIdentifierCallback(LuaFunction func)
+	{
+		if (func == null)
+		{
+			UnityEngine.Application.AdvertisingIdentifierCallback fn = delegate { };
+			return fn;
+		}
+
+		UnityEngine.Application.AdvertisingIdentifierCallback d = (new UnityEngine_Application_AdvertisingIdentifierCallback_Event(func)).Call;
+		return d;
+	}
+
+	class UnityEngine_Camera_CameraCallback_Event : LuaDelegate
+	{
+		public UnityEngine_Camera_CameraCallback_Event(LuaFunction func) : base(func) { }
+
+		public void Call(UnityEngine.Camera param0)
+		{
+			func.BeginPCall();
+			func.Push(param0);
+			func.PCall();
+			func.EndPCall();
+		}
+	}
+
+	public static Delegate UnityEngine_Camera_CameraCallback(LuaFunction func)
+	{
+		if (func == null)
+		{
+			UnityEngine.Camera.CameraCallback fn = delegate { };
+			return fn;
+		}
+
+		UnityEngine.Camera.CameraCallback d = (new UnityEngine_Camera_CameraCallback_Event(func)).Call;
+		return d;
+	}
+
+	class UnityEngine_AudioClip_PCMReaderCallback_Event : LuaDelegate
+	{
+		public UnityEngine_AudioClip_PCMReaderCallback_Event(LuaFunction func) : base(func) { }
+
+		public void Call(float[] param0)
+		{
+			func.BeginPCall();
+			func.Push(param0);
+			func.PCall();
+			func.EndPCall();
+		}
+	}
+
+	public static Delegate UnityEngine_AudioClip_PCMReaderCallback(LuaFunction func)
+	{
+		if (func == null)
+		{
+			UnityEngine.AudioClip.PCMReaderCallback fn = delegate { };
+			return fn;
+		}
+
+		UnityEngine.AudioClip.PCMReaderCallback d = (new UnityEngine_AudioClip_PCMReaderCallback_Event(func)).Call;
+		return d;
+	}
+
+	class UnityEngine_AudioClip_PCMSetPositionCallback_Event : LuaDelegate
+	{
+		public UnityEngine_AudioClip_PCMSetPositionCallback_Event(LuaFunction func) : base(func) { }
+
+		public void Call(int param0)
+		{
+			func.BeginPCall();
+			func.Push(param0);
+			func.PCall();
+			func.EndPCall();
+		}
+	}
+
+	public static Delegate UnityEngine_AudioClip_PCMSetPositionCallback(LuaFunction func)
+	{
+		if (func == null)
+		{
+			UnityEngine.AudioClip.PCMSetPositionCallback fn = delegate { };
+			return fn;
+		}
+
+		UnityEngine.AudioClip.PCMSetPositionCallback d = (new UnityEngine_AudioClip_PCMSetPositionCallback_Event(func)).Call;
+		return d;
+	}
+
+	class UnityEngine_RectTransform_ReapplyDrivenProperties_Event : LuaDelegate
+	{
+		public UnityEngine_RectTransform_ReapplyDrivenProperties_Event(LuaFunction func) : base(func) { }
+
+		public void Call(UnityEngine.RectTransform param0)
+		{
+			func.BeginPCall();
+			func.Push(param0);
+			func.PCall();
+			func.EndPCall();
+		}
+	}
+
+	public static Delegate UnityEngine_RectTransform_ReapplyDrivenProperties(LuaFunction func)
+	{
+		if (func == null)
+		{
+			UnityEngine.RectTransform.ReapplyDrivenProperties fn = delegate { };
+			return fn;
+		}
+
+		UnityEngine.RectTransform.ReapplyDrivenProperties d = (new UnityEngine_RectTransform_ReapplyDrivenProperties_Event(func)).Call;
+		return d;
+	}
+
+	class System_Action_NotiData_Event : LuaDelegate
+	{
+		public System_Action_NotiData_Event(LuaFunction func) : base(func) { }
+
+		public void Call(NotiData param0)
+		{
+			func.BeginPCall();
+			func.PushObject(param0);
+			func.PCall();
+			func.EndPCall();
+		}
+	}
+
+	public static Delegate System_Action_NotiData(LuaFunction func)
+	{
+		if (func == null)
+		{
+			System.Action<NotiData> fn = delegate { };
+			return fn;
+		}
+
+		System.Action<NotiData> d = (new System_Action_NotiData_Event(func)).Call;
+		return d;
+	}
+
+	class System_Action_object_Event : LuaDelegate
+	{
+		public System_Action_object_Event(LuaFunction func) : base(func) { }
+
+		public void Call(object param0)
+		{
+			func.BeginPCall();
+			func.Push(param0);
+			func.PCall();
+			func.EndPCall();
+		}
+	}
+
+	public static Delegate System_Action_object(LuaFunction func)
+	{
+		if (func == null)
+		{
+			System.Action<object> fn = delegate { };
+			return fn;
+		}
+
+		System.Action<object> d = (new System_Action_object_Event(func)).Call;
+		return d;
+	}
+
+	class System_Action_float_Event : LuaDelegate
+	{
+		public System_Action_float_Event(LuaFunction func) : base(func) { }
+
+		public void Call(float param0)
+		{
+			func.BeginPCall();
+			func.Push(param0);
+			func.PCall();
+			func.EndPCall();
+		}
+	}
+
+	public static Delegate System_Action_float(LuaFunction func)
+	{
+		if (func == null)
+		{
+			System.Action<float> fn = delegate { };
+			return fn;
+		}
+
+		System.Action<float> d = (new System_Action_float_Event(func)).Call;
+		return d;
+	}
+
+	class System_Action_float_float_Event : LuaDelegate
+	{
+		public System_Action_float_float_Event(LuaFunction func) : base(func) { }
+
+		public void Call(float param0,float param1)
+		{
+			func.BeginPCall();
+			func.Push(param0);
+			func.Push(param1);
+			func.PCall();
+			func.EndPCall();
+		}
+	}
+
+	public static Delegate System_Action_float_float(LuaFunction func)
+	{
+		if (func == null)
+		{
+			System.Action<float,float> fn = delegate { };
+			return fn;
+		}
+
+		System.Action<float,float> d = (new System_Action_float_float_Event(func)).Call;
+		return d;
+	}
+
+	class System_Action_UnityEngine_Color_Event : LuaDelegate
+	{
+		public System_Action_UnityEngine_Color_Event(LuaFunction func) : base(func) { }
+
+		public void Call(UnityEngine.Color param0)
+		{
+			func.BeginPCall();
+			func.Push(param0);
+			func.PCall();
+			func.EndPCall();
+		}
+	}
+
+	public static Delegate System_Action_UnityEngine_Color(LuaFunction func)
+	{
+		if (func == null)
+		{
+			System.Action<UnityEngine.Color> fn = delegate { };
+			return fn;
+		}
+
+		System.Action<UnityEngine.Color> d = (new System_Action_UnityEngine_Color_Event(func)).Call;
+		return d;
+	}
+
+	class System_Action_UnityEngine_Vector2_Event : LuaDelegate
+	{
+		public System_Action_UnityEngine_Vector2_Event(LuaFunction func) : base(func) { }
+
+		public void Call(UnityEngine.Vector2 param0)
+		{
+			func.BeginPCall();
+			func.Push(param0);
+			func.PCall();
+			func.EndPCall();
+		}
+	}
+
+	public static Delegate System_Action_UnityEngine_Vector2(LuaFunction func)
+	{
+		if (func == null)
+		{
+			System.Action<UnityEngine.Vector2> fn = delegate { };
+			return fn;
+		}
+
+		System.Action<UnityEngine.Vector2> d = (new System_Action_UnityEngine_Vector2_Event(func)).Call;
+		return d;
+	}
+
+	class System_Action_UnityEngine_Vector3_Event : LuaDelegate
+	{
+		public System_Action_UnityEngine_Vector3_Event(LuaFunction func) : base(func) { }
+
+		public void Call(UnityEngine.Vector3 param0)
+		{
+			func.BeginPCall();
+			func.Push(param0);
+			func.PCall();
+			func.EndPCall();
+		}
+	}
+
+	public static Delegate System_Action_UnityEngine_Vector3(LuaFunction func)
+	{
+		if (func == null)
+		{
+			System.Action<UnityEngine.Vector3> fn = delegate { };
+			return fn;
+		}
+
+		System.Action<UnityEngine.Vector3> d = (new System_Action_UnityEngine_Vector3_Event(func)).Call;
+		return d;
+	}
+
+	class System_Action_float_object_Event : LuaDelegate
+	{
+		public System_Action_float_object_Event(LuaFunction func) : base(func) { }
+
+		public void Call(float param0,object param1)
+		{
+			func.BeginPCall();
+			func.Push(param0);
+			func.Push(param1);
+			func.PCall();
+			func.EndPCall();
+		}
+	}
+
+	public static Delegate System_Action_float_object(LuaFunction func)
+	{
+		if (func == null)
+		{
+			System.Action<float,object> fn = delegate { };
+			return fn;
+		}
+
+		System.Action<float,object> d = (new System_Action_float_object_Event(func)).Call;
+		return d;
+	}
+
+	class System_Action_LTEvent_Event : LuaDelegate
+	{
+		public System_Action_LTEvent_Event(LuaFunction func) : base(func) { }
+
+		public void Call(LTEvent param0)
+		{
+			func.BeginPCall();
+			func.PushObject(param0);
+			func.PCall();
+			func.EndPCall();
+		}
+	}
+
+	public static Delegate System_Action_LTEvent(LuaFunction func)
+	{
+		if (func == null)
+		{
+			System.Action<LTEvent> fn = delegate { };
+			return fn;
+		}
+
+		System.Action<LTEvent> d = (new System_Action_LTEvent_Event(func)).Call;
+		return d;
+	}
+
+	class System_Action_UnityEngine_Vector3_object_Event : LuaDelegate
+	{
+		public System_Action_UnityEngine_Vector3_object_Event(LuaFunction func) : base(func) { }
+
+		public void Call(UnityEngine.Vector3 param0,object param1)
+		{
+			func.BeginPCall();
+			func.Push(param0);
+			func.Push(param1);
+			func.PCall();
+			func.EndPCall();
+		}
+	}
+
+	public static Delegate System_Action_UnityEngine_Vector3_object(LuaFunction func)
+	{
+		if (func == null)
+		{
+			System.Action<UnityEngine.Vector3,object> fn = delegate { };
+			return fn;
+		}
+
+		System.Action<UnityEngine.Vector3,object> d = (new System_Action_UnityEngine_Vector3_object_Event(func)).Call;
+		return d;
+	}
+
+	class EventDelegate_Callback_Event : LuaDelegate
+	{
+		public EventDelegate_Callback_Event(LuaFunction func) : base(func) { }
+
+		public void Call()
+		{
+			func.Call();
+		}
+	}
+
+	public static Delegate EventDelegate_Callback(LuaFunction func)
+	{
+		if (func == null)
+		{
+			EventDelegate.Callback fn = delegate { };
+			return fn;
+		}
+
+		EventDelegate.Callback d = (new EventDelegate_Callback_Event(func)).Call;
+		return d;
+	}
+
+	class UIGrid_OnReposition_Event : LuaDelegate
+	{
+		public UIGrid_OnReposition_Event(LuaFunction func) : base(func) { }
+
+		public void Call()
+		{
+			func.Call();
+		}
+	}
+
+	public static Delegate UIGrid_OnReposition(LuaFunction func)
+	{
+		if (func == null)
+		{
+			UIGrid.OnReposition fn = delegate { };
+			return fn;
+		}
+
+		UIGrid.OnReposition d = (new UIGrid_OnReposition_Event(func)).Call;
+		return d;
+	}
+
+	class System_Comparison_UnityEngine_Transform_Event : LuaDelegate
+	{
+		public System_Comparison_UnityEngine_Transform_Event(LuaFunction func) : base(func) { }
+
+		public int Call(UnityEngine.Transform param0,UnityEngine.Transform param1)
+		{
+			func.BeginPCall();
+			func.Push(param0);
+			func.Push(param1);
+			func.PCall();
+			int ret = (int)func.CheckNumber();
+			func.EndPCall();
+			return ret;
+		}
+	}
+
+	public static Delegate System_Comparison_UnityEngine_Transform(LuaFunction func)
+	{
+		if (func == null)
+		{
+			System.Comparison<UnityEngine.Transform> fn = delegate { return 0; };
+			return fn;
+		}
+
+		System.Comparison<UnityEngine.Transform> d = (new System_Comparison_UnityEngine_Transform_Event(func)).Call;
+		return d;
+	}
+
+	class UIEventListener_VoidDelegate_Event : LuaDelegate
+	{
+		public UIEventListener_VoidDelegate_Event(LuaFunction func) : base(func) { }
+
+		public void Call(UnityEngine.GameObject param0)
+		{
+			func.BeginPCall();
+			func.Push(param0);
+			func.PCall();
+			func.EndPCall();
+		}
+	}
+
+	public static Delegate UIEventListener_VoidDelegate(LuaFunction func)
+	{
+		if (func == null)
+		{
+			UIEventListener.VoidDelegate fn = delegate { };
+			return fn;
+		}
+
+		UIEventListener.VoidDelegate d = (new UIEventListener_VoidDelegate_Event(func)).Call;
+		return d;
+	}
+
+	class UIEventListener_BoolDelegate_Event : LuaDelegate
+	{
+		public UIEventListener_BoolDelegate_Event(LuaFunction func) : base(func) { }
+
+		public void Call(UnityEngine.GameObject param0,bool param1)
+		{
+			func.BeginPCall();
+			func.Push(param0);
+			func.Push(param1);
+			func.PCall();
+			func.EndPCall();
+		}
+	}
+
+	public static Delegate UIEventListener_BoolDelegate(LuaFunction func)
+	{
+		if (func == null)
+		{
+			UIEventListener.BoolDelegate fn = delegate { };
+			return fn;
+		}
+
+		UIEventListener.BoolDelegate d = (new UIEventListener_BoolDelegate_Event(func)).Call;
+		return d;
+	}
+
+	class UIEventListener_FloatDelegate_Event : LuaDelegate
+	{
+		public UIEventListener_FloatDelegate_Event(LuaFunction func) : base(func) { }
+
+		public void Call(UnityEngine.GameObject param0,float param1)
+		{
+			func.BeginPCall();
+			func.Push(param0);
+			func.Push(param1);
+			func.PCall();
+			func.EndPCall();
+		}
+	}
+
+	public static Delegate UIEventListener_FloatDelegate(LuaFunction func)
+	{
+		if (func == null)
+		{
+			UIEventListener.FloatDelegate fn = delegate { };
+			return fn;
+		}
+
+		UIEventListener.FloatDelegate d = (new UIEventListener_FloatDelegate_Event(func)).Call;
+		return d;
+	}
+
+	class UIEventListener_VectorDelegate_Event : LuaDelegate
+	{
+		public UIEventListener_VectorDelegate_Event(LuaFunction func) : base(func) { }
+
+		public void Call(UnityEngine.GameObject param0,UnityEngine.Vector2 param1)
+		{
+			func.BeginPCall();
+			func.Push(param0);
+			func.Push(param1);
+			func.PCall();
+			func.EndPCall();
+		}
+	}
+
+	public static Delegate UIEventListener_VectorDelegate(LuaFunction func)
+	{
+		if (func == null)
+		{
+			UIEventListener.VectorDelegate fn = delegate { };
+			return fn;
+		}
+
+		UIEventListener.VectorDelegate d = (new UIEventListener_VectorDelegate_Event(func)).Call;
+		return d;
+	}
+
+	class UIEventListener_ObjectDelegate_Event : LuaDelegate
+	{
+		public UIEventListener_ObjectDelegate_Event(LuaFunction func) : base(func) { }
+
+		public void Call(UnityEngine.GameObject param0,UnityEngine.GameObject param1)
+		{
+			func.BeginPCall();
+			func.Push(param0);
+			func.Push(param1);
+			func.PCall();
+			func.EndPCall();
+		}
+	}
+
+	public static Delegate UIEventListener_ObjectDelegate(LuaFunction func)
+	{
+		if (func == null)
+		{
+			UIEventListener.ObjectDelegate fn = delegate { };
+			return fn;
+		}
+
+		UIEventListener.ObjectDelegate d = (new UIEventListener_ObjectDelegate_Event(func)).Call;
+		return d;
+	}
+
+	class UIEventListener_KeyCodeDelegate_Event : LuaDelegate
+	{
+		public UIEventListener_KeyCodeDelegate_Event(LuaFunction func) : base(func) { }
+
+		public void Call(UnityEngine.GameObject param0,UnityEngine.KeyCode param1)
+		{
+			func.BeginPCall();
+			func.Push(param0);
+			func.Push(param1);
+			func.PCall();
+			func.EndPCall();
+		}
+	}
+
+	public static Delegate UIEventListener_KeyCodeDelegate(LuaFunction func)
+	{
+		if (func == null)
+		{
+			UIEventListener.KeyCodeDelegate fn = delegate { };
+			return fn;
+		}
+
+		UIEventListener.KeyCodeDelegate d = (new UIEventListener_KeyCodeDelegate_Event(func)).Call;
+		return d;
+	}
 
 }
 

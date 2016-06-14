@@ -172,6 +172,7 @@ namespace LuaFramework {
             yield return download;
 
             AssetBundle assetObj = download.assetBundle;
+            string[] assetsname = assetObj.GetAllAssetNames();
             if (assetObj != null) {
                 m_LoadedAssetBundles.Add(abName, new AssetBundleInfo(assetObj));
             }
@@ -225,6 +226,44 @@ namespace LuaFramework {
                 m_LoadedAssetBundles.Remove(abName);
                 Debug.Log(abName + " has been unloaded successfully");
             }
+        }
+
+        public string LoadTable(string tableName)
+        {
+            switch (Application.platform)
+            {
+                case RuntimePlatform.WindowsEditor:
+                    TextAsset ta = Resources.Load<TextAsset>("Tables/" + tableName);
+                    if (ta != null)
+                        return ta.text;
+                    else
+                        return string.Empty;
+                    break;
+                case RuntimePlatform.Android:
+                    break;
+            }
+            return string.Empty;
+        }
+
+        public void CreateObject(string abName, string prefabName, string scriptName, string layer, LuaFunction func = null, LuaFunction objCreatedCallback = null)
+        {
+            abName = abName + AppConst.ExtName;
+
+            ResManager.LoadPrefab(abName, prefabName, delegate(UnityEngine.Object[] objs)
+            {
+                if (objs.Length == 0) return;
+                // Get the asset.
+                GameObject prefab = objs[0] as GameObject;
+                if (prefab == null)
+                    return;
+                GameObject go = Instantiate(prefab) as GameObject;
+                go.layer = LayerMask.NameToLayer(layer);
+                ScriptProxy scriptPorxy = go.AddComponent<ScriptProxy>();
+                scriptPorxy.className = scriptName;
+                scriptPorxy.InitScript();
+                if (objCreatedCallback != null) objCreatedCallback.Call(go);
+                if (func != null) func.Call(go);
+            });
         }
     }
 }
@@ -365,6 +404,69 @@ namespace LuaFramework {
             if (shared != null) shared.Unload(true);
             if (manifest != null) manifest = null;
             Debug.Log("~ResourceManager was destroy!");
+        }
+
+public string LoadTable(string tableName)
+        {
+            switch (Application.platform)
+            {
+                case RuntimePlatform.WindowsEditor:
+                    TextAsset ta = Resources.Load<TextAsset>("Tables/" + tableName);
+                    if (ta != null)
+                        return ta.text;
+                    else
+                        return string.Empty;
+                    break;
+                case RuntimePlatform.Android:
+                    break;
+            }
+            return string.Empty;
+        }
+
+        public void CreateObject(string abName, string assetName, string scriptName, string layer, LuaFunction func , LuaFunction objCreatedCallback)
+        {
+            GameObject prefab = ResManager.LoadAsset<GameObject>(abName, assetName);
+            if (prefab == null)
+                return;
+            GameObject go = Instantiate(prefab) as GameObject;
+            go.layer = LayerMask.NameToLayer(layer);
+            ScriptProxy scriptPorxy = go.AddComponent<ScriptProxy>();
+            scriptPorxy.className = scriptName;
+            scriptPorxy.InitScript();
+            if (objCreatedCallback != null) objCreatedCallback.Call(go);
+            if (func != null) func.Call(go);
+        }
+
+        public LuaTable CreateObject(string abName, string assetName, string scriptName, string layer)
+        {
+            GameObject prefab = ResManager.LoadAsset<GameObject>(abName, assetName);
+            if (prefab == null)
+                return null;
+            GameObject go = Instantiate(prefab) as GameObject;
+            go.layer = LayerMask.NameToLayer(layer);
+            ScriptProxy scriptPorxy = go.AddComponent<ScriptProxy>();
+            scriptPorxy.className = scriptName;
+            scriptPorxy.InitScript();
+            return scriptPorxy.Table;
+        }
+
+        public string LoadFile(string abName, string assetName)
+        {
+            TextAsset ta = LoadAsset<TextAsset>(abName, assetName);
+            if (ta != null)
+                return ta.text;
+            else
+                return string.Empty;
+        }
+
+        public GameObject CreateObjectWithOutScript(string abName, string assetName, string layer)
+        {
+            GameObject prefab = ResManager.LoadAsset<GameObject>(abName, assetName);
+            if (prefab == null)
+                return null;
+            GameObject go = Instantiate(prefab) as GameObject;
+            go.layer = LayerMask.NameToLayer(layer);
+            return go;
         }
     }
 }

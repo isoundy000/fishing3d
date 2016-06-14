@@ -43,7 +43,7 @@ public class Bullet : MonoBehaviour
         Ray ray = Camera.main.ScreenPointToRay(pos);
         int layerMask = 1 << 8;
         RaycastHit hitInfo;
-        if (Physics.Raycast(ray, out hitInfo,10000, layerMask))
+        if (Physics.Raycast(ray, out hitInfo, 10000, layerMask))
         {
             Bomb bomb = (Instantiate(Resources.Load("BombPrefabs/Bomb_01")) as GameObject).GetComponent<Bomb>();
             bomb.transform.parent = UIManager.GetInstance().WeaponRoot;
@@ -56,7 +56,7 @@ public class Bullet : MonoBehaviour
             fishanim.Stop();
             Fish fishcom = hitInfo.transform.GetComponent<Fish>();
             fishanim.Play(fishcom.FishRecord.deadAnimationName);
-            
+
         }
 	}
 }

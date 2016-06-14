@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
 using LuaInterface;
-using UnityEngine.UI;
 
 public class JJButton : MonoBehaviour {
 
@@ -16,12 +15,13 @@ public class JJButton : MonoBehaviour {
 	
 	}
 
-    public void AddClickCallback(LuaTable table , LuaFunction luafunc)
+    public void AddClickCallback(LuaFunction luafunc,object param=null)
     {
-        this.gameObject.GetComponent<Button>().onClick.AddListener(
+        UIButton btn = this.gameObject.GetComponent<UIButton>();
+        EventDelegate.Add(btn.onClick ,
                 delegate()
                 {
-                    luafunc.Call(table,this.gameObject);
+                    luafunc.Call(param);
                 }
         );
     }

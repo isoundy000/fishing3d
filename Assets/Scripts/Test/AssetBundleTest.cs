@@ -7,7 +7,7 @@ public class AssetBundleTest : MonoBehaviour {
 	// Use this for initialization
 	IEnumerator Start () {
         print(Application.streamingAssetsPath);
-        string assetBundleURL = "file:///" + Application.streamingAssetsPath + "/human.unity3d";
+        string assetBundleURL = "file:///" + Application.streamingAssetsPath + "/fish.unity3d";
 
         using (WWW www = new WWW(assetBundleURL))
         {
@@ -18,7 +18,7 @@ public class AssetBundleTest : MonoBehaviour {
             AssetBundle bundle = www.assetBundle;
 
             string[] assetnames = bundle.GetAllAssetNames();
-            //GameObject obj = bundle.LoadAsset<GameObject>(assetnames[0]);
+            Texture2D obj = bundle.LoadAsset<Texture2D>("test/xiaochouyu_d");
             //Instantiate(obj);
             Instantiate(bundle.mainAsset);
 

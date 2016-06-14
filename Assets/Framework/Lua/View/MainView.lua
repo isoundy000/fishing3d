@@ -3,6 +3,7 @@
 --此文件由[BabeLua]插件自动生成
 require("Logic.Cannon")
 require("Logic.Bullet")
+local EventManager = require("Logic.EventManager")
 MainView = class("MainView",require("View.ViewBase"))
 MainView.cannons_ = {}
 MainView.bulletsPool_ = {}
@@ -29,6 +30,12 @@ function MainView:initView()
     end
 
     self:createCannon(0)
+
+    EventManager:getInstance():loadEventConfig()
+
+    local fish = ResourceManager:CreateObjectWithOutScript("fish0","Fish_0","Fish")
+    fish.transform.localPosition = Vector3.zero
+    fish.transform.localScale = Vector3.one
 end
 
 function MainView:onClickBackBtn(args)

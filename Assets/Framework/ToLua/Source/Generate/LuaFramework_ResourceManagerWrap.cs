@@ -12,6 +12,8 @@ public class LuaFramework_ResourceManagerWrap
 		L.RegFunction("LoadAssetBundle", LoadAssetBundle);
 		L.RegFunction("LoadTable", LoadTable);
 		L.RegFunction("CreateObject", CreateObject);
+		L.RegFunction("LoadFile", LoadFile);
+		L.RegFunction("CreateObjectWithOutScript", CreateObjectWithOutScript);
 		L.RegFunction("__eq", op_Equality);
 		L.RegFunction("__tostring", Lua_ToString);
 		L.EndClass();
@@ -122,6 +124,45 @@ public class LuaFramework_ResourceManagerWrap
 			{
 				return LuaDLL.luaL_throw(L, "invalid arguments to method: LuaFramework.ResourceManager.CreateObject");
 			}
+		}
+		catch(Exception e)
+		{
+			return LuaDLL.toluaL_exception(L, e);
+		}
+	}
+
+	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+	static int LoadFile(IntPtr L)
+	{
+		try
+		{
+			ToLua.CheckArgsCount(L, 3);
+			LuaFramework.ResourceManager obj = (LuaFramework.ResourceManager)ToLua.CheckObject(L, 1, typeof(LuaFramework.ResourceManager));
+			string arg0 = ToLua.CheckString(L, 2);
+			string arg1 = ToLua.CheckString(L, 3);
+			string o = obj.LoadFile(arg0, arg1);
+			LuaDLL.lua_pushstring(L, o);
+			return 1;
+		}
+		catch(Exception e)
+		{
+			return LuaDLL.toluaL_exception(L, e);
+		}
+	}
+
+	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+	static int CreateObjectWithOutScript(IntPtr L)
+	{
+		try
+		{
+			ToLua.CheckArgsCount(L, 4);
+			LuaFramework.ResourceManager obj = (LuaFramework.ResourceManager)ToLua.CheckObject(L, 1, typeof(LuaFramework.ResourceManager));
+			string arg0 = ToLua.CheckString(L, 2);
+			string arg1 = ToLua.CheckString(L, 3);
+			string arg2 = ToLua.CheckString(L, 4);
+			UnityEngine.GameObject o = obj.CreateObjectWithOutScript(arg0, arg1, arg2);
+			ToLua.Push(L, o);
+			return 1;
 		}
 		catch(Exception e)
 		{

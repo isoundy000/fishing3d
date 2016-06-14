@@ -237,8 +237,8 @@ namespace LuaFramework {
 
         void OnInitialize() {
             LuaManager.InitStart();
-            LuaManager.DoFile("Logic/Network");      //加载网络
-            NetManager.OnInit();                     //初始化网络
+            //LuaManager.DoFile("Logic/Network");      //加载网络
+            //NetManager.OnInit();                     //初始化网络
             LuaManager.StartMain();
             initialize = true;
         }

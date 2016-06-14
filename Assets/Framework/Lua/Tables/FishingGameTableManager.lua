@@ -17,7 +17,7 @@ end
 
 function FishingGameTableManager:readTable(tablename, tab)
     local size = 0
-    local configSourceStr = ResourceManager:LoadTable(tablename)
+    local configSourceStr = ResourceManager:LoadFile("config",tablename)
     local configLines = string.split(configSourceStr,'\n')
     local index = 0
     for k in pairs(configLines) do

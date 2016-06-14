@@ -449,6 +449,25 @@ public string LoadTable(string tableName)
             scriptPorxy.InitScript();
             return scriptPorxy.Table;
         }
+
+        public string LoadFile(string abName, string assetName)
+        {
+            TextAsset ta = LoadAsset<TextAsset>(abName, assetName);
+            if (ta != null)
+                return ta.text;
+            else
+                return string.Empty;
+        }
+
+        public GameObject CreateObjectWithOutScript(string abName, string assetName, string layer)
+        {
+            GameObject prefab = ResManager.LoadAsset<GameObject>(abName, assetName);
+            if (prefab == null)
+                return null;
+            GameObject go = Instantiate(prefab) as GameObject;
+            go.layer = LayerMask.NameToLayer(layer);
+            return go;
+        }
     }
 }
 #endif

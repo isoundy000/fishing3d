@@ -1,6 +1,6 @@
 
 
-local GameTableManager = require("Tables.FishingGametableManager")
+local GameTableManager = require("Tables.FishingGameTableManager")
 
 local GameUIManager = class("GameUIManager")
 

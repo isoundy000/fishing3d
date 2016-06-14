@@ -19,6 +19,7 @@ public static class LuaBinder
 		EventDelegateWrap.Register(L);
 		UIGridWrap.Register(L);
 		UISpriteAnimationWrap.Register(L);
+		UIEventListenerWrap.Register(L);
 		JJEventTriggerWrap.Register(L);
 		MathUtilWrap.Register(L);
 		ViewWrap.Register(L);

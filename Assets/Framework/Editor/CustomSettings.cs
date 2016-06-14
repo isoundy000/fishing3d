@@ -145,6 +145,7 @@ public static class CustomSettings
         _GT(typeof(EventDelegate)),
         _GT(typeof(UIGrid)),
         _GT(typeof(UISpriteAnimation)),
+        _GT(typeof(UIEventListener)),
 
 
         _GT(typeof(JJEventTrigger)),

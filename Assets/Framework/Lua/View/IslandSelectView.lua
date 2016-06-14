@@ -19,6 +19,10 @@ function IslandSelectView:initView()
 		island1Btn:AddClickCallback(handler(self,self.onClickIslandBtn),island1Btn)
 	end
 	self.label_ = self.transform:FindChild("Label"):GetComponent("JJLabel")
+
+    local eventListener = self.transform:FindChild("Sprite"):GetComponent("UIEventListener")
+    eventListener.onClick = handler(self,self.onClickedSprite)
+    eventListener.onPress = handler(self,self.onPressedSprite)
 end
 
 function IslandSelectView:onClickIslandBtn(param)
@@ -54,4 +58,12 @@ end
 
 function IslandSelectView:showScrollView()
     self.uiManager_:showView("ScrollViewTest")
+end
+
+function IslandSelectView:onClickedSprite(obj)
+    print(obj.name)
+end
+
+function IslandSelectView:onPressedSprite(obj,isPressed)
+    print(obj.name,isPressed)
 end

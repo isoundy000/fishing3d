@@ -3,10 +3,12 @@
 --此文件由[BabeLua]插件自动生成
 require("Logic.Cannon")
 require("Logic.Bullet")
+require("Logic.Bomb")
 local EventManager = require("Logic.EventManager")
 MainView = class("MainView",require("View.ViewBase"))
 MainView.cannons_ = {}
 MainView.bulletsPool_ = {}
+MainView.bombPool_ = {}
 function MainView:ctor(obj)
     MainView.super.ctor(self)
     self.gameObject_ = obj
@@ -18,8 +20,10 @@ function MainView:ctor(obj)
 
     self.cannonRoot_ = self.transform_:FindChild("CannonsRoot")
     self.bulletRoot_ = self.transform_:FindChild("BulletsRoot")
+    self.bombRoot_ = self.transform_:FindChild("BombsRoot")
 
     self:initBulletsPool()
+    self:initBombPool()
     self:initView()
 end
 
@@ -71,6 +75,17 @@ function MainView:initBulletsPool()
         bullet.transform_.localPosition = Vector3.New(-10000,-10000,0)
         bullet.transform_.localScale = Vector3.one
         self.bulletsPool_[i] = bullet
+    end
+    
+end
+
+function MainView:initBombPool(args)
+    for i=0,50 do
+        local bomb = ResourceManager:CreateObject("bomb","Bomb_01","Bomb","UI")
+        bomb.transform_.parent = self.bombRoot_
+        bomb.transform_.localPosition = Vector3.New(-10000,-10000,0)
+        bomb.transform_.localScale = Vector3.one
+        self.bombPool_[i] = bomb
     end
     
 end

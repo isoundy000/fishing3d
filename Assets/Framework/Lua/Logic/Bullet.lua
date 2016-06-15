@@ -1,8 +1,7 @@
-Bullet = class("Bullet")
+Bullet = class("Bullet",require("Logic.NodeBase"))
 
 function Bullet:ctor(obj)
-    self.gameObject_ = obj
-    self.transform_ = obj.transform
+    Bullet.super.ctor(self,obj)
     self.active_ = false
     self.dir_ = Vector3.right
     self.speed_ = 700

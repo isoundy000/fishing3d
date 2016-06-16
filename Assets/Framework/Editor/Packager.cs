@@ -342,8 +342,9 @@ public class Packager {
         AddBuildMap("cannon" + AppConst.ExtName, "*.prefab", "Assets/Framework/CannonPrefabs");
 
         AddBuildMap("uiAsset" + AppConst.ExtName, "*.png", "Assets/UIAtlas");
-        AddBuildMap("config" + AppConst.ExtName, "*.bytes", "Assets/Framework/Configs");
-        AddBuildMap("config" + AppConst.ExtName, "*.bytes", "Assets/Framework/Configs/Tables");
+        AddBuildMap("config/tables" + AppConst.ExtName, "*.bytes", "Assets/Framework/Configs");
+        AddBuildMap("config/tables" + AppConst.ExtName, "*.bytes", "Assets/Framework/Configs/Tables");
+        AddBuildMap("config/pathes" + AppConst.ExtName, "*.bytes", "Assets/Framework/Configs/Pathes");
 
         for(int i = 0; i < 2; i ++)
         {

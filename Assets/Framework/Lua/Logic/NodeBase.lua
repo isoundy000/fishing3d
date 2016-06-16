@@ -8,5 +8,21 @@ function NodeBase:ctor(obj)
     self.transform_ = obj.transform
 end
 
+function NodeBase:setPosition(position)
+    self.transform_.localPosition = position
+end
+
+function NodeBase:setScale(scale)
+    self.transform_.localScale = scale
+end
+
+function NodeBase:getPosition()
+    return self.transform_.localPosition
+end
+
+function NodeBase:setEulerAngles(eulerAngle)
+    self.transform_.eulerAngles = eulerAngle
+end
+
 return NodeBase
 --endregion

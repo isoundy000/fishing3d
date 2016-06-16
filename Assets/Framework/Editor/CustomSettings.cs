@@ -57,7 +57,7 @@ public static class CustomSettings
         //_GT(typeof(DG.Tweening.Tweener)),
         //_GT(typeof(DG.Tweening.LoopType)),        
         _GT(typeof(Debugger)),        
-                        
+        _GT(typeof(Application)),                        
         _GT(typeof(Component)),
         _GT(typeof(Behaviour)),
         _GT(typeof(MonoBehaviour)),        
@@ -115,6 +115,7 @@ public static class CustomSettings
         _GT(typeof(BlendWeights)),           
         _GT(typeof(RenderTexture)),
         _GT(typeof(Rigidbody)),         
+        _GT(typeof(LayerMask)),
           
         //for LuaFramework
         _GT(typeof(RectTransform)),
@@ -146,6 +147,7 @@ public static class CustomSettings
         _GT(typeof(UIGrid)),
         _GT(typeof(UISpriteAnimation)),
         _GT(typeof(UIEventListener)),
+        _GT(typeof(UICamera)),
 
 
         _GT(typeof(JJEventTrigger)),

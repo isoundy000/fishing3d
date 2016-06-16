@@ -197,10 +197,13 @@ namespace LuaFramework {
                 if (AppConst.DebugMode) {
                     return Application.dataPath + "/" + AppConst.AssetDir + "/";
                 }
-                if (Application.platform == RuntimePlatform.OSXEditor) {
+                if (Application.platform == RuntimePlatform.OSXEditor)
+                {
                     int i = Application.dataPath.LastIndexOf('/');
                     return Application.dataPath.Substring(0, i + 1) + game + "/";
                 }
+                else if (Application.platform == RuntimePlatform.WindowsPlayer)
+                    return Application.streamingAssetsPath + "/";
                 return "c:/" + game + "/";
             }
         }

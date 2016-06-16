@@ -13,11 +13,13 @@ public class UISpriteAnimationWrap
 		L.RegFunction("ResetToBeginning", ResetToBeginning);
 		L.RegFunction("__eq", op_Equality);
 		L.RegFunction("__tostring", Lua_ToString);
+		L.RegVar("animationCallback", get_animationCallback, set_animationCallback);
 		L.RegVar("frames", get_frames, null);
 		L.RegVar("framesPerSecond", get_framesPerSecond, set_framesPerSecond);
 		L.RegVar("namePrefix", get_namePrefix, set_namePrefix);
 		L.RegVar("loop", get_loop, set_loop);
 		L.RegVar("isPlaying", get_isPlaying, null);
+		L.RegFunction("AnimationCallback", UISpriteAnimation_AnimationCallback);
 		L.EndClass();
 	}
 
@@ -121,6 +123,25 @@ public class UISpriteAnimationWrap
 	}
 
 	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+	static int get_animationCallback(IntPtr L)
+	{
+		object o = null;
+
+		try
+		{
+			o = ToLua.ToObject(L, 1);
+			UISpriteAnimation obj = (UISpriteAnimation)o;
+			UISpriteAnimation.AnimationCallback ret = obj.animationCallback;
+			ToLua.Push(L, ret);
+			return 1;
+		}
+		catch(Exception e)
+		{
+			return LuaDLL.toluaL_exception(L, e, o == null ? "attempt to index animationCallback on a nil value" : e.Message);
+		}
+	}
+
+	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
 	static int get_frames(IntPtr L)
 	{
 		object o = null;
@@ -216,6 +237,37 @@ public class UISpriteAnimationWrap
 	}
 
 	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+	static int set_animationCallback(IntPtr L)
+	{
+		object o = null;
+
+		try
+		{
+			o = ToLua.ToObject(L, 1);
+			UISpriteAnimation obj = (UISpriteAnimation)o;
+			UISpriteAnimation.AnimationCallback arg0 = null;
+			LuaTypes funcType2 = LuaDLL.lua_type(L, 2);
+
+			if (funcType2 != LuaTypes.LUA_TFUNCTION)
+			{
+				 arg0 = (UISpriteAnimation.AnimationCallback)ToLua.CheckObject(L, 2, typeof(UISpriteAnimation.AnimationCallback));
+			}
+			else
+			{
+				LuaFunction func = ToLua.ToLuaFunction(L, 2);
+				arg0 = DelegateFactory.CreateDelegate(typeof(UISpriteAnimation.AnimationCallback), func) as UISpriteAnimation.AnimationCallback;
+			}
+
+			obj.animationCallback = arg0;
+			return 0;
+		}
+		catch(Exception e)
+		{
+			return LuaDLL.toluaL_exception(L, e, o == null ? "attempt to index animationCallback on a nil value" : e.Message);
+		}
+	}
+
+	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
 	static int set_framesPerSecond(IntPtr L)
 	{
 		object o = null;
@@ -269,6 +321,22 @@ public class UISpriteAnimationWrap
 		catch(Exception e)
 		{
 			return LuaDLL.toluaL_exception(L, e, o == null ? "attempt to index loop on a nil value" : e.Message);
+		}
+	}
+
+	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+	static int UISpriteAnimation_AnimationCallback(IntPtr L)
+	{
+		try
+		{
+			LuaFunction func = ToLua.CheckLuaFunction(L, 1);
+			Delegate arg1 = DelegateFactory.CreateDelegate(typeof(UISpriteAnimation.AnimationCallback), func);
+			ToLua.Push(L, arg1);
+			return 1;
+		}
+		catch(Exception e)
+		{
+			return LuaDLL.toluaL_exception(L, e);
 		}
 	}
 }

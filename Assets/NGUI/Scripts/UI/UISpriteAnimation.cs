@@ -56,6 +56,10 @@ public class UISpriteAnimation : MonoBehaviour
 
 	public bool isPlaying { get { return mActive; } }
 
+    public delegate void AnimationCallback();
+
+    public AnimationCallback animationCallback;
+
 	/// <summary>
 	/// Rebuild the sprite list first thing.
 	/// </summary>
@@ -81,6 +85,8 @@ public class UISpriteAnimation : MonoBehaviour
 				{
 					mIndex = 0;
 					mActive = mLoop;
+                    if (animationCallback != null)
+                        animationCallback();
 				}
 
 				if (mActive)

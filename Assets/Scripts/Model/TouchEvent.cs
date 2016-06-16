@@ -32,6 +32,7 @@ public class TouchEvent : MonoBehaviour {
         float angle = Vector3.Angle(from, Vector3.right);
         cannon.transform.eulerAngles = new Vector3(0, 0, angle);
         cannon.FireAction();
+        return;
         Bullet bullet = (Instantiate(Resources.Load("BulletPrefabs/Bullet")) as GameObject).GetComponent<Bullet>();
         bullet.Angle = cannon.transform.eulerAngles.z;
         bullet.transform.parent = UIManager.GetInstance().WeaponRoot;

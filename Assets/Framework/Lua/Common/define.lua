@@ -10,3 +10,6 @@ networkMgr = LuaHelper.GetNetManager();
 WWW = UnityEngine.WWW;
 GameObject = UnityEngine.GameObject;
 PrimitiveType = UnityEngine.PrimitiveType
+Application = UnityEngine.Application
+Physics = UnityEngine.Physics
+Camera = UnityEngine.Camera

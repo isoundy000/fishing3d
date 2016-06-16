@@ -40,6 +40,9 @@ function TouchEventLayer:OnUpdate(dt)
         self.pressedTime_ = 0
         local touchPos = MathUtil.ScreenPos_to_NGUIPos(UnityEngine.Input.mousePosition);
         local from = touchPos - Vector3.New(0, -320,0);
+        if from.y < 0 then
+            from.y = 0
+        end
         local angle = Vector3.Angle(from, Vector3.right);
         MainView:playCannonAnimation(0,angle)
         MainView:createBullet(0,from)

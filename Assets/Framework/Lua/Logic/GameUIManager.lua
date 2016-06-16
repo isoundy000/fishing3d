@@ -25,6 +25,7 @@ function GameUIManager:showView(viewname,callback)
             ResourceManager:CreateObject("ui",record.prefabName, record.scriptName,"UI",callback,handler(self,self.viewObjCreatedCallback));
         end
     end
+    
 end
 
 function GameUIManager:viewObjCreatedCallback(obj)

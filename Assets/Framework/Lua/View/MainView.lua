@@ -4,7 +4,9 @@
 require("Logic.Cannon")
 require("Logic.Bullet")
 require("Logic.Bomb")
+require("Logic.Fish")
 local EventManager = require("Logic.EventManager")
+local PathConfigData = require("Logic.PathConfigData")
 MainView = class("MainView",require("View.ViewBase"))
 MainView.cannons_ = {}
 MainView.bulletsPool_ = {}
@@ -36,10 +38,7 @@ function MainView:initView()
     self:createCannon(0)
 
     EventManager:getInstance():loadEventConfig()
-
-    local fish = ResourceManager:CreateObjectWithOutScript("fish0","Fish_0","Fish")
-    fish.transform.localPosition = Vector3.zero
-    fish.transform.localScale = Vector3.one
+    PathConfigData:getInstance():loadData()
 end
 
 function MainView:onClickBackBtn(args)
@@ -69,22 +68,26 @@ function MainView:playCannonAnimation(seatid,angle)
 end
 
 function MainView:initBulletsPool()
-    for i=0,50 do
+    for i=0,49 do
         local bullet = ResourceManager:CreateObject("bullet","Bullet","Bullet","UI")
         bullet.transform_.parent = self.bulletRoot_
         bullet.transform_.localPosition = Vector3.New(-10000,-10000,0)
         bullet.transform_.localScale = Vector3.one
+        bullet.gameObject_:SetActive(false)
+        bullet.active_ = false
         self.bulletsPool_[i] = bullet
     end
     
 end
 
 function MainView:initBombPool(args)
-    for i=0,50 do
+    for i=0,49 do
         local bomb = ResourceManager:CreateObject("bomb","Bomb_01","Bomb","UI")
         bomb.transform_.parent = self.bombRoot_
         bomb.transform_.localPosition = Vector3.New(-10000,-10000,0)
         bomb.transform_.localScale = Vector3.one
+        bomb.gameObject_:SetActive(false)
+        bomb.active_ = false
         self.bombPool_[i] = bomb
     end
     
@@ -118,6 +121,43 @@ function MainView:recycleBullet(bullet)
     bullet.active_ = false
     bullet.gameObject_:SetActive(false)
     bullet.transform_.localPosition = Vector3.New(-1000,-1000,0)
+end
+
+function MainView:getBombFromPool()
+    for i,value in pairs(self.bombPool_) do
+        if value.active_ == false then
+            value.active_ = true
+            value.gameObject_:SetActive(true)
+            return value
+        end
+    end
+    return nil
+end
+
+function MainView:showBomb(position)
+    local bomb = self:getBombFromPool()
+    if bomb then
+        bomb.transform_.localPosition = position
+        bomb:bomp()
+    end
+end
+
+function MainView:recycleBomb(bomb)
+    bomb.active_ = false
+    bomb.gameObject_:SetActive(false)
+    bomb.transform_.localPosition = Vector3.New(-1000,-1000,0)
+end
+
+function MainView:OnUpdate(dt)
+    EventManager:getInstance():onUpdate(dt)
+end
+
+function MainView:createFish(kindid,position,eulerangle,pathid,speed,unactivetime)
+    local fish = ResourceManager:CreateObject("fish0","Fish_0","Fish","Fish")
+    fish:setPosition(position)
+    fish:setScale(Vector3.New(6,6,6))
+    fish:setEulerAngles(eulerangle)
+    fish:setPathData(PathConfigData:getInstance():getControlData())
 end
 
 --endregion

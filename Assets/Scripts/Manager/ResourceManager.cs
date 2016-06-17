@@ -406,7 +406,7 @@ namespace LuaFramework {
             Debug.Log("~ResourceManager was destroy!");
         }
 
-public string LoadTable(string tableName)
+        public string LoadTable(string tableName)
         {
             switch (Application.platform)
             {

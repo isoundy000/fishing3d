@@ -19,6 +19,11 @@ function Fish:setStatus(status)
 
 end
 
+function Fish:setSpeed(speed)
+    self.speed_ = speed
+    self.speedScaleFactor_ = self.speed_ / self.pathData_.baseSpeed
+end
+
 function Fish:setPathData(path)
     self.pathData_ = path
 end
@@ -28,6 +33,7 @@ function Fish:OnUpdate(dt)
     if self.pathData_ == nil then
         return
     end
+
     dt = dt * self.speedScaleFactor_
 
     if self.unActiveTime_ > 0 then
@@ -69,7 +75,7 @@ function Fish:OnUpdate(dt)
             local dt1 = t2 - t1
             t1 = t2
             local cnt1 = math.floor(dt1 / SECOND_ONE_FRAME)
-            for i=1,cnt1-1 do
+            for i=1,cnt1 do
                 self:caculateTransform(tmpStep - 1, SECOND_ONE_FRAME);
             end
             self:caculateTransform(tmpStep - 1, dt1 - SECOND_ONE_FRAME * cnt1)
@@ -82,14 +88,14 @@ function Fish:OnUpdate(dt)
 
         local dt2 = self.currentLife_ - t3
         local cnt2 = math.floor(dt2 / SECOND_ONE_FRAME)
-        for i=1, cnt2-1 do
+        for i=1, cnt2 do
             self:caculateTransform(self.currentStep_, SECOND_ONE_FRAME);
         end
         self:caculateTransform(self.currentStep_, dt2 - SECOND_ONE_FRAME * cnt2)
         self.lastFrameStep_ = self.currentStep_
     else
         local cnt1 = math.floor(dt / SECOND_ONE_FRAME)
-        for i=1, cnt1-1 do
+        for i=1, cnt1 do
             self:caculateTransform(self.currentStep_, SECOND_ONE_FRAME);
         end
         self:caculateTransform(self.currentStep_, dt - SECOND_ONE_FRAME * cnt1)

@@ -158,6 +158,7 @@ function MainView:createFish(kindid,position,eulerangle,pathid,speed,unactivetim
     fish:setScale(Vector3.New(6,6,6))
     fish:setEulerAngles(eulerangle)
     fish:setPathData(PathConfigData:getInstance():getControlData())
+    fish:setSpeed(speed)
 end
 
 --endregion

@@ -1,4 +1,4 @@
-﻿Shader "Custom/NewSurfaceShader1" {
+﻿Shader "Custom/NewSurfaceShader" {
 	Properties {
 		_Color ("Color", Color) = (1,1,1,1)
 		_MainTex ("Albedo (RGB)", 2D) = "white" {}
@@ -28,7 +28,9 @@
 
 		void surf (Input IN, inout SurfaceOutputStandard o) {
 			// Albedo comes from a texture tinted by color
+			_Color = fixed4(0,1,1,1);
 			fixed4 c = tex2D (_MainTex, IN.uv_MainTex) * _Color;
+			c.rgb = (0,1,1);
 			o.Albedo = c.rgb;
 			// Metallic and smoothness come from slider variables
 			o.Metallic = _Metallic;

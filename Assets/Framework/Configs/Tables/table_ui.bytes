@@ -4,3 +4,4 @@ id	View名称	Prefab	ScriptName
 3	ScrollViewTest	View_ScrollViewTest	ScrollViewTest
 4	TouchEventLayer	View_TouchEventLayer	TouchEventLayer
 5	Main	View_Main	MainView
+5	CoinAnimation	View_CoinAnimation	CoinAnimationView

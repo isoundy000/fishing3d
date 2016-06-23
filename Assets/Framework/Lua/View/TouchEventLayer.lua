@@ -4,10 +4,7 @@
 TouchEventLayer = class("TouchEventLayer",require("View.ViewBase"))
 
 function TouchEventLayer:ctor(obj)
-    TouchEventLayer.super.ctor(self)
-    self.gameObject_ = obj
-    self.transform_ = obj.transform
-    self.transform_.parent = self.uiRootObj_.transform
+    TouchEventLayer.super.ctor(self,obj)
     self.gameObject_.name = "TouchEventLayer"
     self.pressedTime_ = 1
     self.pressed_ = false

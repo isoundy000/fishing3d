@@ -340,6 +340,8 @@ public class Packager {
         AddBuildMap("bullet" + AppConst.ExtName, "*.prefab", "Assets/Framework/BulletPrefabs");
         AddBuildMap("bomb" + AppConst.ExtName, "*.prefab",   "Assets/Framework/BombPrefabs");
         AddBuildMap("cannon" + AppConst.ExtName, "*.prefab", "Assets/Framework/CannonPrefabs");
+        AddBuildMap("coins" + AppConst.ExtName, "*.prefab", "Assets/Framework/CoinPrefabs");
+        AddBuildMap("simplePrefabs" + AppConst.ExtName, "*.prefab", "Assets/Framework/SimplePrefabs");
 
         AddBuildMap("uiAsset" + AppConst.ExtName, "*.png", "Assets/UIAtlas");
         AddBuildMap("config/tables" + AppConst.ExtName, "*.bytes", "Assets/Framework/Configs");

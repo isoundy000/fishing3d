@@ -24,5 +24,11 @@ function NodeBase:setEulerAngles(eulerAngle)
     self.transform_.eulerAngles = eulerAngle
 end
 
+function NodeBase:setIdentity()
+    self.transform_.localPosition = Vector3.zero
+    self.transform_.localScale = Vector3.one
+    self.transform_.eulerAngles = Vector3.zero
+end
+
 return NodeBase
 --endregion

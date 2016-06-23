@@ -25,6 +25,8 @@ function Bullet:OnUpdate(dt)
     local flag,hitInfo = Physics.Raycast(ray, nil, 10000, layerMask)
     if flag then
         MainView:showBomb(self.transform_.localPosition)
+        local coinAnimationView = require("Logic.GameUIManager"):getInstance():getCoinAnimationView()
+        coinAnimationView:popCoin(self.transform_.localPosition)
         MainView:recycleBullet(self)
     end
 end

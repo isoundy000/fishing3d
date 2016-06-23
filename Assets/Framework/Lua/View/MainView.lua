@@ -5,28 +5,28 @@ require("Logic.Cannon")
 require("Logic.Bullet")
 require("Logic.Bomb")
 require("Logic.Fish")
+
 local EventManager = require("Logic.EventManager")
 local PathConfigData = require("Logic.PathConfigData")
+local BulletLayer = require("View.BulletLayer")
 MainView = class("MainView",require("View.ViewBase"))
 MainView.cannons_ = {}
 MainView.bulletsPool_ = {}
 MainView.bombPool_ = {}
 function MainView:ctor(obj)
-    MainView.super.ctor(self)
-    self.gameObject_ = obj
+    MainView.super.ctor(self,obj)
     self.gameObject_.name = "Main"
-    self.transform_ = obj.transform
     self.transform_.parent = self.uiRootObj_.transform
-    self.transform_.localScale = Vector3.one
-    self.transform_.localPosition = Vector3.zero
+    self:setScale(Vector3.one)
+    self:setPosition(Vector3.zero)
 
     self.cannonRoot_ = self.transform_:FindChild("CannonsRoot")
     self.bulletRoot_ = self.transform_:FindChild("BulletsRoot")
     self.bombRoot_ = self.transform_:FindChild("BombsRoot")
 
+    self:initView()
     self:initBulletsPool()
     self:initBombPool()
-    self:initView()
 end
 
 function MainView:initView()
@@ -39,6 +39,10 @@ function MainView:initView()
 
     EventManager:getInstance():loadEventConfig()
     PathConfigData:getInstance():loadData()
+
+    self:showSeaBg()
+    self:showBulletLayer()
+    self.uiManager_:showCoinAnimationView()
 end
 
 function MainView:onClickBackBtn(args)
@@ -70,7 +74,7 @@ end
 function MainView:initBulletsPool()
     for i=0,49 do
         local bullet = ResourceManager:CreateObject("bullet","Bullet","Bullet","UI")
-        bullet.transform_.parent = self.bulletRoot_
+        bullet.transform_.parent = self.bulletLayer_.transform_
         bullet.transform_.localPosition = Vector3.New(-10000,-10000,0)
         bullet.transform_.localScale = Vector3.one
         bullet.gameObject_:SetActive(false)
@@ -83,7 +87,7 @@ end
 function MainView:initBombPool(args)
     for i=0,49 do
         local bomb = ResourceManager:CreateObject("bomb","Bomb_01","Bomb","UI")
-        bomb.transform_.parent = self.bombRoot_
+        bomb.transform_.parent = self.bulletLayer_.transform_
         bomb.transform_.localPosition = Vector3.New(-10000,-10000,0)
         bomb.transform_.localScale = Vector3.one
         bomb.gameObject_:SetActive(false)
@@ -159,6 +163,18 @@ function MainView:createFish(kindid,position,eulerangle,pathid,speed,unactivetim
     fish:setEulerAngles(eulerangle)
     fish:setPathData(PathConfigData:getInstance():getControlData())
     fish:setSpeed(speed)
+end
+
+function MainView:showSeaBg()
+    self.seabgObj_ = ResourceManager:CreateObjectWithOutScript("simplePrefabs","SeaBG","Default")
+    self.seabgObj_.transform.localPosition = Vector3.New(0,0,300)
+    self.seabgObj_.transform.localScale = Vector3.New(64,1,36)
+    self.seabgObj_.transform.eulerAngles = Vector3.New(90,180,0)
+    self.seabgObj_.gameObject.name = "SeaBG"
+end
+
+function MainView:showBulletLayer()
+    self.bulletLayer_ = BulletLayer.new()
 end
 
 --endregion

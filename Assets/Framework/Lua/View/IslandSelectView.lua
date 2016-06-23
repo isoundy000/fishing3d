@@ -3,26 +3,26 @@ require("View.TouchEventLayer")
 IslandSelectView = class("IslandSelectView",require("View.ViewBase"))
 
 function IslandSelectView:ctor(gameObject)
-    IslandSelectView.super.ctor(self)
-	self.gameObject = gameObject
-	self.transform = gameObject.transform
-    self.transform.parent = self.uiRootObj_.transform
-    self.transform.localPosition = Vector3.New(0,0,0)
-    self.transform.localScale = Vector3.New(1,1,1)
-    self.gameObject.name = "IslandSelectView"
+    IslandSelectView.super.ctor(self,gameObject)
+    self.gameObject_.name = "IslandSelectView"
+    self.transform_.parent = self.uiRootObj_.transform
+    self:setScale(Vector3.one)
+    self:setPosition(Vector3.zero)
 	self:initView()
 end
 
 function IslandSelectView:initView()
 	for i = 1,3 do
-		local island1Btn = self.transform:FindChild("Island" .. i):GetComponent("JJButton")
+		local island1Btn = self.transform_:FindChild("Island" .. i):GetComponent("JJButton")
 		island1Btn:AddClickCallback(handler(self,self.onClickIslandBtn),island1Btn)
 	end
-	self.label_ = self.transform:FindChild("Label"):GetComponent("JJLabel")
+	self.label_ = self.transform_:FindChild("Label"):GetComponent("JJLabel")
 
-    local eventListener = self.transform:FindChild("Sprite"):GetComponent("UIEventListener")
+    local eventListener = self.transform_:FindChild("Sprite"):GetComponent("UIEventListener")
     eventListener.onClick = handler(self,self.onClickedSprite)
     eventListener.onPress = handler(self,self.onPressedSprite)
+
+    self.uiManager_:showView("View_CoinAnimation")
 end
 
 function IslandSelectView:onClickIslandBtn(param)
@@ -66,4 +66,17 @@ end
 
 function IslandSelectView:onPressedSprite(obj,isPressed)
     print(obj.name,isPressed)
+end
+
+function IslandSelectView:testCoin()
+
+    LeanTween.delayedCall(2,System.Action_object(handler(self,self.jumpCoin))):setOnCompleteParam(13)
+end
+
+function IslandSelectView:jumpCoin(obj)
+    print("123",obj)
+end
+
+function IslandSelectView:jumpCoin2()
+    print("123")
 end

@@ -21,6 +21,8 @@ public static class LuaBinder
 		UISpriteAnimationWrap.Register(L);
 		UIEventListenerWrap.Register(L);
 		UICameraWrap.Register(L);
+		UISpriteWrap.Register(L);
+		UIPanelWrap.Register(L);
 		JJEventTriggerWrap.Register(L);
 		MathUtilWrap.Register(L);
 		ViewWrap.Register(L);
@@ -28,6 +30,9 @@ public static class LuaBinder
 		ManagerWrap.Register(L);
 		UIButtonColorWrap.Register(L);
 		UIWidgetContainerWrap.Register(L);
+		UIBasicSpriteWrap.Register(L);
+		UIWidgetWrap.Register(L);
+		UIRectWrap.Register(L);
 		L.BeginModule("UnityEngine");
 		UnityEngine_ApplicationWrap.Register(L);
 		UnityEngine_ComponentWrap.Register(L);

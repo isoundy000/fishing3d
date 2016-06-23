@@ -4,7 +4,7 @@
 Cannon = class("Cannon",require("View.ViewBase"))
 
 function Cannon:ctor(obj)
-    Cannon.super.ctor(self)
+    Cannon.super.ctor(self,obj)
     self.gameObject_ = obj
     self.transform_ = obj.transform
 end

@@ -148,6 +148,8 @@ public static class CustomSettings
         _GT(typeof(UISpriteAnimation)),
         _GT(typeof(UIEventListener)),
         _GT(typeof(UICamera)),
+        _GT(typeof(UISprite)),
+        _GT(typeof(UIPanel)),
 
 
         _GT(typeof(JJEventTrigger)),

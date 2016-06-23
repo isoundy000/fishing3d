@@ -2577,6 +2577,7 @@ private static float tweenOnCurve( LTDescrImpl tweenDescr, float ratioPassed ){
 }
 
 private static Vector3 tweenOnCurveVector( LTDescrImpl tweenDescr, float ratioPassed ){
+    print(ratioPassed);   
 	return	new Vector3(tweenDescr.from.x + (tweenDescr.diff.x) * tweenDescr.animationCurve.Evaluate(ratioPassed),
 						tweenDescr.from.y + (tweenDescr.diff.y) * tweenDescr.animationCurve.Evaluate(ratioPassed),
 						tweenDescr.from.z + (tweenDescr.diff.z) * tweenDescr.animationCurve.Evaluate(ratioPassed) );

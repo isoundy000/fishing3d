@@ -1,14 +1,22 @@
-
+local CoinAnimationView = require("View.CoinAnimationView")
 
 local GameTableManager = require("Tables.FishingGameTableManager")
 
 local GameUIManager = class("GameUIManager")
 
---ui Root
-GameUIManager.uiRoot_ = GameObject.FindWithTag("UIRoot")
+function GameUIManager:ctor()
+    --ui Root
+    self.uiRoot_ = GameObject.FindWithTag("UIRoot")
+    --visible ui map
+    self.activeViewMap = {}
+end
 
---visible ui map
-GameUIManager.activeViewMap = {}
+function GameUIManager:getInstance()
+    if self.instance_ == nil then
+        self.instance_ = GameUIManager.new()
+    end
+    return self.instance_
+end
 
 function GameUIManager:showView(viewname,callback)
     if self.activeViewMap[viewname] then
@@ -46,6 +54,18 @@ function GameUIManager:hideAll()
         value:Destroy()
         self.activeViewMap[key] = nil
     end
+end
+
+function GameUIManager:getView(viewName)
+    
+end
+
+function GameUIManager:showCoinAnimationView()
+    self.coinAnimationView_ = CoinAnimationView.new()
+end
+
+function GameUIManager:getCoinAnimationView()
+    return self.coinAnimationView_
 end
 
 return GameUIManager

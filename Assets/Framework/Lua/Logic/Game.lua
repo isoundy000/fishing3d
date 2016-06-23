@@ -15,8 +15,7 @@ end
 --初始化完成，发送链接服务器信息--
 function Game:OnInitOK()
     self:initConfigs()
-    GameUIManager:showView("IslandSelect")
-    logWarn('LuaFramework InitOK--->>>');
+    GameUIManager:getInstance():showView("IslandSelect")
 end
 
 --销毁--

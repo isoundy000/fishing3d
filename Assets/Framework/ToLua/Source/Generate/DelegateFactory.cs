@@ -60,6 +60,12 @@ public static class DelegateFactory
 		dict.Add(typeof(UICamera.MoveDelegate), UICamera_MoveDelegate);
 		dict.Add(typeof(UICamera.GetTouchCountCallback), UICamera_GetTouchCountCallback);
 		dict.Add(typeof(UICamera.GetTouchCallback), UICamera_GetTouchCallback);
+		dict.Add(typeof(UIWidget.OnDimensionsChanged), UIWidget_OnDimensionsChanged);
+		dict.Add(typeof(UIWidget.OnPostFillCallback), UIWidget_OnPostFillCallback);
+		dict.Add(typeof(UIDrawCall.OnRenderCallback), UIDrawCall_OnRenderCallback);
+		dict.Add(typeof(UIWidget.HitCheck), UIWidget_HitCheck);
+		dict.Add(typeof(UIPanel.OnGeometryUpdated), UIPanel_OnGeometryUpdated);
+		dict.Add(typeof(UIPanel.OnClippingMoved), UIPanel_OnClippingMoved);
 	}
 
     [NoToLuaAttribute]
@@ -1168,6 +1174,156 @@ public static class DelegateFactory
 		}
 
 		UICamera.GetTouchCallback d = (new UICamera_GetTouchCallback_Event(func)).Call;
+		return d;
+	}
+
+	class UIWidget_OnDimensionsChanged_Event : LuaDelegate
+	{
+		public UIWidget_OnDimensionsChanged_Event(LuaFunction func) : base(func) { }
+
+		public void Call()
+		{
+			func.Call();
+		}
+	}
+
+	public static Delegate UIWidget_OnDimensionsChanged(LuaFunction func)
+	{
+		if (func == null)
+		{
+			UIWidget.OnDimensionsChanged fn = delegate { };
+			return fn;
+		}
+
+		UIWidget.OnDimensionsChanged d = (new UIWidget_OnDimensionsChanged_Event(func)).Call;
+		return d;
+	}
+
+	class UIWidget_OnPostFillCallback_Event : LuaDelegate
+	{
+		public UIWidget_OnPostFillCallback_Event(LuaFunction func) : base(func) { }
+
+		public void Call(UIWidget param0,int param1,BetterList<UnityEngine.Vector3> param2,BetterList<UnityEngine.Vector2> param3,BetterList<UnityEngine.Color32> param4)
+		{
+			func.BeginPCall();
+			func.Push(param0);
+			func.Push(param1);
+			func.PushObject(param2);
+			func.PushObject(param3);
+			func.PushObject(param4);
+			func.PCall();
+			func.EndPCall();
+		}
+	}
+
+	public static Delegate UIWidget_OnPostFillCallback(LuaFunction func)
+	{
+		if (func == null)
+		{
+			UIWidget.OnPostFillCallback fn = delegate { };
+			return fn;
+		}
+
+		UIWidget.OnPostFillCallback d = (new UIWidget_OnPostFillCallback_Event(func)).Call;
+		return d;
+	}
+
+	class UIDrawCall_OnRenderCallback_Event : LuaDelegate
+	{
+		public UIDrawCall_OnRenderCallback_Event(LuaFunction func) : base(func) { }
+
+		public void Call(UnityEngine.Material param0)
+		{
+			func.BeginPCall();
+			func.Push(param0);
+			func.PCall();
+			func.EndPCall();
+		}
+	}
+
+	public static Delegate UIDrawCall_OnRenderCallback(LuaFunction func)
+	{
+		if (func == null)
+		{
+			UIDrawCall.OnRenderCallback fn = delegate { };
+			return fn;
+		}
+
+		UIDrawCall.OnRenderCallback d = (new UIDrawCall_OnRenderCallback_Event(func)).Call;
+		return d;
+	}
+
+	class UIWidget_HitCheck_Event : LuaDelegate
+	{
+		public UIWidget_HitCheck_Event(LuaFunction func) : base(func) { }
+
+		public bool Call(UnityEngine.Vector3 param0)
+		{
+			func.BeginPCall();
+			func.Push(param0);
+			func.PCall();
+			bool ret = func.CheckBoolean();
+			func.EndPCall();
+			return ret;
+		}
+	}
+
+	public static Delegate UIWidget_HitCheck(LuaFunction func)
+	{
+		if (func == null)
+		{
+			UIWidget.HitCheck fn = delegate { return false; };
+			return fn;
+		}
+
+		UIWidget.HitCheck d = (new UIWidget_HitCheck_Event(func)).Call;
+		return d;
+	}
+
+	class UIPanel_OnGeometryUpdated_Event : LuaDelegate
+	{
+		public UIPanel_OnGeometryUpdated_Event(LuaFunction func) : base(func) { }
+
+		public void Call()
+		{
+			func.Call();
+		}
+	}
+
+	public static Delegate UIPanel_OnGeometryUpdated(LuaFunction func)
+	{
+		if (func == null)
+		{
+			UIPanel.OnGeometryUpdated fn = delegate { };
+			return fn;
+		}
+
+		UIPanel.OnGeometryUpdated d = (new UIPanel_OnGeometryUpdated_Event(func)).Call;
+		return d;
+	}
+
+	class UIPanel_OnClippingMoved_Event : LuaDelegate
+	{
+		public UIPanel_OnClippingMoved_Event(LuaFunction func) : base(func) { }
+
+		public void Call(UIPanel param0)
+		{
+			func.BeginPCall();
+			func.Push(param0);
+			func.PCall();
+			func.EndPCall();
+		}
+	}
+
+	public static Delegate UIPanel_OnClippingMoved(LuaFunction func)
+	{
+		if (func == null)
+		{
+			UIPanel.OnClippingMoved fn = delegate { };
+			return fn;
+		}
+
+		UIPanel.OnClippingMoved d = (new UIPanel_OnClippingMoved_Event(func)).Call;
 		return d;
 	}
 

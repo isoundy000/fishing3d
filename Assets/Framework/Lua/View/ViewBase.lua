@@ -2,11 +2,12 @@
 --Date
 --此文件由[BabeLua]插件自动生成
 local GameUIManager = require("Logic.GameUIManager")
-local ViewBase = class("ViewBase")
+local ViewBase = class("ViewBase",require("Logic.NodeBase"))
 
-function ViewBase:ctor(args)
-    self.uiManager_ = GameUIManager
-    self.uiRootObj_ = GameUIManager.uiRoot_ 
+function ViewBase:ctor(obj)
+    ViewBase.super.ctor(self,obj)
+    self.uiManager_ = GameUIManager:getInstance()
+    self.uiRootObj_ = GameUIManager:getInstance().uiRoot_
 end
 
 return ViewBase

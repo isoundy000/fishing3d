@@ -1,36 +1,25 @@
 --region *.lua
 --Date
 --此文件由[BabeLua]插件自动生成
-require("Logic.Cannon")
-require("Logic.Bullet")
-require("Logic.Bomb")
-require("Logic.Fish")
-
 local EventManager = require("Logic.EventManager")
 local PathConfigData = require("Logic.PathConfigData")
-local BulletLayer = require("View.BulletLayer")
-MainView = class("MainView",require("View.ViewBase"))
-MainView.cannons_ = {}
-MainView.bulletsPool_ = {}
-MainView.bombPool_ = {}
-function MainView:ctor(obj)
-    MainView.super.ctor(self,obj)
-    self.gameObject_.name = "Main"
-    self.transform_.parent = self.uiRootObj_.transform
-    self:setScale(Vector3.one)
-    self:setPosition(Vector3.zero)
+local Cannon = require("View.Cannon")
+local MainView = class("MainView",require("View.NodeBase"))
 
-    self.cannonRoot_ = self.transform_:FindChild("CannonsRoot")
-    self.bulletRoot_ = self.transform_:FindChild("BulletsRoot")
-    self.bombRoot_ = self.transform_:FindChild("BombsRoot")
-
+function MainView:ctor(uimanager)
+    MainView.super.ctor(self)
+    self.uiManager_ = uimanager
+    self.cannons_ = {}
     self:initView()
-    self:initBulletsPool()
-    self:initBombPool()
 end
 
 function MainView:initView()
-    local backBtn = self.transform_:FindChild("Btn_Back"):GetComponent("JJButton")
+    self:setObject("ui","View_Main")
+    if self.gameObject_ == nil then
+        return
+    end
+    self.cannonRoot_ = self:getChild("CannonsRoot")
+    local backBtn = self:getChild("Btn_Back"):GetComponent("JJButton")
     if backBtn then
         backBtn:AddClickCallback(handler(self,self.onClickBackBtn),nil)
     end
@@ -41,8 +30,14 @@ function MainView:initView()
     PathConfigData:getInstance():loadData()
 
     self:showSeaBg()
-    self:showBulletLayer()
     self.uiManager_:showCoinAnimationView()
+    self.uiManager_:showBulletLayer()
+    self.uiManager_:showBombLayer()
+    self.uiManager_:initializeTouchLayer()
+    self.uiManager_:initializeFishLayer()
+
+    local proxy = self.gameObject_:AddComponent(typeof(ScriptProxy))
+    proxy.Table = self
 end
 
 function MainView:onClickBackBtn(args)
@@ -52,11 +47,12 @@ end
 
 function MainView:createCannon(seatid)
     if seatid == 0 then
-        local cannon = ResourceManager:CreateObject("cannon","Cannon_01","Cannon","UI")
-        cannon.gameObject_.name = "Cannon0"
-        cannon.transform_.parent = self.cannonRoot_
-        cannon.transform_.localPosition = Vector3.New(0,-320,0)
-        cannon.transform_.localScale = Vector3.one
+        local cannon = Cannon.new()
+        cannon:setName("Cannon_" .. tostring(seatid))
+        cannon:setParent(self.cannonRoot_)
+        cannon:setIdentity()
+        cannon:setPosition(0,-320,0)
+        cannon:setEulerAngles(0,0,90)
         self.cannons_[0] = cannon
     elseif seatid == 1 then
     elseif seatid == 2 then
@@ -65,116 +61,27 @@ function MainView:createCannon(seatid)
 end
 
 function MainView:playCannonAnimation(seatid,angle)
-    local animation = self.cannons_[seatid].transform_:FindChild("Animation"):GetComponent("UISpriteAnimation")
+    local animation = self.cannons_[seatid]:getChild("Animation"):GetComponent("UISpriteAnimation")
     animation:ResetToBeginning()
     animation:Play()
-    self.cannons_[seatid].transform_.eulerAngles = Vector3.New(0, 0, angle);
+    self.cannons_[seatid]:setEulerAngles(0, 0, angle);
 end
 
-function MainView:initBulletsPool()
-    for i=0,49 do
-        local bullet = ResourceManager:CreateObject("bullet","Bullet","Bullet","UI")
-        bullet.transform_.parent = self.bulletLayer_.transform_
-        bullet.transform_.localPosition = Vector3.New(-10000,-10000,0)
-        bullet.transform_.localScale = Vector3.one
-        bullet.gameObject_:SetActive(false)
-        bullet.active_ = false
-        self.bulletsPool_[i] = bullet
-    end
-    
-end
-
-function MainView:initBombPool(args)
-    for i=0,49 do
-        local bomb = ResourceManager:CreateObject("bomb","Bomb_01","Bomb","UI")
-        bomb.transform_.parent = self.bulletLayer_.transform_
-        bomb.transform_.localPosition = Vector3.New(-10000,-10000,0)
-        bomb.transform_.localScale = Vector3.one
-        bomb.gameObject_:SetActive(false)
-        bomb.active_ = false
-        self.bombPool_[i] = bomb
-    end
-    
-end
-
-function MainView:getBulletFromPool(a)
-    for i,value in pairs(self.bulletsPool_) do
-        if value.active_ == false then
-            value.active_ = true
-            value.gameObject_:SetActive(true)
-            return value
-        end
-    end
-    return nil
-end
-
-function MainView:createBullet(seatid,dir)
-    local bullet = self:getBulletFromPool()
-    local cannon = self.cannons_[seatid]
-    if bullet then
-        local normaldir = dir.normalized
-        local angle = Vector3.Angle(dir, Vector3.right);
-        bullet.transform_.eulerAngles = Vector3.New(0,0,angle)
-        bullet.transform_.localPosition = cannon.transform_.localPosition + normaldir * 50;
-        bullet.transform_.localScale = Vector3.one;
-        bullet.dir_ = normaldir
-    end
-end
-
-function MainView:recycleBullet(bullet)
-    bullet.active_ = false
-    bullet.gameObject_:SetActive(false)
-    bullet.transform_.localPosition = Vector3.New(-1000,-1000,0)
-end
-
-function MainView:getBombFromPool()
-    for i,value in pairs(self.bombPool_) do
-        if value.active_ == false then
-            value.active_ = true
-            value.gameObject_:SetActive(true)
-            return value
-        end
-    end
-    return nil
-end
-
-function MainView:showBomb(position)
-    local bomb = self:getBombFromPool()
-    if bomb then
-        bomb.transform_.localPosition = position
-        bomb:bomp()
-    end
-end
-
-function MainView:recycleBomb(bomb)
-    bomb.active_ = false
-    bomb.gameObject_:SetActive(false)
-    bomb.transform_.localPosition = Vector3.New(-1000,-1000,0)
-end
-
-function MainView:OnUpdate(dt)
+function MainView:onUpdate(dt)
     EventManager:getInstance():onUpdate(dt)
 end
 
-function MainView:createFish(kindid,position,eulerangle,pathid,speed,unactivetime)
-    local fish = ResourceManager:CreateObject("fish0","Fish_0","Fish","Fish")
-    fish:setPosition(position)
-    fish:setScale(Vector3.New(6,6,6))
-    fish:setEulerAngles(eulerangle)
-    fish:setPathData(PathConfigData:getInstance():getControlData())
-    fish:setSpeed(speed)
-end
-
 function MainView:showSeaBg()
-    self.seabgObj_ = ResourceManager:CreateObjectWithOutScript("simplePrefabs","SeaBG","Default")
+    self.seabgObj_ = ResourceManager:CreateObject("simplePrefabs","SeaBG")
     self.seabgObj_.transform.localPosition = Vector3.New(0,0,300)
     self.seabgObj_.transform.localScale = Vector3.New(64,1,36)
     self.seabgObj_.transform.eulerAngles = Vector3.New(90,180,0)
     self.seabgObj_.gameObject.name = "SeaBG"
 end
 
-function MainView:showBulletLayer()
-    self.bulletLayer_ = BulletLayer.new()
+function MainView:getCannon(seatid)
+    return self.cannons_[seatid]
 end
 
+return MainView
 --endregion

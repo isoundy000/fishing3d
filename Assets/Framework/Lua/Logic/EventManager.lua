@@ -3,6 +3,7 @@
 --此文件由[BabeLua]插件自动生成
 local json = require("cjson")
 local EventManager = class("EventManager")
+local UIManager = require("Logic.GameUIManager")
 
 function EventManager:ctor()
     self.eventList_ = {}
@@ -62,7 +63,7 @@ function EventManager:testOneFish()
 
     local headPosition = Vector3.New(hBound * flag, math.random(yBottom + 20, yUp - 20), math.random(150, 150 + 20));
     local bornEulerAngles = Vector3.New( math.random(-20, 20), - 90 * flag, 0);
-    MainView:createFish(fishid, headPosition, bornEulerAngles, pathid, speed, 0);
+    UIManager:getInstance():getFishLayer():createFish(fishid, headPosition, bornEulerAngles, pathid, speed, 0);
 end
 
 return EventManager

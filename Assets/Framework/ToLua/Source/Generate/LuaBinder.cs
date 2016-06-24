@@ -10,6 +10,7 @@ public static class LuaBinder
 		float t = Time.realtimeSinceStartup;
 		L.BeginModule(null);
 		DebuggerWrap.Register(L);
+		ScriptProxyWrap.Register(L);
 		JJButtonWrap.Register(L);
 		JJLabelWrap.Register(L);
 		LeanTweenWrap.Register(L);

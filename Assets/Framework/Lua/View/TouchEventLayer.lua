@@ -1,18 +1,26 @@
 --region TouchEventLayer.lua
 --Date
 --此文件由[BabeLua]插件自动生成
-TouchEventLayer = class("TouchEventLayer",require("View.ViewBase"))
+local TouchEventLayer = class("TouchEventLayer",require("View.NodeBase"))
 
-function TouchEventLayer:ctor(obj)
-    TouchEventLayer.super.ctor(self,obj)
-    self.gameObject_.name = "TouchEventLayer"
+function TouchEventLayer:ctor(uimanager)
+    TouchEventLayer.super.ctor(self)
     self.pressedTime_ = 1
     self.pressed_ = false
+    self.uiManager_ = uimanager
+    self:initView()
     self:initEventCallback()
 end
 
+function TouchEventLayer:initView()
+    self:setObject("ui","View_TouchEventLayer")
+
+    local proxy = self.gameObject_:AddComponent(typeof(ScriptProxy))
+    proxy.Table = self
+end
+
 function TouchEventLayer:initEventCallback()
-    local eventTrigger = self.transform_:GetChild(0):GetComponent("JJEventTrigger")
+    local eventTrigger = self:getChild("TouchLayer"):GetComponent("JJEventTrigger")
     if eventTrigger then
         eventTrigger:AddPressCallback(handler(self,self.onPressed),nil)
         eventTrigger:AddReleaseCallback(handler(self,self.onReleased),nil)
@@ -28,7 +36,7 @@ function TouchEventLayer:onReleased(args)
     self.pressedTime_ = 1
 end
 
-function TouchEventLayer:OnUpdate(dt)
+function TouchEventLayer:onUpdate(dt)
     if not self.pressed_ then
         return
     end
@@ -41,9 +49,10 @@ function TouchEventLayer:OnUpdate(dt)
             from.y = 0
         end
         local angle = Vector3.Angle(from, Vector3.right);
-        MainView:playCannonAnimation(0,angle)
-        MainView:createBullet(0,from)
+        self.uiManager_:getMainView():playCannonAnimation(0,angle)
+        self.uiManager_:getBulletLayer():createBullet(0,from)
     end
 end
 
+return TouchEventLayer
 --endregion

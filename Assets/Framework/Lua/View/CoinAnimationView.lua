@@ -8,7 +8,7 @@ function CoinAnimationView:ctor()
 end
 
 function CoinAnimationView:initView()
-    self.gameObject_ = ResourceManager:CreateObjectWithOutScript("ui","View_CoinAnimation","UI")
+    self.gameObject_ = ResourceManager:CreateObject("ui","View_CoinAnimation")
     self.transform_ = self.gameObject_.transform
     local GameUIManager = require("Logic.GameUIManager")
     self.transform_.parent = GameUIManager:getInstance().uiRoot_.transform
@@ -18,11 +18,11 @@ function CoinAnimationView:initView()
 end
 
 function CoinAnimationView:popCoin(position)
-    local coin = ResourceManager:CreateObjectWithOutScript("coins","GoldCoin","UI")
+    local coin = ResourceManager:CreateObject("coins","GoldCoin")
+    coin.layer = LayerMask.NameToLayer("UI")
     coin.transform.parent = self.transform_
     coin.transform.localScale = Vector3.zero
     coin.transform.localPosition = position
-    print(position.x,position.y,position.z,coin.transform)
 
     local localPositionY = coin.transform.localPosition.y
     LeanTween.moveLocalY(coin, localPositionY + 100, 0.2); 
@@ -33,7 +33,6 @@ function CoinAnimationView:popCoin(position)
 end
 
 function CoinAnimationView:coinFlyToPlayer(coin)
-    print(coin)
     LeanTween.moveLocal(coin, Vector3.New(0, -360, 0), 0.5):setDelay(0.2):setOnComplete(System.Action_object(handler(self,self.coinFlyToPlayerCallback))):setOnCompleteParam(coin)
 end
 

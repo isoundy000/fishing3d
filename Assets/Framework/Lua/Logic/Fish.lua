@@ -1,4 +1,4 @@
-Fish = class("Fish",require("Logic.NodeBase"))
+local Fish = class("Fish",require("View.NodeBase"))
 local SECOND_ONE_FRAME = 0.02;
 function Fish:ctor(obj)
     Fish.super.ctor(self,obj)
@@ -13,6 +13,15 @@ function Fish:ctor(obj)
     self.unActiveTime_ = 0
     self.speed_ = 100
     self.oneFinePoint_ = nil
+
+    self:initView()
+end
+
+function Fish:initView()
+    self:setObject("fish0","Fish_0")
+    self.transform_ = self.gameObject_.transform
+    local proxy = self.gameObject_:AddComponent(typeof(ScriptProxy))
+    proxy.Table = self
 end
 
 function Fish:setStatus(status)
@@ -28,7 +37,7 @@ function Fish:setPathData(path)
     self.pathData_ = path
 end
 
-function Fish:OnUpdate(dt)
+function Fish:onUpdate(dt)
     --self.transform_.localPosition = self.transform_.localPosition + Vector3.New(1,0,0)
     if self.pathData_ == nil then
         return
@@ -153,3 +162,5 @@ function Fish:rotate(point,angleX,angleY)
 
     return result;
 end
+
+return Fish

@@ -15,7 +15,7 @@ end
 --初始化完成，发送链接服务器信息--
 function Game:OnInitOK()
     self:initConfigs()
-    GameUIManager:getInstance():showView("IslandSelect")
+    GameUIManager:getInstance():showIslandSelectView()
 end
 
 --销毁--

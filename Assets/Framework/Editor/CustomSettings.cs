@@ -127,6 +127,7 @@ public static class CustomSettings
         _GT(typeof(ByteBuffer)),
         _GT(typeof(LuaBehaviour)),
 
+        _GT(typeof(ScriptProxy)),
         _GT(typeof(GameManager)),
         _GT(typeof(LuaManager)),
         _GT(typeof(SoundManager)),

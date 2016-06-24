@@ -1,28 +1,32 @@
 require("View.MainView")
 require("View.TouchEventLayer")
-IslandSelectView = class("IslandSelectView",require("View.ViewBase"))
+local IslandSelectView = class("IslandSelectView",require("View.NodeBase"))
 
-function IslandSelectView:ctor(gameObject)
-    IslandSelectView.super.ctor(self,gameObject)
-    self.gameObject_.name = "IslandSelectView"
-    self.transform_.parent = self.uiRootObj_.transform
-    self:setScale(Vector3.one)
-    self:setPosition(Vector3.zero)
+function IslandSelectView:ctor(uimanager)
+    IslandSelectView.super.ctor(self)
 	self:initView()
+    self.uiManager_ = uimanager
 end
 
 function IslandSelectView:initView()
+    self:setObject("ui","View_IslandSelect")
+
 	for i = 1,3 do
-		local island1Btn = self.transform_:FindChild("Island" .. i):GetComponent("JJButton")
+		local island1Btn = self:getChild("Island" .. i):GetComponent("JJButton")
 		island1Btn:AddClickCallback(handler(self,self.onClickIslandBtn),island1Btn)
 	end
-	self.label_ = self.transform_:FindChild("Label"):GetComponent("JJLabel")
+	self.label_ = self:getChild("Label"):GetComponent("JJLabel")
 
-    local eventListener = self.transform_:FindChild("Sprite"):GetComponent("UIEventListener")
+    local eventListener = self:getChild("Sprite"):GetComponent("UIEventListener")
     eventListener.onClick = handler(self,self.onClickedSprite)
     eventListener.onPress = handler(self,self.onPressedSprite)
 
-    self.uiManager_:showView("View_CoinAnimation")
+    local proxy = self.gameObject_:AddComponent(typeof(ScriptProxy))
+    proxy.Table = self
+end
+
+function IslandSelectView:onUpdate(dt)
+    --print(dt)
 end
 
 function IslandSelectView:onClickIslandBtn(param)
@@ -39,9 +43,8 @@ function IslandSelectView:onClickIslandBtn(param)
     --local a = LeanTween.value(obj, Color.red, Color.green, 1 ):setOnUpdateColor(handler(self,self.onUpdateColor))
     --a:setOnUpdateVector3(handler(self,self.onUpdateColor))
 
-    self.uiManager_:hideView("IslandSelectView")
-    self.uiManager_:showView("Main")
-    self.uiManager_:showView("TouchEventLayer")
+    self.uiManager_:showMainView()
+    self.uiManager_:hideIslandSelectView()
 end
 
 function IslandSelectView:move1End(param)
@@ -80,3 +83,5 @@ end
 function IslandSelectView:jumpCoin2()
     print("123")
 end
+
+return IslandSelectView

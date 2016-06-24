@@ -9,6 +9,10 @@ public class ScriptProxy : MonoBehaviour {
 
     public LuaTable Table
     {
+        set { 
+            table = value;
+            update = table.GetLuaFunction("onUpdate");
+        }
         get { return table; }
     }
 	// Use this for initialization
@@ -31,11 +35,11 @@ public class ScriptProxy : MonoBehaviour {
                 onAwake.Dispose();
             }
         }
-        update = table.GetLuaFunction("OnUpdate");
+        update = table.GetLuaFunction("onUpdate");
     }
 	void Start () 
 	{
-		CallLuaFunction("OnStart");
+		//CallLuaFunction("OnStart");
 	}
 	
 	// Update is called once per frame

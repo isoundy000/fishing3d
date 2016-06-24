@@ -423,33 +423,6 @@ namespace LuaFramework {
             return string.Empty;
         }
 
-        public void CreateObject(string abName, string assetName, string scriptName, string layer, LuaFunction func , LuaFunction objCreatedCallback)
-        {
-            GameObject prefab = ResManager.LoadAsset<GameObject>(abName, assetName);
-            if (prefab == null)
-                return;
-            GameObject go = Instantiate(prefab) as GameObject;
-            go.layer = LayerMask.NameToLayer(layer);
-            ScriptProxy scriptPorxy = go.AddComponent<ScriptProxy>();
-            scriptPorxy.className = scriptName;
-            scriptPorxy.InitScript();
-            if (objCreatedCallback != null) objCreatedCallback.Call(go);
-            if (func != null) func.Call(go);
-        }
-
-        public LuaTable CreateObject(string abName, string assetName, string scriptName, string layer)
-        {
-            GameObject prefab = ResManager.LoadAsset<GameObject>(abName, assetName);
-            if (prefab == null)
-                return null;
-            GameObject go = Instantiate(prefab) as GameObject;
-            go.layer = LayerMask.NameToLayer(layer);
-            ScriptProxy scriptPorxy = go.AddComponent<ScriptProxy>();
-            scriptPorxy.className = scriptName;
-            scriptPorxy.InitScript();
-            return scriptPorxy.Table;
-        }
-
         public string LoadFile(string abName, string assetName)
         {
             TextAsset ta = LoadAsset<TextAsset>(abName, assetName);
@@ -459,13 +432,12 @@ namespace LuaFramework {
                 return string.Empty;
         }
 
-        public GameObject CreateObjectWithOutScript(string abName, string assetName, string layer)
+        public GameObject CreateObject(string abName, string assetName)
         {
             GameObject prefab = ResManager.LoadAsset<GameObject>(abName, assetName);
             if (prefab == null)
                 return null;
             GameObject go = Instantiate(prefab) as GameObject;
-            go.layer = LayerMask.NameToLayer(layer);
             return go;
         }
     }
